@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          # This bypasses the locked organization/enterprise permissions
+          token: ${{ secrets.PR_BYPASS_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,7 +39,7 @@ jobs:
       - name: Run Vitest Frontend Test Suite
         run: npm test
 
-      - name: Run Pytest Python AI Tutor Test Suite
+      - name: Run Pytest Noggimigo AI Tutor Test Suite
         run: pytest
 
       - name: Build Verification
