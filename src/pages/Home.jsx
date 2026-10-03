@@ -23,102 +23,138 @@ import {
   Smile,
   CheckCircle2,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Flame,
+  Gem,
+  Heart,
+  Zap
 } from 'lucide-react';
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-blue-100 selection:text-blue-700">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-50 to-indigo-50 font-nunito text-slate-800 selection:bg-blue-100 selection:text-blue-700">
       {/* Navigation Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-blue-500/20">
-              🧠
+      <header className="sticky top-0 z-50 pt-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between px-5 sm:px-6 h-16 rounded-2xl bg-white/70 backdrop-blur-md border border-white/60 shadow-sm">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-blue-500/20">
+                🧠
+              </div>
+              <span className="text-2xl font-black text-slate-900 tracking-tight">Noggin</span>
             </div>
-            <span className="text-2xl font-black text-slate-900 tracking-tight">Noggin</span>
-          </div>
 
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
-            <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
-            <a href="#subjects" className="hover:text-blue-600 transition-colors">Subjects</a>
-            <a href="#how-it-works" className="hover:text-blue-600 transition-colors">How It Works</a>
-            <a href="#open-source" className="hover:text-blue-600 transition-colors">Open Source</a>
-          </nav>
+            <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+              <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
+              <a href="#subjects" className="hover:text-blue-600 transition-colors">Subjects</a>
+              <a href="#how-it-works" className="hover:text-blue-600 transition-colors">How It Works</a>
+              <a href="#pricing" className="hover:text-blue-600 transition-colors">Pricing</a>
+            </nav>
 
-          <div className="flex items-center space-x-4">
-            <Link
-              to="/student"
-              className="px-4 py-2.5 rounded-xl font-semibold text-sm text-slate-700 bg-slate-100 hover:bg-slate-200 transition-all"
-            >
-              Parent Dashboard
-            </Link>
-            <Link
-              to="/games"
-              className="px-5 py-2.5 rounded-xl font-semibold text-sm text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 transition-all flex items-center space-x-2"
-            >
-              <span>Get Started For Free</span>
-            </Link>
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/student"
+                className="hidden sm:inline-block px-4 py-2 rounded-xl font-semibold text-sm text-slate-700 hover:text-blue-600 transition-colors"
+              >
+                Log in
+              </Link>
+              <Link
+                to="/games"
+                className="px-5 py-2.5 rounded-xl font-semibold text-sm text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 transition-all flex items-center space-x-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Start Learning Free</span>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 text-blue-700 font-medium text-xs tracking-wide uppercase mb-8">
-            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-            <span>Specially designed for neurodiverse learners</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight leading-[1.15] mb-6">
-            Learning that <span className="text-blue-600 inline-block">Adapts to You.</span>
-          </h1>
-
-          <p className="max-w-3xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed font-normal mb-10">
-            Noggin has an engaging, adaptive curriculum built for children with ADHD, autism, dyslexia, and dyscalculia. Guide them through personalized lessons with Noggimigo, their friendly AI companion.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Link
-              to="/games"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-white bg-blue-600 hover:bg-blue-700 shadow-xl shadow-blue-600/30 hover:shadow-blue-600/40 transition-all"
-            >
-              Get Started For Free
-            </Link>
-            <Link
-              to="/student"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
-            >
-              Parent Dashboard
-            </Link>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm font-semibold text-slate-500">
-            <span className="px-3.5 py-1.5 rounded-full bg-slate-100">Adaptive difficulty</span>
-            <span className="px-3.5 py-1.5 rounded-full bg-slate-100">Guided feedback</span>
-            <span className="px-3.5 py-1.5 rounded-full bg-slate-100">Gems & streaks</span>
-            <span className="px-3.5 py-1.5 rounded-full bg-slate-100">Parent & teacher tools</span>
-          </div>
-        </div>
-
-        {/* Supporting Stat */}
-        <div className="max-w-7xl mx-auto px-4 mt-16 pt-8 border-t border-slate-200/60 flex flex-col sm:flex-row items-center justify-between text-sm text-slate-500 gap-4">
-          <div>
-            Supporting over <span className="font-bold text-blue-600">15,000+</span> families globally
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="flex text-amber-400">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-amber-400" />
-              ))}
+      <section className="relative pt-12 pb-20 md:pt-16 md:pb-28 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left: copy */}
+          <div className="text-center lg:text-left">
+            <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/80 border border-blue-100 text-blue-700 font-semibold text-sm mb-6 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+              <span>Meet Noggimigo — your child's AI tutor</span>
             </div>
-            <span className="font-semibold text-slate-700">Rated 4.9/5 by educators & child psychologists</span>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+              Learning that <span className="text-blue-600">Adapts to You.</span>
+            </h1>
+
+            <p className="max-w-xl mx-auto lg:mx-0 text-lg text-slate-600 leading-relaxed font-normal mb-8">
+              Noggin is an adaptive learning platform built for neurodivergent children — ADHD, autism, dyslexia, and dyscalculia. Noggimigo meets each child at their exact level and guides them one encouraging step at a time.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-10 text-xs sm:text-sm font-semibold text-slate-600">
+              <span className="px-3.5 py-1.5 rounded-full bg-white/70 border border-slate-200 shadow-sm">Adaptive difficulty</span>
+              <span className="px-3.5 py-1.5 rounded-full bg-white/70 border border-slate-200 shadow-sm">Guided feedback</span>
+              <span className="px-3.5 py-1.5 rounded-full bg-white/70 border border-slate-200 shadow-sm">Gems & streaks</span>
+              <span className="px-3.5 py-1.5 rounded-full bg-white/70 border border-slate-200 shadow-sm">Parent & teacher tools</span>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <Link
+                to="/games"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-white bg-blue-600 hover:bg-blue-700 shadow-xl shadow-blue-600/30 hover:shadow-blue-600/40 transition-all flex items-center justify-center space-x-2"
+              >
+                <span>Start Learning Free</span>
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                to="/student"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
+              >
+                Parent Dashboard
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: visual with floating cards */}
+          <div className="relative mx-auto max-w-sm lg:max-w-none">
+            <div className="mx-auto w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-[2.5rem] bg-gradient-to-br from-blue-500 to-indigo-600 shadow-2xl shadow-blue-600/30 flex items-center justify-center">
+              <Atom className="w-28 h-28 sm:w-32 sm:h-32 text-white" />
+            </div>
+
+            {/* Floating: streak */}
+            <div className="absolute -top-4 -left-2 sm:-left-8 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center space-x-3 animate-bounce" style={{ animationDuration: '4s' }}>
+              <div className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 flex items-center justify-center">
+                <Flame className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-sm font-extrabold text-slate-900">7-day streak!</div>
+                <div className="text-xs text-slate-500">Keep it up!</div>
+              </div>
+            </div>
+
+            {/* Floating: badge */}
+            <div className="absolute top-1/2 -right-2 sm:-right-6 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center space-x-3" style={{ animation: 'float 5s ease-in-out infinite' }}>
+              <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-500 flex items-center justify-center">
+                <Trophy className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-sm font-extrabold text-slate-900">Badge unlocked!</div>
+                <div className="text-xs text-slate-500">Bookworm</div>
+              </div>
+            </div>
+
+            {/* Floating: gems */}
+            <div className="absolute -bottom-4 left-4 sm:left-8 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center space-x-3" style={{ animation: 'float 6s ease-in-out infinite' }}>
+              <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center">
+                <Gem className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-sm font-extrabold text-slate-900">+150 gems earned</div>
+                <div className="text-xs text-slate-500">Maths mastered</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Adaptive Framework Section */}
-      <section id="features" className="py-20 bg-white border-y border-slate-100">
+      <section id="features" className="py-20 bg-white/40 border-y border-slate-100/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
@@ -132,52 +168,48 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Feature 1 */}
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <div className="p-7 rounded-2xl bg-white border border-slate-100 shadow-soft hover:shadow-lg transition-all group">
+              <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                 <Brain className="w-6 h-6" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Self-Paced</span>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Adaptive Difficulty</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Tasks organically simplify or expand based on physical focus & interactive signals, preventing dyscalculia or ADHD burnout.
+              <h3 className="text-lg font-extrabold text-slate-900 mb-1">Adaptive</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Adjusts to each learner
               </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <HeartHandshake className="w-6 h-6" />
+            <div className="p-7 rounded-2xl bg-white border border-slate-100 shadow-soft hover:shadow-lg transition-all group">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Sparkles className="w-6 h-6" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Friendly Assistant</span>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Guided AI Feedback</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Noggimigo provides patient, audio-optional hints that build confidence step-by-step. No timers, no penalty pressure.
+              <h3 className="text-lg font-extrabold text-slate-900 mb-1">Personalised</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Built around your child
               </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Trophy className="w-6 h-6" />
+            <div className="p-7 rounded-2xl bg-white border border-slate-100 shadow-soft hover:shadow-lg transition-all group">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <BookOpen className="w-6 h-6" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Joyful Milestones</span>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Gamified Learning</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Celebrate positive momentum with streaks, badges, and gems that kids can trade for custom companions or app themes.
+              <h3 className="text-lg font-extrabold text-slate-900 mb-1">Multi-sensory</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Visual · audio · tactile
               </p>
             </div>
 
             {/* Feature 4 */}
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <LineChart className="w-6 h-6" />
+            <div className="p-7 rounded-2xl bg-white border border-slate-100 shadow-soft hover:shadow-lg transition-all group">
+              <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Heart className="w-6 h-6" />
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Real Insights</span>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Progress Tracking</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                Generate simple progress breakdowns focused on positive cognitive shifts rather than rigid numeric testing scores.
+              <h3 className="text-lg font-extrabold text-slate-900 mb-1">Free</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                No cost, no ads
               </p>
             </div>
           </div>
@@ -185,7 +217,7 @@ export default function Home() {
       </section>
 
       {/* Curriculum / Subjects Section */}
-      <section id="subjects" className="py-20 bg-slate-50">
+      <section id="subjects" className="py-20 bg-white/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
@@ -270,7 +302,7 @@ export default function Home() {
       </section>
 
       {/* How It Works / Simple Setup */}
-      <section id="how-it-works" className="py-20 bg-white border-y border-slate-100">
+      <section id="how-it-works" className="py-20 bg-white/40 border-y border-slate-100/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
@@ -316,7 +348,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-white/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
@@ -389,7 +421,7 @@ export default function Home() {
       </section>
 
       {/* Pricing Tier Section */}
-      <section className="py-20 bg-white border-t border-slate-100">
+      <section id="pricing" className="py-20 bg-white/40 border-t border-slate-100/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
@@ -459,7 +491,7 @@ export default function Home() {
       </section>
 
       {/* Open Source Banner */}
-      <section id="open-source" className="py-16 bg-slate-50 border-t border-slate-200/60 text-center">
+      <section id="open-source" className="py-16 bg-white/30 border-t border-slate-200/50 text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-3">
             Noggin is free & open source
