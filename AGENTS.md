@@ -1,4 +1,4 @@
-# Noggin — Base44 Dev Environment
+# Noggin — Dev Environment
 
 ## Project Overview
 Noggin is a React + Vite frontend for an adaptive learning platform targeting neurodivergent students. It includes educational games, an adaptive engine, telemetry tracking, and a client-side AI generator.
