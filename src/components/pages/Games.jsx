@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Brain, ArrowLeft, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import MemoryMatch from "../components/games/MemoryMatch";
-import SpellingBee from "../components/games/SpellingBee";
-import NumberPop from "../components/games/NumberPop";
-import WordScramble from "../components/games/WordScramble";
-import MathDash from "../components/games/MathDash";
-import PatternSequence from "../components/games/PatternSequence";
-import OddOneOut from "../components/games/OddOneOut";
+import MemoryMatch from "../games/MemoryMatch";
+import SpellingBee from "../games/SpellingBee";
+import NumberPop from "../games/NumberPop";
+import WordScramble from "../games/WordScramble";
+import MathDash from "../games/MathDash";
+import PatternSequence from "../games/PatternSequence";
+import OddOneOut from "../games/OddOneOut";
 
 export const games = [
   { id: "memory", title: "Memory Match", description: "Flip cards to find matching pairs. Trains focus and memory!", emoji: "🃏", color: "from-blue-400 to-blue-600", subject: "Brain Training" },
