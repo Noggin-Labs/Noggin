@@ -28,11 +28,8 @@ export default function Home() {
 
       <main>
         <section className="max-w-6xl mx-auto px-6 pt-12 pb-16 text-center">
-          <p className="inline-block text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full mb-5">
-            Adaptive learning for every mind
-          </p>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight max-w-3xl mx-auto">
-            Learning that bends to fit you, not the other way around.
+            Learning that Adapts to You
           </h1>
           <p className="text-lg text-muted-foreground mt-5 max-w-2xl mx-auto">
             Noggin adjusts pace, difficulty and presentation in real time so neurodivergent students can learn with confidence.
