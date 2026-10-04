@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
-import Games from './pages/Games';
-import ActivityFeed from './pages/ActivityFeed';
-import CommunicationBoard from './pages/CommunicationBoard';
-import AccessibilitySettings from './pages/AccessibilitySettings';
-import NoggimigoChat from './pages/NoggimigoChat';
+import Home from './components/pages/Home';
+import Games from './components/pages/Games';
+import ActivityFeed from './components/pages/ActivityFeed';
+import CommunicationBoard from './components/pages/CommunicationBoard';
+import AccessibilitySettings from './components/pages/AccessibilitySettings';
+import NoggimigoChat from './components/pages/NoggimigoChat';
 import { AccessibilityProvider } from './lib/AccessibilityContext';
 import '../index.css';
 
