@@ -5,7 +5,7 @@
 
   Noggin is an open-source AI-powered adaptive learning platform built for students with special educational needs. Utilizing an AI-driven engine built on neuroplasticity research, the system creates a personalized curriculum that adjusts difficulty and teaching styles in real time to accommodate conditions like ADHD, autism, and dyslexia. The program covers core academic subjects and social-emotional skills through game-based interactive challenges, ensuring that lessons remain engaging rather than frustrating.
 
-[🌐 Launch Live Application](https://noggin-org.base44.app)
+[🌐 Launch Live Application](https://nogginbynogginlabs.netlify.app)
 
 ---
 
