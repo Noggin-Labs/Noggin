@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-nunito: 'Nunito', sans-serif;
+    --background: 214 60% 98.5%;
+    --foreground: 222 30% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+    --primary: 213 100% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 215 25% 15%;
+    --muted: 220 34% 96%;
+    --muted-foreground: 222 12% 47%;
+    --accent: 32 95% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 26% 90%;
+    --input: 220 26% 90%;
+    --ring: 213 100% 59%;
+    --chart-1: 213 100% 59%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 32 95% 60%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --radius: 0.75rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 213 100% 59%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 215 25% 15%;
+    --sidebar-border: 210 25% 90%;
+    --sidebar-ring: 213 100% 59%;
+  }
+
+  .dark {
+    --background: 215 30% 8%;
+    --foreground: 210 20% 95%;
+    --card: 215 25% 12%;
+    --card-foreground: 210 20% 95%;
+    --popover: 215 25% 12%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 213 100% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 20% 18%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 215 20% 18%;
+    --muted-foreground: 210 15% 55%;
+    --accent: 32 95% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 20% 20%;
+    --input: 215 20% 20%;
+    --ring: 213 100% 59%;
+    --chart-1: 213 100% 59%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 32 95% 60%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 215 30% 8%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 213 100% 59%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 20% 18%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 215 20% 20%;
+    --sidebar-ring: 213 100% 59%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-nunito antialiased;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+  }
+}
+
+/* Neural Feedback Optimization — Phase-Locked Entrainment pulse.
+   A calm breathing rhythm aligned to the concept of Beta-band entrainment;
+   visually comfortable while signalling sustained-focus feedback. */
+@keyframes neural-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0); }
+  50% { box-shadow: 0 0 0 4px hsl(var(--primary) / 0.14); }
+}
+.neural-pulse { animation: neural-pulse 1.4s ease-in-out infinite; }
+
+/* Multi-modal super-stimulus: one-frame salience flash on correct interaction. */
+@keyframes neural-flash {
+  0% { background-color: hsl(var(--primary) / 0.18); }
+  100% { background-color: transparent; }
+}
+.neural-flash { animation: neural-flash 0.4s ease-out; }
+
+/* ── Accessibility overrides ─────────────────────────────── */
+html.a11y-contrast {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --muted-foreground: 0 0% 15%;
+  --border: 0 0% 0%;
+  --input: 0 0% 0%;
+  --card: 0 0% 100%;
+  --primary: 213 100% 38%;
+}
+html.a11y-contrast.dark {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --muted-foreground: 0 0% 85%;
+  --border: 0 0% 100%;
+  --card: 0 0% 6%;
+  --primary: 213 100% 55%;
+}
+html.a11y-large { font-size: 18px; }
+html.a11y-reduced-motion *,
+html.a11y-reduced-motion *::before,
+html.a11y-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ── Communication Board (AAC) ───────────────────────── */
+.noggin-blue { background-color: #2d8cff; color: white; }
+.noggin-blue-text { color: #2d8cff; }
+.cb-button-word {
+  min-height: 96px; font-size: 15px; font-weight: 700; color: #1e293b;
+  border-radius: 18px; border: 2px solid transparent; cursor: pointer; transition: all 0.18s ease;
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  gap: 6px; padding: 14px 10px; text-align: center; line-height: 1.2;
+}
+.cb-button-word:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(15, 23, 42, 0.25); border-color: rgba(45, 140, 255, 0.45); }
+.cb-button-word:focus { outline: 4px dashed #2d8cff; outline-offset: 3px; }
+.cb-button-word:active { transform: translateY(0) scale(0.98); }
+.cb-category-tab {
+  padding: 9px 18px; font-weight: 700; border: none; background: #f1f5f9; color: #475569;
+  cursor: pointer; transition: all 0.18s ease; border-radius: 999px; font-size: 14px; white-space: nowrap;
+  display: inline-flex; align-items: center;
+}
+.cb-category-tab:hover { background: #e2e8f0; color: #334155; }
+.cb-category-tab.active { background-color: #2d8cff; color: white; box-shadow: 0 6px 16px -6px rgba(45, 140, 255, 0.5); }
+.cb-category-tab:focus { outline: 3px dashed #2d8cff; outline-offset: 2px; }
+.cb-speech-bubble {
+  background: #f8fbff; border: 2px solid #2d8cff; border-radius: 18px; padding: 18px 20px;
+  min-height: 72px; display: flex; align-items: center; font-size: 18px; font-weight: 600; color: #334155;
+  flex-wrap: wrap; gap: 8px; box-shadow: 0 0 0 4px rgba(45, 140, 255, 0.08);
+}
+.cb-word-chip {
+  background-color: #2d8cff; color: white; padding: 7px 14px; border-radius: 999px;
+  font-size: 15px; font-weight: 700; display: inline-flex; align-items: center;
+}
+.cb-speak-button {
+  min-height: 56px; font-size: 17px; font-weight: 800; background-color: #2d8cff; color: white;
+  border: none; border-radius: 16px; cursor: pointer; transition: all 0.18s ease; padding: 0 24px;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.cb-speak-button:hover { background-color: #1970d6; transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(45, 140, 255, 0.45); }
+.cb-speak-button:focus { outline: 4px dashed #2d8cff; outline-offset: 4px; }
+.cb-speak-button:active { transform: translateY(0); }
+.cb-speak-button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+.cb-speak-button.secondary { background-color: #f1f5f9; color: #475569; }
+.cb-speak-button.secondary:hover { background-color: #e2e8f0; color: #334155; box-shadow: 0 6px 16px -8px rgba(15, 23, 42, 0.18); }
