@@ -110,7 +110,7 @@ export default function App() {
             <strong>A little curiosity goes a long way.</strong>
             <span>Small steps count. Keep exploring.</span>
           </div>
-          <div className="org-note"><span className="org-dot" /> A product by <strong>Noggin Labs</strong></div>
+          <div className="org-note"><span className="org-dot" /> A space for curious minds</div>
         </div>
       </aside>
 
@@ -177,7 +177,7 @@ function Dashboard({ completed, accuracy, attemptCount, mastery, xp, resumeLesso
     <div className="course-grid">
       {courses.map((course, index) => <CourseCard key={course.id} course={course} completed={completed} onClick={() => onCourse(course)} index={index}/>)}
     </div>
-    <footer className="page-footer"><span>Learning that adapts to you.</span><span>noggin<span className="brand-period">.</span> <i>by Noggin Labs</i></span></footer>
+    <footer className="page-footer"><span>Learning that adapts to you.</span><span>noggin<span className="brand-period">.</span> <i>Learning, your way</i></span></footer>
   </div>;
 }
 
