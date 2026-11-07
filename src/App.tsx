@@ -71,7 +71,7 @@ export default function App() {
   const submitAnswer = () => {
     if (!activeLesson || !selected) return;
     const correct = selected === activeLesson.answer;
-    setAttempts((current) => [...current, { correct, at: new Date().toISOString() }]);
+    setAttempts((current) => [...current, { lessonId: activeLesson.id, correct, at: new Date().toISOString() }]);
     setFeedback(correct ? "correct" : "incorrect");
     if (correct) setCompleted((current) => current.includes(activeLesson.id) ? current : [...current, activeLesson.id]);
   };
@@ -122,7 +122,7 @@ export default function App() {
           {activeLesson ? (
             <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} onBack={() => setActiveLesson(null)} onNext={() => { const index = lessons.findIndex((item) => item.id === activeLesson.id); openLesson(lessons[(index + 1) % lessons.length]); }} />
           ) : view === "dashboard" ? (
-            <Dashboard completed={completed} accuracy={accuracy} mastery={mastery} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={(course) => openLesson(lessons.find((lesson) => lesson.id === course.lessonIds[0])!)} onExplore={() => setView("curriculum")} profile={profile} />
+            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} mastery={mastery} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={(course) => openLesson(lessons.find((lesson) => lesson.id === course.lessonIds[0])!)} onExplore={() => setView("curriculum")} profile={profile} />
           ) : view === "curriculum" ? (
             <Curriculum completed={completed} onCourse={(course) => openLesson(lessons.find((lesson) => lesson.id === course.lessonIds[0])!)} />
           ) : view === "saved" ? (
@@ -138,8 +138,8 @@ export default function App() {
   );
 }
 
-function Dashboard({ completed, accuracy, mastery, xp, resumeLesson, onResume, onCourse, onExplore, profile }: {
-  completed: string[]; accuracy: number; mastery: number; xp: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
+function Dashboard({ completed, accuracy, attemptCount, mastery, xp, resumeLesson, onResume, onCourse, onExplore, profile }: {
+  completed: string[]; accuracy: number; attemptCount: number; mastery: number; xp: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
   return <div className="dashboard-page">
     <div className="eyebrow"><span className="eyebrow-line"/> YOUR LEARNING SPACE <span className="eyebrow-line"/></div>
@@ -166,7 +166,7 @@ function Dashboard({ completed, accuracy, mastery, xp, resumeLesson, onResume, o
 
     <section className="metrics-row">
       <Metric icon={<Zap size={17}/>} label="Experience points" value={xp.toString()} note="From correct first-time lesson completions" tone="blue"/>
-      <Metric icon={<Target size={17}/>} label="Exercise accuracy" value={`${accuracy}%`} note={`${attemptsCountLabel(accuracy)} based on submitted answers`} tone="coral"/>
+      <Metric icon={<Target size={17}/>} label="Exercise accuracy" value={`${accuracy}%`} note={`${attemptCount === 0 ? "No answers submitted yet" : `${attemptCount} submitted answers`}`} tone="coral"/>
       <Metric icon={<Layers3 size={17}/>} label="Curriculum progress" value={`${mastery}%`} note={`${completed.length} of ${lessons.length} lessons completed`} tone="violet"/>
     </section>
 
