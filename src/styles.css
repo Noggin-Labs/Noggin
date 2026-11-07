@@ -17,3 +17,5 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 .hint-button{margin-top:9px;font-size:10px}.hint-text{margin-top:10px;padding:10px;background:#f2f7ff;border-radius:9px;color:#617b9c;font-size:10px;line-height:1.6}.hint-text small{display:block;color:#96a5b9;font-size:8px;margin-top:7px}
+
+.pace-gentle .lesson-intro{line-height:2.05;max-width:600px}.pace-focused .lesson-intro{line-height:1.6;max-width:760px}.visual-disabled-note{padding:24px 20px;margin-bottom:25px;border:1px dashed #cfd8e6;border-radius:14px;background:#fff}.visual-disabled-note span{font:500 8px 'DM Mono',monospace;letter-spacing:1.2px;color:#98a4b6}.visual-disabled-note p{margin:7px 0 0;color:#7d899d;font-size:11px}
