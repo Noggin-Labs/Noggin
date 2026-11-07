@@ -14,7 +14,7 @@ This plan is deliberately incremental. The current learner experience is the bas
 
 ## Phases
 
-### 0. Architecture baseline — in progress
+### 0. Architecture baseline — implemented; verification pending
 
 - [x] Record the modular-monolith decision.
 - [x] Define feature and domain boundaries.
@@ -23,12 +23,12 @@ This plan is deliberately incremental. The current learner experience is the bas
 - [x] Remove visible product attribution that incorrectly presents Noggin Labs as the product name.
 - [ ] Run the full local verification suite.
 
-### 1. Curriculum as data
+### 1. Curriculum as data — implemented; verification pending
 
-- Define stable, typed Course and Lesson contracts.
-- Move authored course and lesson records out of the application shell.
-- Add catalog integrity tests: unique IDs, valid course references, valid lesson references, and valid answer keys.
-- Keep rendering components out of curriculum data.
+- [x] Define stable, typed Course and Lesson contracts.
+- [x] Move authored course and lesson records out of the application shell.
+- [x] Add catalog integrity tests: unique IDs, valid course references, valid lesson references, and valid answer keys.
+- [x] Keep rendering components out of curriculum data.
 
 ### 2. Feature-owned learner journeys
 
