@@ -43,15 +43,18 @@ export default function App() {
   const [lastLessonId, setLastLessonId] = useState<string>(() => readStore("noggin.lastLesson", "fractions"));
   const [selected, setSelected] = useState("");
   const [feedback, setFeedback] = useState<"correct" | "incorrect" | null>(null);
-  const [profile, setProfile] = useState("Balanced Explorer");
-  const [pacing, setPacing] = useState("Balanced");
-  const [visuals, setVisuals] = useState(true);
+  const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer"));
+  const [pacing, setPacing] = useState<string>(() => readStore("noggin.pacing", "Balanced"));
+  const [visuals, setVisuals] = useState<boolean>(() => readStore("noggin.visuals", true));
   const [mobileNav, setMobileNav] = useState(false);
 
   useEffect(() => localStorage.setItem("noggin.completed", JSON.stringify(completed)), [completed]);
   useEffect(() => localStorage.setItem("noggin.attempts", JSON.stringify(attempts)), [attempts]);
   useEffect(() => localStorage.setItem("noggin.saved", JSON.stringify(saved)), [saved]);
   useEffect(() => localStorage.setItem("noggin.lastLesson", JSON.stringify(lastLessonId)), [lastLessonId]);
+  useEffect(() => localStorage.setItem("noggin.profile", JSON.stringify(profile)), [profile]);
+  useEffect(() => localStorage.setItem("noggin.pacing", JSON.stringify(pacing)), [pacing]);
+  useEffect(() => localStorage.setItem("noggin.visuals", JSON.stringify(visuals)), [visuals]);
 
   const accuracy = calculateAccuracy(attempts);
   const mastery = calculateMastery(completed, lessons.length);
@@ -120,7 +123,7 @@ export default function App() {
 
         <div className="page-wrap">
           {activeLesson ? (
-            <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} onBack={() => setActiveLesson(null)} onNext={() => { const index = lessons.findIndex((item) => item.id === activeLesson.id); openLesson(lessons[(index + 1) % lessons.length]); }} />
+            <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} onBack={() => setActiveLesson(null)} onNext={() => { const index = lessons.findIndex((item) => item.id === activeLesson.id); openLesson(lessons[(index + 1) % lessons.length]); }} />
           ) : view === "dashboard" ? (
             <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} mastery={mastery} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={(course) => openLesson(lessons.find((lesson) => lesson.id === course.lessonIds[0])!)} onExplore={() => setView("curriculum")} profile={profile} />
           ) : view === "curriculum" ? (
@@ -178,8 +181,6 @@ function Dashboard({ completed, accuracy, attemptCount, mastery, xp, resumeLesso
   </div>;
 }
 
-function attemptsCountLabel(accuracy: number) { return accuracy === 0 ? "No correct answers yet" : "Verified attempts"; }
-
 function Metric({ icon, label, value, note, tone }: { icon: ReactNode; label: string; value: string; note: string; tone: string }) {
   return <div className={`metric metric-${tone}`}><div className="metric-top"><span className="metric-icon">{icon}</span><span className="metric-label">{label}</span></div><strong className="metric-value">{value}</strong><span className="metric-note">{note}</span></div>;
 }
@@ -203,16 +204,18 @@ function Curriculum({ completed, onCourse }: { completed: string[]; onCourse: (c
   return <div className="subpage"><div className="subpage-heading"><p className="kicker">THE MAP IS YOURS</p><h1>Explore the <span>curriculum.</span></h1><p>Choose a trail that sparks your curiosity. You can move between subjects whenever you like.</p></div><div className="course-grid curriculum-grid">{courses.map((course, index) => <CourseCard key={course.id} course={course} completed={completed} onClick={() => onCourse(course)} index={index}/>)}</div></div>;
 }
 
-function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAnswer, saved, toggleSaved, completed, onBack, onNext }: {
-  lesson: Lesson; course?: Course; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; saved: boolean; toggleSaved: () => void; completed: boolean; onBack: () => void; onNext: () => void;
+function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAnswer, retryAnswer, saved, toggleSaved, completed, onBack, onNext }: {
+  lesson: Lesson; course?: Course; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; saved: boolean; toggleSaved: () => void; completed: boolean; onBack: () => void; onNext: () => void;
 }) {
+  const [showHint, setShowHint] = useState(false);
+  const hint = lesson.id.includes("fraction") ? "Count the equal parts in the whole first. That number belongs on the bottom of the fraction." : lesson.id === "algebra-balance" ? "Think about what would keep both sides balanced if you removed 3 from the left." : lesson.id === "photosynthesis" ? "Think about the energy source plants capture with the green pigment in their leaves." : lesson.id === "circuits" ? "Imagine tracing a complete route from one battery terminal and back again." : lesson.id === "phonics" ? "Say the word slowly and listen for each distinct sound, not each letter." : "Start by noticing and naming the feeling without judging whether it is good or bad.";
   return <div className="lesson-room"><button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Back to home</button>
     <div className="lesson-layout"><article className="lesson-main"><div className="lesson-meta"><span>{lesson.subject}</span><i/>{lesson.level}<i/> LESSON</div><h1>{lesson.title}</h1><p className="lesson-intro">{lesson.intro}</p>
       <div className={`lesson-visual visual-${course?.theme ?? "blue"}`}>{lesson.id.includes("fraction") ? <FractionVisual/> : lesson.id === "algebra-balance" ? <BalanceVisual/> : <div className="visual-concept"><Sparkles size={28}/><span>IDEA IN FOCUS</span><strong>{lesson.subject}</strong><small>Explore the concept, then try it yourself.</small></div>}</div>
       <div className="question-block"><div className="question-label"><span>YOUR TURN</span><span>01 / 01</span></div><h2>{lesson.question}</h2><div className="answer-options">{lesson.options.map((option, index) => <button key={option} className={`answer-option ${selected === option ? "selected" : ""} ${feedback && option === lesson.answer ? "answer-correct" : ""}`} onClick={() => { setSelected(option); }} disabled={!!feedback}><span className="option-letter">{String.fromCharCode(65 + index)}</span>{option}{feedback && option === lesson.answer && <CheckCircle2 size={18}/>}</button>)}</div>
-        {!feedback ? <button className="primary-button check-button" disabled={!selected} onClick={submitAnswer}>Check my answer <ArrowRight size={16}/></button> : <div className={`feedback-box ${feedback}`}><div className="feedback-title">{feedback === "correct" ? <><CheckCircle2 size={19}/> That's it. Nicely reasoned!</> : <><Lightbulb size={19}/> Let's look at it another way.</>}</div><p>{lesson.explanation}</p><button className="text-button" onClick={onNext}>Next lesson <ArrowRight size={15}/></button></div>}
+        {!feedback ? <button className="primary-button check-button" disabled={!selected} onClick={submitAnswer}>Check my answer <ArrowRight size={16}/></button> : <div className={`feedback-box ${feedback}`}><div className="feedback-title">{feedback === "correct" ? <><CheckCircle2 size={19}/> That's it. Nicely reasoned!</> : <><Lightbulb size={19}/> Let's look at it another way.</>}</div><p>{lesson.explanation}</p>{feedback === "incorrect" ? <><button className="text-button" onClick={retryAnswer}>Try again <ArrowRight size={15}/></button><button className="text-button" onClick={onNext}>Move to next lesson <ArrowRight size={15}/></button></> : <button className="text-button" onClick={onNext}>Next lesson <ArrowRight size={15}/></button>}</div>}
       </div>
-    </article><aside className="lesson-aside"><button className={`save-lesson ${saved ? "is-saved" : ""}`} onClick={toggleSaved}><Bookmark size={17} fill={saved ? "currentColor" : "none"}/>{saved ? "Saved to your library" : "Save this lesson"}</button><div className="aside-note"><div className="aside-mascot"><Sparkles size={20}/></div><strong>A thought from Noggimigo</strong><p>Take your time. Understanding the idea matters more than being quick.</p></div><div className="lesson-checkpoint"><span>YOUR PROGRESS</span><div className="checkpoint-line"><i className={completed ? "done" : ""}/></div><small>{completed ? "Lesson completed" : "One small step at a time"}</small></div></aside></div>
+    </article><aside className="lesson-aside"><button className={`save-lesson ${saved ? "is-saved" : ""}`} onClick={toggleSaved}><Bookmark size={17} fill={saved ? "currentColor" : "none"}/>{saved ? "Saved to your library" : "Save this lesson"}</button><div className="aside-note"><div className="aside-mascot"><Sparkles size={20}/></div><strong>A thought from Noggimigo</strong><p>Take your time. Understanding the idea matters more than being quick.</p><button className="text-button hint-button" onClick={() => setShowHint(!showHint)}>{showHint ? "Hide hint" : "Ask for a hint"} <ArrowRight size={14}/></button>{showHint && <div className="hint-text">{hint}<small>Built-in lesson hint · AI chat is not connected yet.</small></div>}</div><div className="lesson-checkpoint"><span>YOUR PROGRESS</span><div className="checkpoint-line"><i className={completed ? "done" : ""}/></div><small>{completed ? "Lesson completed" : "One small step at a time"}</small></div></aside></div>
   </div>;
 }
 
