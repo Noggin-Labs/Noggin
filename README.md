@@ -137,6 +137,10 @@ The current frontend uses:
 
 The project structure and supporting services may change as development progresses. Refer to `package.json` and the source code for the current dependencies and implementation.
 
+## Architecture
+
+The current architecture direction and incremental refactor plan are documented in [`docs/architecture/overview.md`](docs/architecture/overview.md), [`docs/architecture/decisions/0001-modular-monolith.md`](docs/architecture/decisions/0001-modular-monolith.md), and [`docs/architecture/migration-plan.md`](docs/architecture/migration-plan.md). These documents describe the intended boundaries and migration sequence; they do not imply that every planned module has already been implemented.
+
 ## Contributing
 
 Contributions, thoughtful feedback, bug reports, and accessibility reviews are welcome.
