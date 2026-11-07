@@ -1,4 +1,4 @@
-export type Attempt = { correct: boolean; at: string };
+export type Attempt = { lessonId: string; correct: boolean; at: string };
 
 export function calculateAccuracy(attempts: Attempt[]): number {
   if (attempts.length === 0) return 0;
@@ -11,5 +11,9 @@ export function calculateMastery(completed: string[], totalLessons: number): num
 }
 
 export function calculateXp(attempts: Attempt[]): number {
-  return attempts.reduce((total, attempt) => total + (attempt.correct ? 10 : 0), 0);
+  const firstCorrectCompletion = new Set<string>();
+  for (const attempt of attempts) {
+    if (attempt.correct) firstCorrectCompletion.add(attempt.lessonId);
+  }
+  return firstCorrectCompletion.size * 10;
 }
