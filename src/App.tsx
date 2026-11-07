@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity, ArrowLeft, ArrowRight, Bookmark, BookOpen, Check, CheckCircle2,
   ChevronRight, CircleHelp, Compass, FlaskConical, GraduationCap, Home,
@@ -180,7 +180,7 @@ function Dashboard({ completed, accuracy, attemptCount, mastery, xp, resumeLesso
 
 function attemptsCountLabel(accuracy: number) { return accuracy === 0 ? "No correct answers yet" : "Verified attempts"; }
 
-function Metric({ icon, label, value, note, tone }: { icon: React.ReactNode; label: string; value: string; note: string; tone: string }) {
+function Metric({ icon, label, value, note, tone }: { icon: ReactNode; label: string; value: string; note: string; tone: string }) {
   return <div className={`metric metric-${tone}`}><div className="metric-top"><span className="metric-icon">{icon}</span><span className="metric-label">{label}</span></div><strong className="metric-value">{value}</strong><span className="metric-note">{note}</span></div>;
 }
 
