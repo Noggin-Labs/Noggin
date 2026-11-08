@@ -199,5 +199,5 @@ The deterministic tutor works without downloading model weights. To enable the o
 - API sessions are temporary and stored in process memory; they are not durable accounts or learner records.
 - The API does not require learner names, school identifiers, or profile data.
 - The optional model runs locally with the Python service; no paid inference endpoint is configured.
-- The API's CORS allowlist defaults to the local Vite development origins. Configure `NOGGIN_ALLOWED_ORIGINS` for a deployment.
+- The API's CORS allowlist defaults to the local Vite development origins. Configure `NOGGIN_ALLOWED_ORIGINS` for a deployment. The prototype has no authentication or rate limiting; do not expose it to the public internet or use it with real learner accounts.
 - The Hugging Face snapshot's `curriculum.py` currently contains test code rather than the curriculum module imported by the session runtime. Noggin supplies a corrected, explicit lesson graph in `backend/noggimigo/curriculum.py`, including the current app's lesson IDs.
