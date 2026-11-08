@@ -5,3 +5,9 @@ coverage/
 .env.*
 !.env.example
 .DS_Store
+
+# Python runtime and test artifacts
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
