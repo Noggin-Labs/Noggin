@@ -1,12 +1,7 @@
 import json
 import unittest
 
-from hf_provider import (
-    HuggingFaceLocalTutor,
-    ModelOutputError,
-    build_messages,
-    parse_model_output,
-)
+from hf_provider import HuggingFaceLocalTutor, ModelOutputError, build_messages, parse_model_output
 
 GOOD = {
     "student_facing_message": "What operation would undo adding 4?",
@@ -14,7 +9,6 @@ GOOD = {
     "misconception_candidates": [],
     "requires_verification": True,
 }
-
 
 class ProviderContractTests(unittest.TestCase):
     def test_prompt_has_no_profile_inference_instruction(self):
@@ -27,7 +21,8 @@ class ProviderContractTests(unittest.TestCase):
         self.assertEqual(parse_model_output(json.dumps(GOOD)), GOOD)
 
     def test_fenced_json_is_accepted(self):
-        self.assertEqual(parse_model_output("```json\n" + json.dumps(GOOD) + "\n```"), GOOD)
+        fenced = chr(96) * 3 + "json\n" + json.dumps(GOOD) + "\n" + chr(96) * 3
+        self.assertEqual(parse_model_output(fenced), GOOD)
 
     def test_invalid_action_is_rejected(self):
         bad = dict(GOOD, pedagogical_action="GIVE_FINAL_ANSWER")
@@ -40,29 +35,30 @@ class ProviderContractTests(unittest.TestCase):
             parse_model_output(json.dumps(bad))
 
     def test_fake_loader_proves_lazy_integration_without_model_download(self):
+        class FakeTensor:
+            shape = [1, 3]
+            def to(self, device): return self
+
+        class FakeEncoding(dict):
+            def __init__(self):
+                super().__init__({"input_ids": FakeTensor()})
+            def to(self, device): return self
+
         class FakeTokenizer:
             eos_token_id = 0
-            def apply_chat_template(self, *args, **kwargs):
-                class FakeTensor:
-                    shape = [1, 3]
-                    def to(self, device): return self
-                return FakeTensor()
-            def decode(self, *args, **kwargs):
-                return json.dumps(GOOD)
+            def apply_chat_template(self, *args, **kwargs): return FakeEncoding()
+            def decode(self, *args, **kwargs): return json.dumps(GOOD)
 
         class FakeModel:
             device = "cpu"
             def eval(self): pass
-            def generate(self, encoded, **kwargs):
+            def generate(self, **kwargs):
                 class FakeOutput:
                     def __getitem__(self, index): return [0, 0, 0, 4, 5]
                 return FakeOutput()
 
-        tutor = HuggingFaceLocalTutor(
-            loader=lambda model_id: (FakeTokenizer(), FakeModel())
-        )
+        tutor = HuggingFaceLocalTutor(loader=lambda _: (FakeTokenizer(), FakeModel()))
         self.assertEqual(tutor.generate("Prompt", "Response"), GOOD)
-
 
 if __name__ == "__main__":
     unittest.main()
