@@ -1,59 +1,82 @@
 # Noggin
 
 <p align="center">
-  <strong>Learning that Adapts to You.</strong><br />
-  An adaptive learning experience designed with neurodivergent learners in mind.
+  <img src="https://img.shields.io/badge/status-in%20development-2D8CFF?style=for-the-badge" alt="In development" />
+  <img src="https://img.shields.io/badge/license-Apache%202.0-2D8CFF?style=for-the-badge" alt="Apache 2.0" />
+  <img src="https://img.shields.io/badge/open%20source-yes-2D8CFF?style=for-the-badge" alt="Open source" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-in%20development-2D8CFF" alt="In development" />
-  <img src="https://img.shields.io/badge/license-Apache%202.0-2D8CFF" alt="Apache 2.0" />
-  <img src="https://img.shields.io/badge/open%20source-yes-2D8CFF" alt="Open source" />
+  <strong>Learning that Adapts to You.</strong>
+  <br />
+  An adaptive learning platform designed around different minds, different strengths, and different ways of understanding the world.
+</p>
+
+<p align="center">
+  <a href="https://noggin-gbdy.onrender.com/">Live Application</a>
+  ·
+  <a href="https://github.com/Noggin-Labs/Noggimigo">Noggimigo</a>
+  ·
+  <a href="https://github.com/Noggin-Labs/Noggin/issues">Issues</a>
 </p>
 
 ---
 
-## What is Noggin?
+## Education was never supposed to be one-size-fits-all.
 
-Noggin is an adaptive learning platform being built around a simple idea: **education should adapt to the learner, not the other way around.**
+Every learner is different.
 
-Learners do not all process information in the same way. They have different strengths, interests, attention patterns, and support needs. A single fixed lesson format cannot work equally well for everyone.
+Some understand an idea through diagrams. Others need to experiment, ask questions, hear an explanation differently, or take a little more time to process information.
 
-Noggin aims to make learning more personal, accessible, and engaging—especially for neurodivergent children—without treating difference as a problem to be fixed.
+Yet many educational environments expect learners to adapt to a single predefined way of learning.
 
-This repository contains the Noggin application. The project is actively being developed, so the interface and capabilities will continue to evolve.
+**Noggin is being built to challenge that assumption.**
 
-## The experience
+Noggin is an adaptive learning platform designed with neurodivergent learners in mind, particularly children who may benefit from more flexible, accessible, and individualized educational experiences.
 
-Noggin is intended to bring several parts of the learning journey together:
+It brings together learning experiences, interactive activities, progress tools, and an intelligent learning companion in one environment.
 
-- **A learner-first workspace** for exploring lessons, activities, and progress.
-- **Noggimigo**, Noggin's learning companion, designed to help learners understand ideas rather than simply hand over answers.
-- **Adaptive learning experiences** that can respond to a learner's progress, preferences, and support needs.
-- **Progress and reflection tools** that make learning development easier to understand.
-- **Parent and teacher experiences** that can help the adults supporting a learner stay informed.
+The underlying philosophy is simple:
 
-These are product goals, not a claim that every capability is already implemented. Check the application and the current project issues for the latest implementation status.
+> Education should adapt to the learner, not the other way around.
 
-## Designed for different ways of learning
+## What we're building
 
-Noggin is being designed with a range of learning needs and approaches in mind, including:
+Noggin aims to create a cohesive learning environment rather than another collection of disconnected educational tools.
 
-| Learning consideration | Examples of supportive design |
+| Component | Purpose |
 | --- | --- |
-| ADHD | Clear task structure, manageable steps, and flexible pacing |
-| Autism | Predictable navigation, consistent patterns, and explicit instructions |
-| Dyslexia | Readable content and varied ways to engage with information |
-| Dyscalculia | Visual models and concrete representations for mathematical ideas |
-| Processing differences | Smaller information chunks and time to think |
-| Visual learning preferences | Diagrams, illustrations, and visual explanations |
-| Kinesthetic learning preferences | Interactive and hands-on activities |
+| Learner Workspace | A central environment for lessons, activities, and exploration. |
+| Noggimigo | An educational companion that encourages understanding through guided explanations and practice. |
+| Adaptive Learning | Learning experiences that can respond to progress, preferences, and individual support needs. |
+| Progress & Reflection | Tools for understanding learning development and celebrating progress. |
+| Parent & Teacher Experiences | Supporting tools for the people involved in a learner's education. |
 
-These are design considerations, not diagnoses or labels that define a learner. A profile should never be treated as a substitute for understanding an individual.
+These represent the product direction. Not every capability is implemented in the current application.
 
-## Learning areas
+## Designed around different minds
 
-The planned learning scope includes:
+Neurodiversity should influence how educational technology is designed from the beginning, not be treated as an afterthought.
+
+Noggin considers a range of cognitive, sensory, and learning-related differences.
+
+| Consideration | Design direction |
+| --- | --- |
+| ADHD | Manageable tasks, clear structure, flexible pacing, and reduced unnecessary distractions. |
+| Autism | Predictable navigation, consistent interaction patterns, and explicit instructions. |
+| Dyslexia | Readable typography, accessible content presentation, and alternative explanations. |
+| Dyscalculia | Concrete representations, visual mathematical models, and structured problem-solving. |
+| Processing differences | Information chunking, clear explanations, and sufficient thinking time. |
+| Visual learning preferences | Diagrams, illustrations, and visual representations. |
+| Kinesthetic learning preferences | Interactive activities and opportunities for experimentation. |
+
+These considerations are not diagnostic categories or assumptions about individual learners.
+
+A diagnosis does not tell us everything about how someone learns. Noggin's direction is to support individual preferences rather than reduce people to profiles.
+
+## The learning environment
+
+The planned curriculum spans several areas of education:
 
 - Mathematics
 - English
@@ -62,142 +85,323 @@ The planned learning scope includes:
 - History
 - Social and Emotional Learning
 
-The exact content and availability of each area will develop alongside the platform.
+The platform is intended to support exploration, understanding, and meaningful practice rather than simply measuring how quickly someone completes a lesson.
 
-## Noggimigo
+## Meet Noggimigo
 
-Noggimigo is the learning companion inside Noggin. Its purpose is to support curiosity and understanding through explanations, questions, hints, and guided practice.
+**Noggimigo is Noggin's educational companion.**
 
-The goal is not to turn Noggin into a chatbot with lessons attached. Noggimigo is one part of a wider learning environment, and educational correctness and learner safety matter more than generating an answer quickly.
+Its purpose is to help learners understand concepts, work through challenges, and develop independent reasoning.
 
-AI-assisted features are under development. They should not be treated as a source of medical, diagnostic, or professional advice.
+Rather than functioning as a generic chatbot, Noggimigo is designed around guided learning.
+
+Its tutoring approach emphasizes:
+
+- Explanations rather than unexplained answers.
+- Hints that support independent problem-solving.
+- Structured lesson progression.
+- Deterministic educational verification.
+- Optional local language-model assistance.
+- Pedagogical validation before generated text is presented.
+
+The current implementation uses a Python API and a deterministic tutoring engine, with an optional local Hugging Face model adapter.
+
+**Educational correctness takes priority over generating an answer.**
+
+Noggimigo is an educational system, not a medical or diagnostic tool.
+
+### Noggimigo repository
+
+The tutoring engine is maintained in the [Hugging Face repository](https://huggingface.co/Noggin-Labs/Noggimigo).
+
+The application integrates its runtime through `backend/noggimigo/`.
 
 ## Design principles
 
-Noggin's development is guided by a few principles:
+Noggin's development follows several guiding principles.
 
-- **Learner agency:** give learners room to explore, make choices, and learn at their own pace.
-- **Adaptability:** support different approaches instead of forcing everyone through one rigid path.
-- **Clarity:** make interfaces and instructions understandable.
-- **Accessibility:** consider different sensory, cognitive, and interaction needs throughout design and development.
-- **Privacy:** minimise unnecessary collection and exposure of learner information.
-- **Responsible AI:** use AI carefully, make its limitations clear, and keep learning outcomes at the centre.
-- **No advertising:** the project is intended to be an ad-free learning experience.
+**01 — Learner agency**
 
-## Development status
+Learners should have meaningful opportunities to explore, make choices, and engage with material at their own pace.
 
-Noggin is under active development. The current application is an evolving product experience, not a finished or fully validated educational platform.
+**02 — Adaptability**
 
-A useful distinction:
+Different learners benefit from different approaches. Educational experiences should not assume that one method works for everyone.
 
-- **In the repository:** functionality that is present in the codebase.
-- **In development:** functionality currently being implemented or refined.
-- **Planned:** ideas and capabilities that have not yet been delivered.
+**03 — Accessibility**
 
-Do not assume a feature is available just because it appears in the product vision. The codebase and release notes are the source of truth for implementation status.
+Accessibility should be considered throughout the interface, content, and interaction design.
 
-## Run locally
+**04 — Clarity**
 
-### Requirements
+Instructions, explanations, and navigation should be understandable without unnecessary complexity.
 
-- Node.js (a current LTS release is recommended)
-- npm
+**05 — Privacy**
 
-### Setup
+Minimize unnecessary collection, storage, and exposure of learner information.
+
+**06 — Responsible AI**
+
+AI-assisted functionality should have clearly defined limitations and should support, rather than replace, educational reasoning.
+
+**07 — No advertising**
+
+Noggin is intended to remain an ad-free learning environment.
+
+---
+
+# Technical Overview
+
+## Technology stack
+
+Noggin currently uses the following technologies:
+
+| Technology | Role |
+| --- | --- |
+| React | Frontend interface |
+| TypeScript | Application development |
+| Vite | Development server and build tooling |
+| Lucide React | Interface icons |
+| Vitest | Testing |
+| Python | Tutoring backend |
+| Hugging Face | Optional local language-model integration |
+
+The technology stack may evolve as the project develops. Refer to `package.json` and the backend requirements for the authoritative dependency list.
+
+## Architecture
+
+Noggin is moving toward a modular monolith architecture.
+
+The architecture documentation describes the intended boundaries, responsibilities, and migration sequence.
+
+Relevant documents:
+
+- [Architecture Overview](docs/architecture/overview.md)
+- [ADR 0001: Modular Monolith](docs/architecture/decisions/0001-modular-monolith.md)
+- [Architecture Migration Plan](docs/architecture/migration-plan.md)
+
+These documents describe the architectural direction, not a claim that every planned module has already been implemented.
+
+## Getting started
+
+### Prerequisites
+
+- Node.js (a current LTS release is recommended).
+- npm.
+- Python 3.10 or later for the Noggimigo API.
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Noggin-Labs/Noggin.git
 cd Noggin
+```
+
+### 2. Install frontend dependencies
+
+```bash
 npm install
+```
+
+### 3. Start the frontend
+
+```bash
 npm run dev
 ```
 
-Vite will print a local development URL in the terminal.
+Vite will provide a local development URL in your terminal.
 
-### Available scripts
+### 4. Start the Noggimigo backend
+
+Open a second terminal from the repository root.
+
+Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows:
+
+```powershell
+.venv\Scripts\activate
+```
+
+Or on macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+Install the backend dependencies:
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+Start the API:
+
+```bash
+uvicorn backend.app:app --reload --port 8000
+```
+
+The frontend's default API URL is:
+
+```text
+http://localhost:8000
+```
+
+To override it, configure:
+
+```text
+VITE_NOGGIMIGO_API_URL
+```
+
+## Optional local language model
+
+Noggimigo's deterministic tutoring functionality does not require downloading language-model weights.
+
+An optional local Hugging Face adapter can be enabled separately.
+
+Install its dependencies:
+
+```bash
+pip install -r backend/requirements-local-model.txt
+```
+
+Set the environment variable:
+
+```text
+NOGGIMIGO_ENABLE_LOCAL_MODEL=1
+```
+
+The default candidate model is:
+
+```text
+Qwen/Qwen3-0.6B
+```
+
+Model weights are loaded lazily when the first tutoring response requires them.
+
+An important architectural distinction:
+
+- Deterministic tutoring logic remains authoritative.
+- Model-generated text is treated as untrusted.
+- Generated responses are subject to existing pedagogical validation.
+- Model output does not determine educational correctness or lesson progression.
+- No paid inference endpoint is configured.
+
+The optional model is an enhancement to the tutoring experience, not the authority responsible for deciding whether an answer is correct.
+
+## Available commands
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the local development server |
-| `npm run build` | Run the TypeScript check and create a production build |
-| `npm run preview` | Preview the production build locally |
-| `npm run typecheck` | Run the TypeScript check |
-| `npm test` | Run the test suite |
-| `npm run test:watch` | Run tests in watch mode |
+| `npm run dev` | Start the development server. |
+| `npm run build` | Run the TypeScript check and production build. |
+| `npm run preview` | Preview the production build. |
+| `npm run typecheck` | Run TypeScript checks. |
+| `npm test` | Run the test suite. |
+| `npm run test:watch` | Run tests in watch mode. |
 
-## Technology
+## Runtime boundaries and deployment considerations
 
-The current frontend uses:
+The current Noggimigo API has several important limitations:
 
-- React
-- TypeScript
-- Vite
-- Lucide React for icons
-- Vitest for testing
+- Sessions are temporary and stored in process memory.
+- Sessions are not persistent accounts or learner records.
+- The API does not require learner names, school identifiers, or profile data.
+- The optional language model runs locally alongside the Python service.
+- The default CORS allowlist targets local Vite development origins.
+- `NOGGIN_ALLOWED_ORIGINS` configures permitted deployment origins.
+- Authentication and rate limiting are not currently implemented.
 
-The project structure and supporting services may change as development progresses. Refer to `package.json` and the source code for the current dependencies and implementation.
+**Deployment warning:** The current backend prototype is not ready for unrestricted public exposure or real learner accounts. Production deployment requires appropriate authentication, rate limiting, security controls, and privacy review.
 
-## Architecture
+### Curriculum implementation note
 
-The current architecture direction and incremental refactor plan are documented in [`docs/architecture/overview.md`](docs/architecture/overview.md), [`docs/architecture/decisions/0001-modular-monolith.md`](docs/architecture/decisions/0001-modular-monolith.md), and [`docs/architecture/migration-plan.md`](docs/architecture/migration-plan.md). These documents describe the intended boundaries and migration sequence; they do not imply that every planned module has already been implemented.
+The upstream Hugging Face snapshot's `curriculum.py` currently contains test code rather than the curriculum module imported by the session runtime.
+
+Noggin supplies a corrected, explicit lesson graph in:
+
+```text
+backend/noggimigo/curriculum.py
+```
+
+This includes lesson IDs used by the current application.
+
+---
+
+# Development Status
+
+<code>In active development</code>
+
+Noggin is an evolving software project. Its current application should not be confused with a completed, independently validated educational platform.
+
+We distinguish between three implementation states:
+
+| Status | Meaning |
+| --- | --- |
+| Implemented | Functionality currently present in the codebase. |
+| In development | Functionality actively being implemented or refined. |
+| Planned | Proposed capabilities that have not yet been delivered. |
+
+The source code, tests, issues, and release notes are the authoritative references for current implementation status.
 
 ## Contributing
 
-Contributions, thoughtful feedback, bug reports, and accessibility reviews are welcome.
+Noggin welcomes thoughtful contributions, technical feedback, bug reports, and accessibility reviews.
 
-Before making a substantial change:
+Whether you're interested in frontend development, educational technology, accessibility, software architecture, or responsible AI, contributions can help improve the project.
 
-1. Check the existing issues and discussions.
-2. Explain the problem your change is intended to solve.
+Before submitting a substantial change:
+
+1. Review existing issues and discussions.
+2. Explain the problem your proposed change addresses.
 3. Keep changes focused and consistent with the project's design principles.
-4. Run the relevant checks before opening a pull request.
+4. Run the relevant tests and checks.
+5. Submit a pull request with a clear description of the changes.
 
-When reporting a bug, include the steps to reproduce it, what you expected to happen, and what happened instead. Please avoid including private information about children or learners in issues, screenshots, or logs.
+### Reporting bugs
+
+When opening an issue, include:
+
+- A clear description of the problem.
+- Steps to reproduce it.
+- Expected behavior.
+- Actual behavior.
+- Relevant error messages, where applicable.
+
+Please do not include private information about children or learners in issues, screenshots, or logs.
 
 ## Privacy and learner safety
 
-Noggin is intended for use by children, so privacy and safety need to shape the product from the beginning. The project aims to minimise learner data, avoid unnecessary tracking, and use age-appropriate design.
+Noggin is being designed for an audience that includes children. Privacy and learner safety must therefore be considered throughout development.
 
-Do not submit real children's personal, educational, or sensitive information in public issues or pull requests. A privacy-first goal is not, by itself, a guarantee that every current build or integration is ready for real learner data.
+The project aims to:
 
-Noggin is an educational project. It does not diagnose, treat, or cure any condition.
+- Minimize unnecessary learner information.
+- Avoid unnecessary tracking.
+- Use age-appropriate interaction patterns.
+- Keep AI-assisted functionality within clearly defined boundaries.
+- Avoid treating educational software as a substitute for professional support.
+
+A privacy-first design goal does not automatically mean that every current build or integration is suitable for real learner data.
+
+Noggin does not diagnose, treat, or cure medical or developmental conditions.
 
 ## License
 
-Noggin is distributed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for the full license text.
+Noggin is distributed under the [Apache License 2.0](LICENSE).
+
+You are welcome to use, modify, and distribute the project in accordance with the license terms.
 
 ---
 
 <p align="center">
-  <strong>Noggin</strong><br />
+  <strong>Noggin</strong>
+  <br />
   Learning that Adapts to You.
+  <br /><br />
+  <sub>Built around the belief that different minds deserve different possibilities.</sub>
 </p>
-
-
-## Noggimigo runtime
-
-Noggin includes the Noggimigo tutoring engine from [Noggin-Labs/Noggimigo on Hugging Face](https://huggingface.co/Noggin-Labs/Noggimigo), maintained in `backend/noggimigo/`. The React lesson room connects to this Python API for guided practice and deterministic hints.
-
-### Start the API
-
-```bash
-python -m venv .venv
-# Windows: .venv\\Scripts\\activate
-# macOS/Linux: source .venv/bin/activate
-pip install -r backend/requirements.txt
-uvicorn backend.app:app --reload --port 8000
-```
-
-Run the frontend in a second terminal with `npm install && npm run dev`. The default frontend API URL is `http://localhost:8000`; set `VITE_NOGGIMIGO_API_URL` to override it.
-
-### Optional local language model
-
-The deterministic tutor works without downloading model weights. To enable the optional local Hugging Face adapter, install `backend/requirements-local-model.txt` and set `NOGGIMIGO_ENABLE_LOCAL_MODEL=1`. The default candidate model is `Qwen/Qwen3-0.6B`; weights load lazily on first tutoring response. Model text is untrusted and is displayed only after Noggimigo's existing pedagogical validation. Model output never decides correctness or lesson progression.
-
-### Runtime boundaries
-
-- API sessions are temporary and stored in process memory; they are not durable accounts or learner records.
-- The API does not require learner names, school identifiers, or profile data.
-- The optional model runs locally with the Python service; no paid inference endpoint is configured.
-- The API's CORS allowlist defaults to the local Vite development origins. Configure `NOGGIN_ALLOWED_ORIGINS` for a deployment. The prototype has no authentication or rate limiting; do not expose it to the public internet or use it with real learner accounts.
-- The Hugging Face snapshot's `curriculum.py` currently contains test code rather than the curriculum module imported by the session runtime. Noggin supplies a corrected, explicit lesson graph in `backend/noggimigo/curriculum.py`, including the current app's lesson IDs.
