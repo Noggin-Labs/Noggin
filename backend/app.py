@@ -14,8 +14,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from noggimigo.curriculum import CURRICULUM
-from noggimigo.noggimigo_session import NoggimigoSession
+from backend.noggimigo.curriculum import CURRICULUM
+from backend.noggimigo.noggimigo_session import NoggimigoSession
 
 app = FastAPI(title="Noggin · Noggimigo API", version="0.1.0")
 
@@ -58,7 +58,7 @@ def _get_model():
     if os.getenv("NOGGIMIGO_ENABLE_LOCAL_MODEL", "0").lower() not in {"1", "true", "yes"}:
         return None
     if _model is None:
-        from noggimigo.hf_provider import HuggingFaceLocalTutor
+        from backend.noggimigo.hf_provider import HuggingFaceLocalTutor
         _model = HuggingFaceLocalTutor(
             model_id=os.getenv("NOGGIMIGO_MODEL_ID", "Qwen/Qwen3-0.6B"),
             max_new_tokens=180,
