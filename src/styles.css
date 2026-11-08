@@ -19,3 +19,26 @@
 .hint-button{margin-top:9px;font-size:10px}.hint-text{margin-top:10px;padding:10px;background:#f2f7ff;border-radius:9px;color:#617b9c;font-size:10px;line-height:1.6}.hint-text small{display:block;color:#96a5b9;font-size:8px;margin-top:7px}
 
 .pace-gentle .lesson-intro{line-height:2.05;max-width:600px}.pace-focused .lesson-intro{line-height:1.6;max-width:760px}.visual-disabled-note{padding:24px 20px;margin-bottom:25px;border:1px dashed #cfd8e6;border-radius:14px;background:#fff}.visual-disabled-note span{font:500 8px 'DM Mono',monospace;letter-spacing:1.2px;color:#98a4b6}.visual-disabled-note p{margin:7px 0 0;color:#7d899d;font-size:11px}
+
+
+/* Noggin UI refinement: clearer interaction, responsive navigation and keyboard access. */
+.skip-link{position:fixed;top:12px;left:12px;z-index:30;transform:translateY(-160%);padding:10px 14px;border-radius:10px;background:#172b4d;color:#fff;font-size:12px;font-weight:700;text-decoration:none;box-shadow:0 8px 24px #17223a24}
+.skip-link:focus{transform:translateY(0)}
+#main-content:focus{outline:none}
+.nav-item:focus-visible,.brand-lockup:focus-visible,.avatar:focus-visible,.course-card:focus-visible,.answer-option:focus-visible{outline:3px solid #8fc2ff;outline-offset:3px}
+.nav-item{min-height:46px}
+.nav-item.active{box-shadow:inset 3px 0 0 var(--blue)}
+.avatar{display:grid;place-items:center;transition:background .18s,transform .18s}
+.avatar:hover{background:#c9e2ff;transform:translateY(-1px)}
+.nav-scrim{display:none}
+@media(max-width:760px){
+  .sidebar{z-index:21}
+  .nav-scrim{display:block;position:fixed;inset:0;z-index:20;border:0;border-radius:0;background:rgba(18,31,52,.34);backdrop-filter:blur(2px);cursor:pointer}
+  .sidebar.sidebar-open{box-shadow:16px 0 42px rgba(18,31,52,.16)}
+  .mobile-menu{position:relative;z-index:22}
+  .topbar{z-index:15}
+  .nav-item{min-height:48px}
+}
+@media(hover:none){
+  .course-card:hover{transform:none;box-shadow:none}
+}
