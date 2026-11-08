@@ -22,3 +22,17 @@ jobs:
         run: npm test
       - name: Typecheck and build
         run: npm run build
+
+  python-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install API and test dependencies
+        run: pip install -r backend/requirements-dev.txt
+      - name: Run Noggimigo and API tests
+        run: pytest backend/tests -q
