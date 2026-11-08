@@ -76,16 +76,17 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <aside className={`sidebar ${mobileNav ? "sidebar-open" : ""}`}>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <aside className={`sidebar ${mobileNav ? "sidebar-open" : ""}`} aria-label="Primary navigation">
         <button className="brand-lockup" onClick={() => { setView("dashboard"); setActiveLesson(null); }} aria-label="Noggin home">
           <span className="brand-mark"><span /><span /><span /></span>
           <span className="brand-word">noggin<span className="brand-period">.</span><small>LEARNING STUDIO</small></span>
         </button>
         <div className="sidebar-label">YOUR SPACE</div>
-        <nav className="nav-list">
+        <nav className="nav-list" id="primary-navigation" aria-label="Main navigation">
           {navItems.map((item) => {
             const Icon = item.icon;
-            return <button key={item.id} className={`nav-item ${view === item.id && !activeLesson ? "active" : ""}`} onClick={() => { setView(item.id); setActiveLesson(null); setMobileNav(false); }}><Icon size={18} strokeWidth={1.9}/><span>{item.label}</span>{item.id === "saved" && saved.length > 0 && <em>{saved.length}</em>}</button>;
+            return <button key={item.id} aria-current={view === item.id && !activeLesson ? "page" : undefined} className={`nav-item ${view === item.id && !activeLesson ? "active" : ""}`} onClick={() => { setView(item.id); setActiveLesson(null); setMobileNav(false); }}><Icon size={18} strokeWidth={1.9}/><span>{item.label}</span>{item.id === "saved" && saved.length > 0 && <em>{saved.length}</em>}</button>;
           })}
         </nav>
         <div className="sidebar-bottom">
@@ -97,12 +98,13 @@ export default function App() {
           <div className="org-note"><span className="org-dot" /> A space for curious minds</div>
         </div>
       </aside>
+      {mobileNav && <button className="nav-scrim" aria-label="Close navigation" onClick={() => setMobileNav(false)} />}
 
-      <main className="main-area">
+      <main className="main-area" id="main-content" tabIndex={-1}>
         <header className="topbar">
-          <button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label="Toggle navigation"><Menu size={20}/></button>
+          <button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label={mobileNav ? "Close navigation" : "Open navigation"} aria-expanded={mobileNav} aria-controls="primary-navigation"><Menu size={20}/></button>
           <div className="breadcrumb"><span>noggin</span><ChevronRight size={14}/><strong>{activeLesson ? "Lesson room" : navItems.find((item) => item.id === view)?.label}</strong></div>
-          <div className="topbar-right"><span className="role-pill"><GraduationCap size={15}/> Student space</span><button className="avatar" aria-label="Learner profile" onClick={() => setView("profile")}>A</button></div>
+          <div className="topbar-right"><span className="role-pill"><GraduationCap size={15}/> Student space</span><button className="avatar" aria-label="Open learning preferences" onClick={() => { setView("profile"); setActiveLesson(null); }}><Sparkles size={15}/></button></div>
         </header>
 
         <div className="page-wrap">
@@ -133,7 +135,7 @@ function Dashboard({ completed, accuracy, attemptCount, mastery, xp, resumeLesso
     <section className="welcome-row">
       <div className="welcome-copy">
         <p className="kicker">A NEW DAY TO DISCOVER</p>
-        <h1>Welcome back,<br/><span>Alex.</span></h1>
+        <h1>Welcome back,<br/><span>curious mind.</span></h1>
         <p className="welcome-text">Your curiosity sets the pace. Pick up where you left off, or follow something that catches your eye.</p>
         <div className="profile-chip"><span className="profile-spark"><Sparkles size={14}/></span><span><small>YOUR LEARNING STYLE</small><strong>{profile}</strong></span><span className="chip-arrow">↗</span></div>
       </div>
