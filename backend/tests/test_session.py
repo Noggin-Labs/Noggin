@@ -1,10 +1,11 @@
-import json
 import importlib
-import pytest
-from answer_verifier import verify_answer
-from noggimigo_session import NoggimigoSession
-from hf_provider import HuggingFaceLocalTutor
+import json
 
+import pytest
+
+from answer_verifier import verify_answer
+from hf_provider import HuggingFaceLocalTutor
+from noggimigo_session import NoggimigoSession
 
 def test_public_imports_and_case_sensitive_module():
     importlib.import_module("noggimigo_intent")
@@ -33,7 +34,9 @@ def test_session_progression_and_incorrect_answer_cannot_advance():
 
 def test_hint_reset_and_bounded_history():
     session = NoggimigoSession(history_limit=2)
-    session.request_hint(); session.submit("bad"); session.request_hint()
+    session.request_hint()
+    session.submit("bad")
+    session.request_hint()
     assert len(session.history) == 2
     session.reset("algebra_intro")
     assert session.current_prompt()["progress"] == "1/2"
@@ -46,20 +49,28 @@ def test_model_failure_falls_back():
     assert result["advanced"] is False and result["model_fallback"] is True
 
 def test_mocked_model_structured_output():
-    good = {"student_facing_message":"What operation undoes +4?","pedagogical_action":"ASK_GUIDING_QUESTION","misconception_candidates":[],"requires_verification":True}
+    good = {
+        "student_facing_message": "What operation undoes +4?",
+        "pedagogical_action": "ASK_GUIDING_QUESTION",
+        "misconception_candidates": [],
+        "requires_verification": True,
+    }
+    class FakeTensor:
+        shape = [1, 3]
+        def to(self, device): return self
+    class FakeEncoding(dict):
+        def __init__(self): super().__init__({"input_ids": FakeTensor()})
+        def to(self, device): return self
     class Tokenizer:
         eos_token_id = 0
-        def apply_chat_template(self, *a, **k):
-            class T:
-                shape = [1, 3]
-                def to(self, device): return self
-            return T()
-        def decode(self, *a, **k): return json.dumps(good)
+        def apply_chat_template(self, *args, **kwargs): return FakeEncoding()
+        def decode(self, *args, **kwargs): return json.dumps(good)
     class Model:
         device = "cpu"
         def eval(self): pass
-        def generate(self, *a, **k):
-            class O:
-                def __getitem__(self, i): return [0]
-            return O()
-    assert HuggingFaceLocalTutor(loader=lambda _: (Tokenizer(), Model())).generate("q", "a")==good
+        def generate(self, **kwargs):
+            class Output:
+                def __getitem__(self, index): return [0, 0, 0, 4, 5]
+            return Output()
+    tutor = HuggingFaceLocalTutor(loader=lambda _: (Tokenizer(), Model()))
+    assert tutor.generate("q", "a") == good
