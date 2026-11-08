@@ -172,3 +172,32 @@ Noggin is distributed under the **Apache License 2.0**. See the [LICENSE](LICENS
   <strong>Noggin</strong><br />
   Learning that Adapts to You.
 </p>
+
+
+## Noggimigo runtime
+
+Noggin includes the Noggimigo tutoring engine from [Noggin-Labs/Noggimigo on Hugging Face](https://huggingface.co/Noggin-Labs/Noggimigo), maintained in `backend/noggimigo/`. The React lesson room connects to this Python API for guided practice and deterministic hints.
+
+### Start the API
+
+```bash
+python -m venv .venv
+# Windows: .venv\\Scripts\\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r backend/requirements.txt
+uvicorn backend.app:app --reload --port 8000
+```
+
+Run the frontend in a second terminal with `npm install && npm run dev`. The default frontend API URL is `http://localhost:8000`; set `VITE_NOGGIMIGO_API_URL` to override it.
+
+### Optional local language model
+
+The deterministic tutor works without downloading model weights. To enable the optional local Hugging Face adapter, install `backend/requirements-local-model.txt` and set `NOGGIMIGO_ENABLE_LOCAL_MODEL=1`. The default candidate model is `Qwen/Qwen3-0.6B`; weights load lazily on first tutoring response. Model text is untrusted and is displayed only after Noggimigo's existing pedagogical validation. Model output never decides correctness or lesson progression.
+
+### Runtime boundaries
+
+- API sessions are temporary and stored in process memory; they are not durable accounts or learner records.
+- The API does not require learner names, school identifiers, or profile data.
+- The optional model runs locally with the Python service; no paid inference endpoint is configured.
+- The API's CORS allowlist defaults to the local Vite development origins. Configure `NOGGIN_ALLOWED_ORIGINS` for a deployment. The prototype has no authentication or rate limiting; do not expose it to the public internet or use it with real learner accounts.
+- The Hugging Face snapshot's `curriculum.py` currently contains test code rather than the curriculum module imported by the session runtime. Noggin supplies a corrected, explicit lesson graph in `backend/noggimigo/curriculum.py`, including the current app's lesson IDs.
