@@ -157,7 +157,7 @@ def validate_suggestion(
 
     if not isinstance(action, str) or action not in ALLOWED_ACTIONS:
         raise PedagogicalValidationError("Unsupported pedagogical_action.")
-    if answer_status not in _ACTIONS_BY_STATUS:
+    if not isinstance(answer_status, str) or answer_status not in _ACTIONS_BY_STATUS:
         raise PedagogicalValidationError("Unknown deterministic answer status.")
     if action not in _ACTIONS_BY_STATUS[answer_status]:
         raise PedagogicalValidationError("Action is incompatible with deterministic answer status.")
