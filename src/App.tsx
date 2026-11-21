@@ -209,45 +209,17 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
 function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
   completed: string[]; accuracy: number; attemptCount: number; completionRate: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
-  return <div className="dashboard-page">
-    <div className="eyebrow"><span className="eyebrow-line"/> YOUR LEARNING SPACE <span className="eyebrow-line"/></div>
-    <section className="welcome-row">
-      <div className="welcome-copy">
-        <p className="kicker">A NEW DAY TO DISCOVER</p>
-        <h1>Welcome back,<br/><span>curious mind.</span></h1>
-        <p className="welcome-text">Your curiosity sets the pace. Pick up where you left off, or follow something that catches your eye.</p>
-        <div className="profile-chip"><span className="profile-spark"><Sparkles size={14}/></span><span><small>YOUR LEARNING STYLE</small><strong>{profile}</strong></span><span className="chip-arrow">↗</span></div>
-      </div>
-      <div className="atlas-visual" aria-label="A map of connected learning topics">
-        <div className="atlas-topline"><span>FIELD MAP / 001</span><span>OPEN ENDED</span></div>
-        <div className="atlas-orbit atlas-orbit-one"/>
-        <div className="atlas-orbit atlas-orbit-two"/>
-        <div className="atlas-route"><i/><i/><i/><i/></div>
-        <div className="atlas-core"><span>NG</span><small>IDEAS<br/>IN MOTION</small></div>
-        <div className="atlas-node atlas-node-math"><span>01</span><strong>Patterns</strong><small>MATHEMATICS</small></div>
-        <div className="atlas-node atlas-node-science"><span>02</span><strong>Systems</strong><small>SCIENCE</small></div>
-        <div className="atlas-node atlas-node-language"><span>03</span><strong>Sounds</strong><small>LANGUAGE</small></div>
-        <div className="atlas-coordinate">6 SUBJECTS <b>·</b> MANY DIRECTIONS</div>
-      </div>
+  return <div className="dashboard-page studio-dashboard">
+    <div className="dashboard-edition"><span>THE NOGGIN FIELD GUIDE</span><span>VOL. 01 — YOUR WORKSPACE</span></div>
+    <section className="dashboard-opening">
+      <div className="dashboard-opening-copy"><p className="kicker">A PLACE TO THINK OUT LOUD</p><h1>Curiosity<br/><em>looks good</em><br/>on you.</h1><p>Follow a question. Pull an idea apart. Put it back together in a way that makes sense to you.</p><button className="dashboard-explore" onClick={onExplore}>Find your next thread <ArrowRight size={17}/></button></div>
+      <div className="dashboard-opening-art"><div className="opening-art-stamp">NG<br/><small>LEARN<br/>BY DOING</small></div><div className="opening-art-loop loop-a"/><div className="opening-art-loop loop-b"/><span className="opening-art-word word-a">ASK</span><span className="opening-art-word word-b">MAKE</span><span className="opening-art-word word-c">NOTICE</span><span className="opening-art-coordinate">01. / START ANYWHERE</span></div>
+      <div className="dashboard-side-note"><span>YOUR MODE</span><strong>{profile}</strong><small>Change this in learning settings.</small></div>
     </section>
-
-    <section className="resume-panel">
-      <div className="resume-icon"><BookOpen size={21}/></div>
-      <div className="resume-copy"><span className="section-overline">PICK UP WHERE YOU LEFT OFF</span><h2>{resumeLesson.title}</h2><p>{resumeLesson.subject} <span>·</span> {resumeLesson.level}</p></div>
-      <button className="primary-button" onClick={onResume}>Resume <ArrowRight size={16}/></button>
-    </section>
-
-    <section className="metrics-row">
-      <Metric icon={<BookOpen size={17}/>} label="Lessons completed" value={completed.length.toString()} note={`Of ${lessons.length} available lessons`} tone="blue"/>
-      <Metric icon={<Target size={17}/>} label="Exercise accuracy" value={`${accuracy}%`} note={`${attemptCount === 0 ? "No answers submitted yet" : `${attemptCount} submitted answers`}`} tone="coral"/>
-      <Metric icon={<Layers3 size={17}/>} label="Curriculum completion" value={`${completionRate}%`} note={`${completed.length} of ${lessons.length} lessons completed; not a mastery score`} tone="violet"/>
-    </section>
-
-    <section className="section-heading"><div><p className="kicker">A FEW PLACES TO BEGIN</p><h2>What are you curious about?</h2></div><button className="text-button" onClick={onExplore}>Explore curriculum <ArrowRight size={15}/></button></section>
-    <div className="course-grid">
-      {courses.map((course, index) => <CourseCard key={course.id} course={course} completed={completed} onClick={() => onCourse(course)} index={index}/>)}
-    </div>
-    <footer className="page-footer"><span>Learning that adapts to you.</span><span>noggin<span className="brand-period">.</span> <i>Learning, your way</i></span></footer>
+    <section className="continue-strip"><div className="continue-index">↳</div><div className="continue-main"><span>BACK TO YOUR LAST THREAD</span><h2>{resumeLesson.title}</h2><p>{resumeLesson.subject} <i/> {resumeLesson.level}</p></div><button onClick={onResume}>Pick it back up <ArrowRight size={17}/></button></section>
+    <section className="learning-log"><div className="learning-log-heading"><span>YOUR LEARNING LOG</span><small>Progress is a record, not a ranking.</small></div><div className="learning-log-stats"><div><strong>{completed.length.toString().padStart(2,"0")}</strong><span>LESSONS COMPLETED</span></div><div><strong>{accuracy}<small>%</small></strong><span>ANSWER ACCURACY</span></div><div><strong>{completionRate}<small>%</small></strong><span>CURRICULUM COVERED</span></div><div><strong>{attemptCount.toString().padStart(2,"0")}</strong><span>ANSWERS TRIED</span></div></div></section>
+    <section className="dashboard-course-section"><div className="dashboard-course-heading"><div><span>THE COURSE INDEX / 06</span><h2>Choose a subject.<br/><em>Find a question.</em></h2></div><button onClick={onExplore}>See the whole index <ArrowRight size={16}/></button></div><div className="course-grid">{courses.map((course,index)=><CourseCard key={course.id} course={course} completed={completed} onClick={()=>onCourse(course)} index={index}/>)}</div></section>
+    <footer className="page-footer"><span>Make room for wonder.</span><span>noggin<span className="brand-period">.</span> <i>Field guide to learning</i></span></footer>
   </div>;
 }
 
