@@ -1,8 +1,8 @@
 """HTTP adapter for the deterministic Noggimigo tutoring runtime.
 
-Sessions are process-local and ephemeral. Do not send learner identifiers or
-sensitive records to this service. Model-generated text is optional and remains
-subject to the deterministic session and pedagogy validators.
+Noggimigo sessions remain process-local and ephemeral. The curriculum catalog
+is served from the relational database and populated explicitly with
+`python -m backend.seed_curriculum` after migrations.
 """
 from __future__ import annotations
 
@@ -10,14 +10,18 @@ import os
 from threading import Lock
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from sqlalchemy import select
+from sqlalchemy.orm import Session, selectinload
 
+from backend.database import get_db
+from backend.models import Course
 from backend.noggimigo.curriculum import CURRICULUM
 from backend.noggimigo.noggimigo_session import NoggimigoSession
 
-app = FastAPI(title="Noggin · Noggimigo API", version="0.1.0")
+app = FastAPI(title="Noggin · Noggimigo API", version="0.2.0")
 
 allowed_origins = [
     origin.strip()
@@ -89,6 +93,16 @@ def _session_payload(session_id: str, session: NoggimigoSession) -> dict:
     }
 
 
+def _course_summary(course: Course) -> dict:
+    return {
+        "id": course.id,
+        "title": course.title,
+        "description": course.description,
+        "subject": course.subject,
+        "lesson_count": len(course.lessons),
+    }
+
+
 @app.get("/api/health")
 def health():
     return {
@@ -99,8 +113,52 @@ def health():
     }
 
 
+@app.get("/api/catalog/courses")
+def list_courses(db: Session = Depends(get_db)):
+    """List published courses persisted in the database."""
+    statement = (
+        select(Course)
+        .where(Course.is_published.is_(True))
+        .options(selectinload(Course.lessons))
+        .order_by(Course.subject, Course.title)
+    )
+    courses = db.scalars(statement).all()
+    return [_course_summary(course) for course in courses]
+
+
+@app.get("/api/catalog/courses/{course_id}")
+def get_course(course_id: str, db: Session = Depends(get_db)):
+    """Return one published course and its published lessons."""
+    statement = (
+        select(Course)
+        .where(Course.id == course_id, Course.is_published.is_(True))
+        .options(selectinload(Course.lessons))
+    )
+    course = db.scalar(statement)
+    if course is None:
+        raise HTTPException(status_code=404, detail="Course not found.")
+    lessons = sorted(
+        (lesson for lesson in course.lessons if lesson.is_published),
+        key=lambda lesson: lesson.position,
+    )
+    return {
+        **_course_summary(course),
+        "lessons": [
+            {
+                "id": lesson.id,
+                "title": lesson.title,
+                "position": lesson.position,
+                "objective": lesson.objective,
+                "topic": lesson.content.get("topic", ""),
+            }
+            for lesson in lessons
+        ],
+    }
+
+
 @app.get("/api/lessons")
 def lessons():
+    """Legacy Noggimigo lesson index; tutoring sessions still use this registry."""
     return [
         {"id": lesson_id, "title": lesson["title"], "subject": lesson["subject"], "topic": lesson["topic"]}
         for lesson_id, lesson in CURRICULUM.items()
