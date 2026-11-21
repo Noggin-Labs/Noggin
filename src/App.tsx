@@ -9,7 +9,7 @@ import { calculateAccuracy, calculateMastery, calculateXp, type Attempt } from "
 import { courses, lessons, type Course, type Lesson } from "./features/curriculum/model";
 import { NoggimigoPanel } from "./features/noggimigo/NoggimigoPanel";
 
-type View = "dashboard" | "curriculum" | "saved" | "profile" | "qa";
+type View = "dashboard" | "curriculum" | "course" | "saved" | "profile" | "qa";
 
 
 
@@ -22,6 +22,7 @@ const readStore = <T,>(key: string, fallback: T): T => {
 export default function App() {
   const [view, setView] = useState<View>("dashboard");
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [completed, setCompleted] = useState<string[]>(() => readStore("noggin.completed", []));
   const [attempts, setAttempts] = useState<Attempt[]>(() => readStore("noggin.attempts", []));
   const [saved, setSaved] = useState<string[]>(() => readStore("noggin.saved", []));
@@ -47,8 +48,16 @@ export default function App() {
   const resumeLesson = lessons.find((lesson) => lesson.id === lastLessonId) ?? lessons[0];
   const savedLessons = lessons.filter((lesson) => saved.includes(lesson.id));
 
+  const openCourse = (course: Course) => {
+    setSelectedCourseId(course.id);
+    setActiveLesson(null);
+    setView("course");
+    setMobileNav(false);
+  };
+
   const openLesson = (lesson: Lesson) => {
     setActiveLesson(lesson);
+    setSelectedCourseId(lesson.courseId);
     setLastLessonId(lesson.id);
     setSelected("");
     setFeedback(null);
@@ -104,7 +113,7 @@ export default function App() {
       <main className="main-area" id="main-content" tabIndex={-1}>
         <header className="topbar">
           <button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label={mobileNav ? "Close navigation" : "Open navigation"} aria-expanded={mobileNav} aria-controls="primary-navigation"><Menu size={20}/></button>
-          <div className="breadcrumb"><span>noggin</span><ChevronRight size={14}/><strong>{activeLesson ? "Lesson room" : navItems.find((item) => item.id === view)?.label}</strong></div>
+          <div className="breadcrumb"><span>noggin</span><ChevronRight size={14}/><strong>{activeLesson ? "Lesson room" : view === "course" ? courses.find((course) => course.id === selectedCourseId)?.title ?? "Course overview" : navItems.find((item) => item.id === view)?.label}</strong></div>
           <div className="topbar-right"><span className="role-pill"><GraduationCap size={15}/> Student space</span><button className="avatar" aria-label="Open learning preferences" onClick={() => { setView("profile"); setActiveLesson(null); }}><Sparkles size={15}/></button></div>
         </header>
 
@@ -112,9 +121,11 @@ export default function App() {
           {activeLesson ? (
             <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} onBack={() => setActiveLesson(null)} onNext={() => { const index = lessons.findIndex((item) => item.id === activeLesson.id); openLesson(lessons[(index + 1) % lessons.length]); }} />
           ) : view === "dashboard" ? (
-            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} mastery={mastery} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={(course) => openLesson(lessons.find((lesson) => lesson.id === course.lessonIds[0])!)} onExplore={() => setView("curriculum")} profile={profile} />
+            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} mastery={mastery} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} profile={profile} />
           ) : view === "curriculum" ? (
-            <Curriculum completed={completed} onCourse={(course) => openLesson(lessons.find((lesson) => lesson.id === course.lessonIds[0])!)} />
+            <Curriculum completed={completed} onCourse={openCourse} />
+          ) : view === "course" ? (
+            <CourseOverview course={courses.find((course) => course.id === selectedCourseId) ?? courses[0]} completed={completed} onBack={() => setView("curriculum")} onOpenLesson={openLesson} />
           ) : view === "saved" ? (
             <SavedLibrary savedLessons={savedLessons} onOpen={openLesson} onRemove={toggleSaved}/>
           ) : view === "profile" ? (
@@ -189,6 +200,40 @@ function ArrowUpRightIcon() { return <ArrowRight size={16}/>; }
 
 function Curriculum({ completed, onCourse }: { completed: string[]; onCourse: (course: Course) => void }) {
   return <div className="subpage"><div className="subpage-heading"><p className="kicker">THE MAP IS YOURS</p><h1>Explore the <span>curriculum.</span></h1><p>Choose a trail that sparks your curiosity. You can move between subjects whenever you like.</p></div><div className="course-grid curriculum-grid">{courses.map((course, index) => <CourseCard key={course.id} course={course} completed={completed} onClick={() => onCourse(course)} index={index}/>)}</div></div>;
+}
+
+
+function CourseOverview({ course, completed, onBack, onOpenLesson }: { course: Course; completed: string[]; onBack: () => void; onOpenLesson: (lesson: Lesson) => void }) {
+  const Icon = course.icon;
+  const courseLessons = course.lessonIds.map((id) => lessons.find((lesson) => lesson.id === id)).filter((lesson): lesson is Lesson => Boolean(lesson));
+  const done = courseLessons.filter((lesson) => completed.includes(lesson.id)).length;
+  const percent = courseLessons.length ? Math.round((done / courseLessons.length) * 100) : 0;
+
+  return <div className="subpage course-overview">
+    <button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Back to curriculum</button>
+    <section className={`course-overview-hero course-${course.theme}`}>
+      <div className="course-overview-art"><Icon size={42} strokeWidth={1.5}/></div>
+      <div className="course-overview-copy">
+        <div className="course-meta"><span>{course.subject}</span><i/> <span>{course.level}</span></div>
+        <h1>{course.title}</h1>
+        <p>{course.description}</p>
+        <div className="course-overview-progress"><div className="progress-track"><span style={{width: String(percent) + "%"}}/></div><span>{done} of {courseLessons.length} lessons completed · {percent}%</span></div>
+      </div>
+    </section>
+    <section className="course-learning-outcomes">
+      <div><span className="section-overline">YOUR LEARNING PATH</span><h2>Lessons in this course</h2><p>Work through the lessons in order, or revisit any topic whenever you need.</p></div>
+      <div className="course-lesson-list">
+        {courseLessons.map((lesson, index) => {
+          const isDone = completed.includes(lesson.id);
+          return <article className="course-lesson-row" key={lesson.id}>
+            <span className={`course-lesson-number ${isDone ? "is-done" : ""}`}>{isDone ? <Check size={17}/> : String(index + 1).padStart(2, "0")}</span>
+            <div className="course-lesson-copy"><strong>{lesson.title}</strong><p>{lesson.intro}</p><small>{lesson.level} · Practice question included</small></div>
+            <button className="text-button" onClick={() => onOpenLesson(lesson)}>{isDone ? "Review" : "Start lesson"} <ArrowRight size={15}/></button>
+          </article>;
+        })}
+      </div>
+    </section>
+  </div>;
 }
 
 function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAnswer, retryAnswer, visuals, pacing, saved, toggleSaved, completed, onBack, onNext }: {
