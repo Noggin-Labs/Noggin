@@ -69,3 +69,25 @@
 .dashboard-page .course-art{height:124px}
 .dashboard-page .course-content{padding:17px 17px 15px}
 @media(max-width:760px){.dashboard-page .welcome-row{gap:12px;padding:24px 20px 20px;margin-top:14px;border-radius:20px}.dashboard-page .welcome-copy h1{font-size:42px}.dashboard-page .welcome-art{height:174px;max-width:100%}.dashboard-page .course-art{height:112px}}
+
+
+/* Course overview: a real course-to-lesson journey, rather than launching the first lesson from every card. */
+.course-overview{max-width:1050px}
+.course-overview-hero{display:grid;grid-template-columns:190px minmax(0,1fr);gap:28px;align-items:center;padding:30px;margin:8px 0 34px;border:1px solid var(--line);border-radius:20px;background:#fff}
+.course-overview-art{height:160px;border-radius:16px;display:grid;place-items:center;background:#edf5ff;color:#2d80e8}
+.course-overview-copy h1{font:800 32px/1.2 Manrope;letter-spacing:-1px;margin:12px 0}
+.course-overview-copy>p{max-width:650px;color:#748198;font-size:13px;line-height:1.7}
+.course-overview-progress{display:flex;align-items:center;gap:12px;margin-top:22px;max-width:500px}
+.course-overview-progress .progress-track{flex:1}
+.course-overview-progress>span{white-space:nowrap;color:#8793a7;font-size:9px}
+.course-learning-outcomes h2{font:750 22px Manrope;margin:8px 0}
+.course-learning-outcomes>div:first-child>p{color:#8490a3;font-size:12px}
+.course-lesson-list{display:grid;gap:10px;margin-top:20px}
+.course-lesson-row{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:15px;padding:18px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.course-lesson-number{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:#f0f5fb;color:#71849c;font:600 11px 'DM Mono'}
+.course-lesson-number.is-done{background:#eaf8f0;color:#26905d}
+.course-lesson-copy strong{font:700 13px Manrope;color:#273b55}
+.course-lesson-copy p{font-size:10px;line-height:1.55;color:#8591a4;margin:5px 0}
+.course-lesson-copy small{font-size:9px;color:#9aa5b5}
+.course-lesson-row .text-button{white-space:nowrap}
+@media(max-width:760px){.course-overview-hero{grid-template-columns:1fr;padding:18px;gap:15px}.course-overview-art{height:105px}.course-overview-copy h1{font-size:25px}.course-overview-progress{align-items:flex-start;flex-direction:column}.course-lesson-row{grid-template-columns:34px minmax(0,1fr);gap:10px;padding:13px}.course-lesson-row .text-button{grid-column:2;justify-self:start}.course-lesson-copy p{display:none}}
