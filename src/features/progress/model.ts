@@ -14,12 +14,17 @@ export function calculateAccuracy(attempts: Attempt[]): number {
 }
 
 /**
- * Calculates completion against the current lesson count.
- * Duplicate completion IDs do not inflate mastery.
+ * Calculates the share of curriculum lessons completed.
+ * This is a completion measure, not evidence that a learner has mastered the material.
+ * Duplicate completion IDs do not inflate the percentage.
  */
-export function calculateMastery(completed: string[], totalLessons: number): number {
+export function calculateCompletionRate(completed: string[], totalLessons: number): number {
   if (totalLessons <= 0) return 0;
   return Math.min(100, Math.round((new Set(completed).size / totalLessons) * 100));
+}
+
+/** @deprecated Use calculateCompletionRate; completion is not a mastery assessment. */
+export const calculateMastery = calculateCompletionRate;
 }
 
 /**
