@@ -99,7 +99,7 @@ def _course_summary(course: Course) -> dict:
         "title": course.title,
         "description": course.description,
         "subject": course.subject,
-        "lesson_count": len(course.lessons),
+        "lesson_count": sum(1 for lesson in course.lessons if lesson.is_published),
     }
 
 
