@@ -6,6 +6,8 @@ import {
   ShieldCheck, Sparkles, Star, Target, Users, X, Zap
 } from "lucide-react";
 import { calculateAccuracy, calculateCompletionRate, calculateXp, type Attempt } from "./lib/progress";
+import { calculateAccuracy, calculateMastery, calculateXp, type Attempt } from "./lib/progress";
+import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
 import { courses, lessons, type Course, type Lesson } from "./features/curriculum/model";
 import { NoggimigoPanel } from "./features/noggimigo/NoggimigoPanel";
 
@@ -15,32 +17,50 @@ type View = "dashboard" | "curriculum" | "course" | "saved" | "profile" | "qa";
 
 
 
-const readStore = <T,>(key: string, fallback: T): T => {
-  try { const value = localStorage.getItem(key); return value ? JSON.parse(value) as T : fallback; } catch { return fallback; }
+const isStringArray = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((item) => typeof item === "string");
+
+const isAttemptArray = (value: unknown): value is Attempt[] =>
+  Array.isArray(value) && value.every((item) =>
+    typeof item === "object" && item !== null &&
+    typeof (item as Attempt).lessonId === "string" &&
+    typeof (item as Attempt).correct === "boolean" &&
+    typeof (item as Attempt).at === "string"
+  );
+
+const isString = (value: unknown): value is string => typeof value === "string";
+const isBoolean = (value: unknown): value is boolean => typeof value === "boolean";
+
+const readStore = <T,>(key: string, fallback: T, isValid: (value: unknown) => value is T): T =>
+  readStoredValue(key, fallback, isValid);
+
+const writeStore = (key: string, value: unknown) => {
+  // Storage failures must not interrupt the learner's current session.
+  writeStoredValue(key, value);
 };
 
 export default function App() {
   const [view, setView] = useState<View>("dashboard");
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-  const [completed, setCompleted] = useState<string[]>(() => readStore("noggin.completed", []));
-  const [attempts, setAttempts] = useState<Attempt[]>(() => readStore("noggin.attempts", []));
-  const [saved, setSaved] = useState<string[]>(() => readStore("noggin.saved", []));
-  const [lastLessonId, setLastLessonId] = useState<string>(() => readStore("noggin.lastLesson", "fractions"));
+  const [completed, setCompleted] = useState<string[]>(() => readStore("noggin.completed", [], isStringArray));
+  const [attempts, setAttempts] = useState<Attempt[]>(() => readStore("noggin.attempts", [], isAttemptArray));
+  const [saved, setSaved] = useState<string[]>(() => readStore("noggin.saved", [], isStringArray));
+  const [lastLessonId, setLastLessonId] = useState<string>(() => readStore("noggin.lastLesson", "fractions", isString));
   const [selected, setSelected] = useState("");
   const [feedback, setFeedback] = useState<"correct" | "incorrect" | null>(null);
-  const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer"));
-  const [pacing, setPacing] = useState<string>(() => readStore("noggin.pacing", "Balanced"));
-  const [visuals, setVisuals] = useState<boolean>(() => readStore("noggin.visuals", true));
+  const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer", isString));
+  const [pacing, setPacing] = useState<string>(() => readStore("noggin.pacing", "Balanced", isString));
+  const [visuals, setVisuals] = useState<boolean>(() => readStore("noggin.visuals", true, isBoolean));
   const [mobileNav, setMobileNav] = useState(false);
 
-  useEffect(() => localStorage.setItem("noggin.completed", JSON.stringify(completed)), [completed]);
-  useEffect(() => localStorage.setItem("noggin.attempts", JSON.stringify(attempts)), [attempts]);
-  useEffect(() => localStorage.setItem("noggin.saved", JSON.stringify(saved)), [saved]);
-  useEffect(() => localStorage.setItem("noggin.lastLesson", JSON.stringify(lastLessonId)), [lastLessonId]);
-  useEffect(() => localStorage.setItem("noggin.profile", JSON.stringify(profile)), [profile]);
-  useEffect(() => localStorage.setItem("noggin.pacing", JSON.stringify(pacing)), [pacing]);
-  useEffect(() => localStorage.setItem("noggin.visuals", JSON.stringify(visuals)), [visuals]);
+  useEffect(() => writeStore("noggin.completed", completed), [completed]);
+  useEffect(() => writeStore("noggin.attempts", attempts), [attempts]);
+  useEffect(() => writeStore("noggin.saved", saved), [saved]);
+  useEffect(() => writeStore("noggin.lastLesson", lastLessonId), [lastLessonId]);
+  useEffect(() => writeStore("noggin.profile", profile), [profile]);
+  useEffect(() => writeStore("noggin.pacing", pacing), [pacing]);
+  useEffect(() => writeStore("noggin.visuals", visuals), [visuals]);
 
   const accuracy = calculateAccuracy(attempts);
   const completionRate = calculateCompletionRate(completed, lessons.length);
