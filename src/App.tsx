@@ -5,6 +5,7 @@ import {
   Layers3, Lightbulb, Menu, Microscope, Moon, Play, Search, Settings2,
   ShieldCheck, Sparkles, Star, Target, Users, X, Zap
 } from "lucide-react";
+import { calculateAccuracy, calculateCompletionRate, calculateXp, type Attempt } from "./lib/progress";
 import { calculateAccuracy, calculateMastery, calculateXp, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
 import { courses, lessons, type Course, type Lesson } from "./features/curriculum/model";
@@ -62,7 +63,7 @@ export default function App() {
   useEffect(() => writeStore("noggin.visuals", visuals), [visuals]);
 
   const accuracy = calculateAccuracy(attempts);
-  const mastery = calculateMastery(completed, lessons.length);
+  const completionRate = calculateCompletionRate(completed, lessons.length);
   const xp = calculateXp(attempts);
   const resumeLesson = lessons.find((lesson) => lesson.id === lastLessonId) ?? lessons[0];
   const savedLessons = lessons.filter((lesson) => saved.includes(lesson.id));
@@ -140,7 +141,7 @@ export default function App() {
           {activeLesson ? (
             <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} onBack={() => setActiveLesson(null)} onNext={() => { const index = lessons.findIndex((item) => item.id === activeLesson.id); openLesson(lessons[(index + 1) % lessons.length]); }} />
           ) : view === "dashboard" ? (
-            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} mastery={mastery} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} profile={profile} />
+            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} completionRate={completionRate} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} profile={profile} />
           ) : view === "curriculum" ? (
             <Curriculum completed={completed} onCourse={openCourse} />
           ) : view === "course" ? (
@@ -158,8 +159,8 @@ export default function App() {
   );
 }
 
-function Dashboard({ completed, accuracy, attemptCount, mastery, xp, resumeLesson, onResume, onCourse, onExplore, profile }: {
-  completed: string[]; accuracy: number; attemptCount: number; mastery: number; xp: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
+function Dashboard({ completed, accuracy, attemptCount, completionRate, xp, resumeLesson, onResume, onCourse, onExplore, profile }: {
+  completed: string[]; accuracy: number; attemptCount: number; completionRate: number; xp: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
   return <div className="dashboard-page">
     <div className="eyebrow"><span className="eyebrow-line"/> YOUR LEARNING SPACE <span className="eyebrow-line"/></div>
@@ -187,7 +188,7 @@ function Dashboard({ completed, accuracy, attemptCount, mastery, xp, resumeLesso
     <section className="metrics-row">
       <Metric icon={<Zap size={17}/>} label="Experience points" value={xp.toString()} note="10 XP per lesson completed correctly" tone="blue"/>
       <Metric icon={<Target size={17}/>} label="Exercise accuracy" value={`${accuracy}%`} note={`${attemptCount === 0 ? "No answers submitted yet" : `${attemptCount} submitted answers`}`} tone="coral"/>
-      <Metric icon={<Layers3 size={17}/>} label="Curriculum progress" value={`${mastery}%`} note={`${completed.length} of ${lessons.length} lessons completed`} tone="violet"/>
+      <Metric icon={<Layers3 size={17}/>} label="Curriculum completion" value={`${completionRate}%`} note={`${completed.length} of ${lessons.length} lessons completed; not a mastery score`} tone="violet"/>
     </section>
 
     <section className="section-heading"><div><p className="kicker">A FEW PLACES TO BEGIN</p><h2>What are you curious about?</h2></div><button className="text-button" onClick={onExplore}>Explore curriculum <ArrowRight size={15}/></button></section>
