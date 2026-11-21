@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateAccuracy, calculateMastery, calculateXp, type Attempt } from "./progress";
+import { calculateAccuracy, calculateCompletionRate, calculateMastery, calculateXp, type Attempt } from "./progress";
 
 const attempts: Attempt[] = [
   { lessonId: "fractions", correct: true, at: "2026-11-07T10:00:00.000Z" },
@@ -13,9 +13,10 @@ describe("learning progress calculations", () => {
     expect(calculateAccuracy([])).toBe(0);
   });
 
-  it("calculates mastery from unique completed lessons", () => {
-    expect(calculateMastery(["fractions", "fractions", "algebra"], 4)).toBe(50);
-    expect(calculateMastery([], 0)).toBe(0);
+  it("calculates curriculum completion from unique completed lessons, not mastery", () => {
+    expect(calculateCompletionRate(["fractions", "fractions", "algebra"], 4)).toBe(50);
+    expect(calculateCompletionRate([], 0)).toBe(0);
+    expect(calculateCompletionRate(["fractions", "algebra"], 1)).toBe(100);
   });
 
   it("awards XP once per lesson with a correct answer", () => {
