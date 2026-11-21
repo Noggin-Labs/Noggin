@@ -25,7 +25,6 @@ export function calculateCompletionRate(completed: string[], totalLessons: numbe
 
 /** @deprecated Use calculateCompletionRate; completion is not a mastery assessment. */
 export const calculateMastery = calculateCompletionRate;
-}
 
 /**
  * Awards XP once per lesson with at least one correct attempt.
