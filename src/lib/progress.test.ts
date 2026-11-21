@@ -17,6 +17,7 @@ describe("learning progress calculations", () => {
     expect(calculateCompletionRate(["fractions", "fractions", "algebra"], 4)).toBe(50);
     expect(calculateCompletionRate([], 0)).toBe(0);
     expect(calculateCompletionRate(["fractions", "algebra"], 1)).toBe(100);
+    expect(calculateMastery(["fractions"], 2)).toBe(50);
   });
 
   it("awards XP once per lesson with a correct answer", () => {
