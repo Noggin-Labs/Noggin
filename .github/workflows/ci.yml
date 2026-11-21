@@ -34,5 +34,7 @@ jobs:
           python-version: "3.12"
       - name: Install API and test dependencies
         run: pip install -r backend/requirements-dev.txt
-      - name: Run Noggimigo and API tests
+      - name: Apply database migrations
+        run: alembic upgrade head
+      - name: Run Noggimigo, API, and database tests
         run: pytest backend/tests -q
