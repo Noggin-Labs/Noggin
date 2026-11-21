@@ -5,8 +5,7 @@ import {
   Layers3, Lightbulb, Menu, Microscope, Moon, Play, Search, Settings2,
   ShieldCheck, Sparkles, Star, Target, Users, X, Zap
 } from "lucide-react";
-import { calculateAccuracy, calculateCompletionRate, calculateXp, type Attempt } from "./lib/progress";
-import { calculateAccuracy, calculateMastery, calculateXp, type Attempt } from "./lib/progress";
+import { calculateAccuracy, calculateCompletionRate, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
 import { courses, lessons, type Course, type Lesson } from "./features/curriculum/model";
 import { NoggimigoPanel } from "./features/noggimigo/NoggimigoPanel";
@@ -64,7 +63,6 @@ export default function App() {
 
   const accuracy = calculateAccuracy(attempts);
   const completionRate = calculateCompletionRate(completed, lessons.length);
-  const xp = calculateXp(attempts);
   const resumeLesson = lessons.find((lesson) => lesson.id === lastLessonId) ?? lessons[0];
   const savedLessons = lessons.filter((lesson) => saved.includes(lesson.id));
 
@@ -139,9 +137,9 @@ export default function App() {
 
         <div className="page-wrap">
           {activeLesson ? (
-            <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} onBack={() => setActiveLesson(null)} onNext={() => { const index = lessons.findIndex((item) => item.id === activeLesson.id); openLesson(lessons[(index + 1) % lessons.length]); }} />
+            <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} hasNext={lessons.filter((item) => item.courseId === activeLesson.courseId).findIndex((item) => item.id === activeLesson.id) < lessons.filter((item) => item.courseId === activeLesson.courseId).length - 1} onBack={() => { setActiveLesson(null); setView("course"); }} onNext={() => { const courseLessons = lessons.filter((item) => item.courseId === activeLesson.courseId); const index = courseLessons.findIndex((item) => item.id === activeLesson.id); if (index >= 0 && index < courseLessons.length - 1) openLesson(courseLessons[index + 1]); else { setActiveLesson(null); setView("course"); } }} />
           ) : view === "dashboard" ? (
-            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} completionRate={completionRate} xp={xp} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} profile={profile} />
+            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} completionRate={completionRate} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} profile={profile} />
           ) : view === "curriculum" ? (
             <Curriculum completed={completed} onCourse={openCourse} />
           ) : view === "course" ? (
@@ -159,8 +157,8 @@ export default function App() {
   );
 }
 
-function Dashboard({ completed, accuracy, attemptCount, completionRate, xp, resumeLesson, onResume, onCourse, onExplore, profile }: {
-  completed: string[]; accuracy: number; attemptCount: number; completionRate: number; xp: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
+function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
+  completed: string[]; accuracy: number; attemptCount: number; completionRate: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
   return <div className="dashboard-page">
     <div className="eyebrow"><span className="eyebrow-line"/> YOUR LEARNING SPACE <span className="eyebrow-line"/></div>
@@ -186,7 +184,7 @@ function Dashboard({ completed, accuracy, attemptCount, completionRate, xp, resu
     </section>
 
     <section className="metrics-row">
-      <Metric icon={<Zap size={17}/>} label="Experience points" value={xp.toString()} note="10 XP per lesson completed correctly" tone="blue"/>
+      <Metric icon={<BookOpen size={17}/>} label="Lessons completed" value={completed.length.toString()} note={`Of ${lessons.length} available lessons`} tone="blue"/>
       <Metric icon={<Target size={17}/>} label="Exercise accuracy" value={`${accuracy}%`} note={`${attemptCount === 0 ? "No answers submitted yet" : `${attemptCount} submitted answers`}`} tone="coral"/>
       <Metric icon={<Layers3 size={17}/>} label="Curriculum completion" value={`${completionRate}%`} note={`${completed.length} of ${lessons.length} lessons completed; not a mastery score`} tone="violet"/>
     </section>
@@ -219,7 +217,15 @@ function CourseCard({ course, completed, onClick, index }: { course: Course; com
 function ArrowUpRightIcon() { return <ArrowRight size={16}/>; }
 
 function Curriculum({ completed, onCourse }: { completed: string[]; onCourse: (course: Course) => void }) {
-  return <div className="subpage"><div className="subpage-heading"><p className="kicker">THE MAP IS YOURS</p><h1>Explore the <span>curriculum.</span></h1><p>Choose a trail that sparks your curiosity. You can move between subjects whenever you like.</p></div><div className="course-grid curriculum-grid">{courses.map((course, index) => <CourseCard key={course.id} course={course} completed={completed} onClick={() => onCourse(course)} index={index}/>)}</div></div>;
+  const [query, setQuery] = useState("");
+  const [subject, setSubject] = useState("All subjects");
+  const subjects = ["All subjects", ...Array.from(new Set(courses.map((course) => course.subject)))];
+  const filteredCourses = courses.filter((course) => {
+    const matchesSubject = subject === "All subjects" || course.subject === subject;
+    const searchText = `${course.title} ${course.subject} ${course.description}`.toLowerCase();
+    return matchesSubject && searchText.includes(query.trim().toLowerCase());
+  });
+  return <div className="subpage"><div className="subpage-heading"><p className="kicker">THE MAP IS YOURS</p><h1>Explore the <span>curriculum.</span></h1><p>Choose a trail that sparks your curiosity. You can move between subjects whenever you like.</p></div><div className="curriculum-tools"><label className="curriculum-search"><Search size={18}/><input aria-label="Search courses" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search subjects, topics, or courses"/></label><label className="curriculum-filter"><span>Subject</span><select aria-label="Filter courses by subject" value={subject} onChange={(event) => setSubject(event.target.value)}>{subjects.map((item) => <option key={item}>{item}</option>)}</select></label><span className="course-result-count">{filteredCourses.length} {filteredCourses.length === 1 ? "course" : "courses"}</span></div>{filteredCourses.length ? <div className="course-grid curriculum-grid">{filteredCourses.map((course, index) => <CourseCard key={course.id} course={course} completed={completed} onClick={() => onCourse(course)} index={index}/>)}</div> : <div className="empty-state curriculum-empty"><div className="empty-icon"><Search size={24}/></div><h2>No courses found</h2><p>Try another search or choose a different subject.</p><button className="text-button" onClick={() => { setQuery(""); setSubject("All subjects"); }}>Clear filters <ArrowRight size={15}/></button></div>}</div>;
 }
 
 
@@ -256,14 +262,14 @@ function CourseOverview({ course, completed, onBack, onOpenLesson }: { course: C
   </div>;
 }
 
-function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAnswer, retryAnswer, visuals, pacing, saved, toggleSaved, completed, onBack, onNext }: {
-  lesson: Lesson; course?: Course; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; visuals: boolean; pacing: string; saved: boolean; toggleSaved: () => void; completed: boolean; onBack: () => void; onNext: () => void;
+function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAnswer, retryAnswer, visuals, pacing, saved, toggleSaved, completed, hasNext, onBack, onNext }: {
+  lesson: Lesson; course?: Course; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; visuals: boolean; pacing: string; saved: boolean; toggleSaved: () => void; completed: boolean; hasNext: boolean; onBack: () => void; onNext: () => void;
 }) {
   return <div className="lesson-room"><button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Back to home</button>
-    <div className="lesson-layout"><article className={`lesson-main pace-${pacing.toLowerCase()}`}><div className="lesson-meta"><span>{lesson.subject}</span><i/>{lesson.level}<i/> LESSON</div><h1>{lesson.title}</h1><p className="lesson-intro">{lesson.intro}</p>
+    <div className="lesson-layout"><article className={`lesson-main pace-${pacing.toLowerCase()}`}><div className="lesson-meta"><span>{lesson.subject}</span><i/>{lesson.level}<i/> LESSON</div><div className="lesson-path" aria-label="Lesson stages"><span className="is-current">01 <b>Understand</b></span><span className="is-current">02 <b>Practice</b></span><span className={feedback ? "is-current" : ""}>03 <b>Review</b></span></div><h1>{lesson.title}</h1><p className="lesson-intro">{lesson.intro}</p>
       {visuals ? <div className={`lesson-visual visual-${course?.theme ?? "blue"}`}>{lesson.id.includes("fraction") ? <FractionVisual/> : lesson.id === "algebra-balance" ? <BalanceVisual/> : <div className="visual-concept"><Sparkles size={28}/><span>IDEA IN FOCUS</span><strong>{lesson.subject}</strong><small>Explore the concept, then try it yourself.</small></div>}</div> : <div className="visual-disabled-note"><span>VISUAL SUPPORT IS OFF</span><p>This lesson is showing its text explanation without the concept illustration.</p></div>}
-      <div className="question-block"><div className="question-label"><span>YOUR TURN</span><span>01 / 01</span></div><h2>{lesson.question}</h2><div className="answer-options">{lesson.options.map((option, index) => <button key={option} className={`answer-option ${selected === option ? "selected" : ""} ${feedback && option === lesson.answer ? "answer-correct" : ""}`} onClick={() => { setSelected(option); }} disabled={!!feedback}><span className="option-letter">{String.fromCharCode(65 + index)}</span>{option}{feedback && option === lesson.answer && <CheckCircle2 size={18}/>}</button>)}</div>
-        {!feedback ? <button className="primary-button check-button" disabled={!selected} onClick={submitAnswer}>Check my answer <ArrowRight size={16}/></button> : <div className={`feedback-box ${feedback}`}><div className="feedback-title">{feedback === "correct" ? <><CheckCircle2 size={19}/> That's it. Nicely reasoned!</> : <><Lightbulb size={19}/> Let's look at it another way.</>}</div><p>{lesson.explanation}</p>{feedback === "incorrect" ? <><button className="text-button" onClick={retryAnswer}>Try again <ArrowRight size={15}/></button><button className="text-button" onClick={onNext}>Move to next lesson <ArrowRight size={15}/></button></> : <button className="text-button" onClick={onNext}>Next lesson <ArrowRight size={15}/></button>}</div>}
+      <div className="question-block"><div className="question-label"><span>YOUR TURN</span><span>01 / 01</span></div><h2>{lesson.question}</h2><div className="answer-options">{lesson.options.map((option, index) => <button key={option} className={`answer-option ${selected === option ? "selected" : ""} ${feedback && option === lesson.answer ? "answer-correct" : ""}`} aria-pressed={selected === option} onClick={() => { setSelected(option); }} disabled={!!feedback}><span className="option-letter">{String.fromCharCode(65 + index)}</span>{option}{feedback && option === lesson.answer && <CheckCircle2 size={18}/>}</button>)}</div>
+        {!feedback ? <button className="primary-button check-button" disabled={!selected} onClick={submitAnswer}>Check my answer <ArrowRight size={16}/></button> : <div className={`feedback-box ${feedback}`} role="status" aria-live="polite"><div className="feedback-title">{feedback === "correct" ? <><CheckCircle2 size={19}/> That's it. Nicely reasoned!</> : <><Lightbulb size={19}/> Let's look at it another way.</>}</div><p>{lesson.explanation}</p>{feedback === "incorrect" ? <button className="text-button" onClick={retryAnswer}>Try again <ArrowRight size={15}/></button> : <button className="text-button" onClick={onNext}>{hasNext ? "Next lesson" : "Back to course"} <ArrowRight size={15}/></button>}</div>}
       </div>
     </article><aside className="lesson-aside"><button className={`save-lesson ${saved ? "is-saved" : ""}`} onClick={toggleSaved}><Bookmark size={17} fill={saved ? "currentColor" : "none"}/>{saved ? "Saved to your library" : "Save this lesson"}</button><NoggimigoPanel lessonId={lesson.id as "fractions" | "equivalent-fractions" | "algebra-balance" | "photosynthesis" | "circuits" | "phonics" | "emotion-compass"}/><div className="lesson-checkpoint"><span>YOUR PROGRESS</span><div className="checkpoint-line"><i className={completed ? "done" : ""}/></div><small>{completed ? "Lesson completed" : "One small step at a time"}</small></div></aside></div>
   </div>;
