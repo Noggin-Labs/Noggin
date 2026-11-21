@@ -206,3 +206,171 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+
+/* Noggin identity pass: an editorial learning atlas, not a generic dashboard kit.
+   This keeps the existing palette and gives the product its own visual grammar. */
+.dashboard-page .eyebrow { justify-content:flex-start; margin:0 0 13px 3px; }
+.dashboard-page .eyebrow-line { width:34px; }
+.dashboard-page .welcome-row {
+  grid-template-columns:minmax(0,1fr) minmax(310px,.82fr);
+  gap:24px;
+  min-height:320px;
+  padding:34px 38px 32px;
+  overflow:hidden;
+  position:relative;
+}
+.dashboard-page .welcome-row:after {
+  content:"N / 01";
+  position:absolute;
+  right:20px;
+  bottom:12px;
+  color:rgba(255,255,255,.28);
+  font:10px 'DM Mono',monospace;
+  letter-spacing:1.6px;
+}
+.dashboard-page .welcome-copy { position:relative; z-index:2; }
+.dashboard-page .welcome-copy .kicker { color:#a9bfd9; }
+.dashboard-page .welcome-copy h1 { max-width:520px; letter-spacing:-3.5px; }
+.dashboard-page .welcome-text { color:#c2d0e2; max-width:390px; }
+.dashboard-page .profile-chip {
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.16);
+  border-radius:4px 13px 13px 4px;
+}
+.dashboard-page .profile-chip small { color:#a9bfd9; }
+.dashboard-page .profile-chip strong { color:#fff; }
+.dashboard-page .chip-arrow { color:#a9c9ef; }
+.dashboard-page .profile-spark { background:rgba(120,183,255,.16); color:#9acbff; }
+
+.atlas-visual {
+  min-height:250px;
+  width:100%;
+  max-width:390px;
+  justify-self:end;
+  align-self:stretch;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.23);
+  border-radius:4px 22px 4px 22px;
+  background:rgba(255,255,255,.055);
+  isolation:isolate;
+}
+.atlas-topline {
+  position:absolute; z-index:4; top:14px; left:16px; right:16px;
+  display:flex; justify-content:space-between;
+  color:#b9cde5; font:9px 'DM Mono',monospace; letter-spacing:1.2px;
+}
+.atlas-orbit {
+  position:absolute; left:50%; top:53%;
+  border:1px solid rgba(205,226,249,.38);
+  border-radius:50%; transform:translate(-50%,-50%) rotate(-24deg);
+}
+.atlas-orbit-one { width:270px; height:155px; }
+.atlas-orbit-two { width:205px; height:225px; transform:translate(-50%,-50%) rotate(48deg); }
+.atlas-core {
+  position:absolute; z-index:3; left:50%; top:53%;
+  width:76px; height:76px; transform:translate(-50%,-50%) rotate(-8deg);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  border:1px solid rgba(255,255,255,.72); border-radius:50%;
+  background:#ffffff; color:#1e3b61;
+  box-shadow:0 0 0 9px rgba(255,255,255,.08),0 10px 28px rgba(4,18,38,.18);
+}
+.atlas-core span { font:800 22px Manrope; letter-spacing:-2px; }
+.atlas-core small { margin-top:1px; text-align:center; font:7px 'DM Mono'; line-height:1.2; letter-spacing:.7px; }
+.atlas-route {
+  position:absolute; z-index:2; inset:0;
+}
+.atlas-route i {
+  position:absolute; width:7px; height:7px; border-radius:50%;
+  background:#fff; box-shadow:0 0 0 5px rgba(255,255,255,.12);
+}
+.atlas-route i:nth-child(1){left:17%;top:34%}
+.atlas-route i:nth-child(2){right:19%;top:32%}
+.atlas-route i:nth-child(3){left:22%;bottom:24%}
+.atlas-route i:nth-child(4){right:24%;bottom:20%}
+.atlas-node {
+  position:absolute; z-index:4; display:flex; flex-direction:column;
+  padding:7px 9px; min-width:94px;
+  background:rgba(255,255,255,.94); color:#263b58;
+  box-shadow:0 8px 20px rgba(4,18,38,.12);
+  border-radius:3px 9px 3px 9px;
+}
+.atlas-node span { font:9px 'DM Mono'; color:#3478e5; }
+.atlas-node strong { font:700 12px Manrope; margin:2px 0 1px; }
+.atlas-node small { font:7px 'DM Mono'; letter-spacing:.7px; color:#75849a; }
+.atlas-node-math { left:8%; top:26%; transform:rotate(-5deg); }
+.atlas-node-science { right:6%; top:28%; transform:rotate(4deg); }
+.atlas-node-language { left:17%; bottom:14%; transform:rotate(3deg); }
+.atlas-coordinate {
+  position:absolute; right:13px; bottom:13px;
+  color:#b9cde5; font:8px 'DM Mono'; letter-spacing:1px;
+}
+.atlas-coordinate b { color:#fff; padding:0 3px; }
+
+.dashboard-page .resume-panel {
+  border-radius:3px 14px 3px 14px;
+  padding:19px 22px;
+  margin-top:18px;
+}
+.dashboard-page .resume-icon { border-radius:4px 11px 4px 11px; }
+.dashboard-page .metrics-row { gap:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin:22px 0 38px; }
+.dashboard-page .metric {
+  border:0; border-right:1px solid var(--line); border-radius:0;
+  box-shadow:none; background:transparent; padding:17px 20px;
+}
+.dashboard-page .metric:first-child { padding-left:4px; }
+.dashboard-page .metric:last-child { border-right:0; }
+.dashboard-page .metric:hover { transform:none; box-shadow:none; border-color:var(--line); }
+.dashboard-page .metric-icon { border-radius:4px 9px 4px 9px; }
+.dashboard-page .section-heading { align-items:end; margin-bottom:18px; }
+.dashboard-page .section-heading .kicker { margin-bottom:8px; }
+.dashboard-page .section-heading h2 { font-size:25px; letter-spacing:-1.1px; }
+.dashboard-page .course-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.dashboard-page .course-card {
+  border-radius:3px 15px 3px 15px;
+  border-top:0;
+  box-shadow:none;
+  position:relative;
+}
+.dashboard-page .course-card:before {
+  content:""; position:absolute; z-index:2; left:0; top:0; bottom:0;
+  width:3px; background:currentColor; opacity:.42;
+}
+.dashboard-page .course-art {
+  height:112px; justify-content:flex-start; padding-left:22px;
+  border-bottom:1px solid rgba(23,38,63,.06);
+}
+.dashboard-page .course-art-icon {
+  width:58px; height:58px; border-radius:50%;
+  background:rgba(255,255,255,.76); box-shadow:none;
+}
+.dashboard-page .course-number {
+  top:15px; right:14px; font-size:8px; letter-spacing:1px;
+}
+.dashboard-page .course-art-axis {
+  position:absolute; right:15px; bottom:12px;
+  font:18px Manrope; color:currentColor; opacity:.6;
+}
+.dashboard-page .course-content { padding:15px 17px 16px; }
+.dashboard-page .course-content h3 { min-height:44px; font-size:15px; }
+.dashboard-page .course-content p { min-height:55px; }
+.dashboard-page .course-card:hover {
+  transform:translateY(-4px) rotate(-.25deg);
+  box-shadow:0 12px 24px rgba(23,38,63,.08);
+}
+.dashboard-page .page-footer { border-top:1px solid var(--line); margin-top:28px; padding-top:18px; }
+
+@media(max-width:900px) {
+  .dashboard-page .welcome-row { grid-template-columns:minmax(0,1fr) minmax(250px,.75fr); padding:28px 25px; }
+  .atlas-visual { min-height:235px; }
+}
+@media(max-width:760px) {
+  .dashboard-page .welcome-row { grid-template-columns:1fr; gap:18px; padding:25px 20px 30px; }
+  .atlas-visual { justify-self:stretch; max-width:none; min-height:230px; }
+  .dashboard-page .metrics-row { grid-template-columns:1fr; border-bottom:0; }
+  .dashboard-page .metric, .dashboard-page .metric:first-child { padding:12px 4px; border-right:0; border-bottom:1px solid var(--line); }
+  .dashboard-page .metric:last-child { border-bottom:0; }
+  .dashboard-page .course-grid { grid-template-columns:1fr; }
+  .dashboard-page .course-art { height:96px; }
+}

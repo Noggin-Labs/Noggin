@@ -169,11 +169,16 @@ function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLe
         <p className="welcome-text">Your curiosity sets the pace. Pick up where you left off, or follow something that catches your eye.</p>
         <div className="profile-chip"><span className="profile-spark"><Sparkles size={14}/></span><span><small>YOUR LEARNING STYLE</small><strong>{profile}</strong></span><span className="chip-arrow">↗</span></div>
       </div>
-      <div className="welcome-art" aria-label="Abstract illustration of a curious little character">
-        <div className="art-sun"/><div className="art-ring ring-one"/><div className="art-ring ring-two"/>
-        <div className="mascot"><div className="mascot-antenna"/><div className="mascot-eyes"><i/><i/></div><div className="mascot-mouth"/></div>
-        <span className="art-note note-one">hmm...</span><span className="art-note note-two">✦</span><span className="art-note note-three">?</span>
-        <div className="art-caption">Noggimigo is ready<br/>to explore with you.</div>
+      <div className="atlas-visual" aria-label="A map of connected learning topics">
+        <div className="atlas-topline"><span>FIELD MAP / 001</span><span>OPEN ENDED</span></div>
+        <div className="atlas-orbit atlas-orbit-one"/>
+        <div className="atlas-orbit atlas-orbit-two"/>
+        <div className="atlas-route"><i/><i/><i/><i/></div>
+        <div className="atlas-core"><span>NG</span><small>IDEAS<br/>IN MOTION</small></div>
+        <div className="atlas-node atlas-node-math"><span>01</span><strong>Patterns</strong><small>MATHEMATICS</small></div>
+        <div className="atlas-node atlas-node-science"><span>02</span><strong>Systems</strong><small>SCIENCE</small></div>
+        <div className="atlas-node atlas-node-language"><span>03</span><strong>Sounds</strong><small>LANGUAGE</small></div>
+        <div className="atlas-coordinate">6 SUBJECTS <b>·</b> MANY DIRECTIONS</div>
       </div>
     </section>
 
@@ -206,7 +211,7 @@ function CourseCard({ course, completed, onClick, index }: { course: Course; com
   const done = course.lessonIds.filter((id) => completed.includes(id)).length;
   const percent = Math.round(done / course.lessonIds.length * 100);
   return <button className={`course-card course-${course.theme}`} onClick={onClick}>
-    <div className="course-art"><div className="course-art-shape shape-a"/><div className="course-art-shape shape-b"/><div className="course-art-icon"><Icon size={25} strokeWidth={1.7}/></div><span className="course-number">0{index + 1}</span></div>
+    <div className="course-art"><div className="course-art-shape shape-a"/><div className="course-art-shape shape-b"/><div className="course-art-icon"><Icon size={25} strokeWidth={1.7}/></div><span className="course-number">FIELD NOTE / 0{index + 1}</span><span className="course-art-axis">↗</span></div>
     <div className="course-content"><div className="course-meta"><span>{course.subject}</span><i/> <span>{course.level}</span></div><h3>{course.title}</h3><p>{course.description}</p>
       <div className="course-progress"><div className="progress-track"><span style={{width:`${percent}%`}}/></div><span>{done}/{course.lessonIds.length}</span></div>
       <div className="course-action"><span>{percent > 0 ? "Continue exploring" : "Start exploring"}</span><ArrowUpRightIcon/></div>
