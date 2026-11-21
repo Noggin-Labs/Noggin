@@ -74,3 +74,15 @@ def test_mocked_model_structured_output():
             return Output()
     tutor = HuggingFaceLocalTutor(loader=lambda _: (Tokenizer(), Model()))
     assert tutor.generate("q", "a") == good
+
+@pytest.mark.parametrize("history_limit", [0, -1, 1.5, True, False, None])
+def test_history_limit_must_be_a_positive_integer(history_limit):
+    with pytest.raises(ValueError, match="history_limit must be a positive integer"):
+        NoggimigoSession(history_limit=history_limit)
+
+def test_history_limit_of_one_keeps_only_the_latest_event():
+    session = NoggimigoSession(history_limit=1)
+    session.request_hint()
+    session.request_hint()
+    assert len(session.history) == 1
+    assert session.history[0]["type"] == "hint"
