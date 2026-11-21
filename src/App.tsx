@@ -40,6 +40,7 @@ const writeStore = (key: string, value: unknown) => {
 
 export default function App() {
   const [view, setView] = useState<View>("dashboard");
+  const [hasEntered, setHasEntered] = useState(false);
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [completed, setCompleted] = useState<string[]>(() => readStore("noggin.completed", [], isStringArray));
@@ -102,6 +103,8 @@ export default function App() {
     { id:"qa" as View, label:"QA & Tests", icon:ShieldCheck }
   ];
 
+  if (!hasEntered) return <PublicLanding onEnter={() => setHasEntered(true)} onExplore={() => { setHasEntered(true); setView("curriculum"); }} />;
+
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
@@ -155,6 +158,52 @@ export default function App() {
       </main>
     </div>
   );
+}
+
+
+function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore: () => void }) {
+  return <main className="public-site">
+    <header className="public-nav">
+      <a className="public-brand" href="#top" aria-label="Noggin home"><span className="public-brand-mark">n.</span><span>noggin<small>LEARNING STUDIO</small></span></a>
+      <nav aria-label="Public navigation"><a href="#how-it-works">How it works</a><a href="#learning-paths">Learning paths</a><a href="#principles">Our approach</a></nav>
+      <button className="public-nav-cta" onClick={onEnter}>Open learning space <ArrowRight size={16}/></button>
+    </header>
+    <section className="public-hero" id="top">
+      <div className="public-hero-copy">
+        <div className="public-eyebrow"><span/> AN OPEN SPACE FOR CURIOUS MINDS <span className="public-edition">EDITION 01 / 2026</span></div>
+        <h1>Learning should<br/>feel like <em>discovery.</em></h1>
+        <p className="public-lede">A thoughtful learning studio for asking better questions, building real understanding, and finding your own way through big ideas.</p>
+        <div className="public-actions"><button className="public-primary" onClick={onEnter}>Enter the learning space <ArrowRight size={17}/></button><button className="public-secondary" onClick={onExplore}>Browse learning paths <span>↗</span></button></div>
+        <div className="public-proof"><span className="proof-mark">✳</span><span><strong>Curiosity first.</strong><small>Progress at your pace, one idea at a time.</small></span></div>
+      </div>
+      <div className="public-hero-art" aria-label="Abstract illustration of ideas connecting">
+        <div className="hero-art-index">FIELD STUDY <b>001—A</b></div>
+        <div className="hero-art-grid"/>
+        <div className="hero-art-ring ring-one"/><div className="hero-art-ring ring-two"/>
+        <div className="hero-art-line line-one"/><div className="hero-art-line line-two"/>
+        <div className="hero-art-sun"><span>N</span><small>IDEAS<br/>CONNECT</small></div>
+        <div className="hero-art-label label-one"><i>01</i><b>Question</b><small>START SOMEWHERE</small></div>
+        <div className="hero-art-label label-two"><i>02</i><b>Explore</b><small>FOLLOW A THREAD</small></div>
+        <div className="hero-art-label label-three"><i>03</i><b>Understand</b><small>MAKE IT YOURS</small></div>
+        <div className="hero-art-caption">A MAP WITHOUT A SINGLE DESTINATION</div>
+      </div>
+      <div className="public-scroll-note">SCROLL TO EXPLORE <span>↓</span></div>
+    </section>
+    <section className="public-manifesto" id="how-it-works">
+      <p className="public-section-tag">01 / THE IDEA</p><div><h2>Not another place<br/>to just <em>get through</em><br/>your lessons.</h2><p>We think learning works better when you can see how ideas fit together. Noggin brings lessons, practice, and reflection into one calm space—so the point is understanding, not racing through a checklist.</p></div>
+    </section>
+    <section className="public-paths" id="learning-paths">
+      <div className="public-section-head"><div><p className="public-section-tag">02 / START EXPLORING</p><h2>Pick a thread.<br/><em>See where it leads.</em></h2></div><button className="public-text-link" onClick={onExplore}>View all learning paths <ArrowRight size={16}/></button></div>
+      <div className="public-path-grid">
+        <article className="public-path path-math"><span>PATH 01 / MATHEMATICS</span><div className="path-symbol">∑</div><h3>Patterns<br/>everywhere.</h3><p>Find the structures hiding inside numbers, shapes, and everyday problems.</p><b>Logic · Algebra · Geometry</b></article>
+        <article className="public-path path-science"><span>PATH 02 / SCIENCE</span><div className="path-symbol">⌁</div><h3>Understand<br/>the systems.</h3><p>Explore the forces, processes, and connections that shape our world.</p><b>Biology · Physics · Chemistry</b></article>
+        <article className="public-path path-language"><span>PATH 03 / LANGUAGE</span><div className="path-symbol">Aa</div><h3>Ideas need<br/>expression.</h3><p>Build confidence with language, communication, and clear thinking.</p><b>Reading · Writing · Reasoning</b></article>
+      </div>
+      <p className="public-disclaimer">A preview of the learning areas. Available courses and lessons depend on the curriculum currently published in the platform.</p>
+    </section>
+    <section className="public-principles" id="principles"><p className="public-section-tag">03 / OUR APPROACH</p><h2>Good learning is<br/><em>built, not rushed.</em></h2><div className="principle-list"><article><span>01</span><div><h3>Understand before advancing</h3><p>Practice is a chance to think, not just a score to collect.</p></div></article><article><span>02</span><div><h3>Make room for different minds</h3><p>Clear explanations, flexible pacing, and more than one way into an idea.</p></div></article><article><span>03</span><div><h3>Keep progress honest</h3><p>Completion, practice results, and mastery are different things. We keep them distinct.</p></div></article></div></section>
+    <footer className="public-footer"><a className="public-brand" href="#top"><span className="public-brand-mark">n.</span><span>noggin<small>LEARNING STUDIO</small></span></a><span>Curiosity is a good place to begin.</span><button onClick={onEnter}>Enter Noggin <ArrowRight size={15}/></button></footer>
+  </main>;
 }
 
 function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
