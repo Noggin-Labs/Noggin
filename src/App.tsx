@@ -231,11 +231,12 @@ function CourseCard({ course, completed, onClick, index }: { course: Course; com
   const Icon = course.icon;
   const done = course.lessonIds.filter((id) => completed.includes(id)).length;
   const percent = Math.round(done / course.lessonIds.length * 100);
-  return <button className={`course-card course-${course.theme}`} onClick={onClick}>
-    <div className="course-art"><div className="course-art-shape shape-a"/><div className="course-art-shape shape-b"/><div className="course-art-icon"><Icon size={25} strokeWidth={1.7}/></div><span className="course-number">FIELD NOTE / 0{index + 1}</span><span className="course-art-axis">↗</span></div>
-    <div className="course-content"><div className="course-meta"><span>{course.subject}</span><i/> <span>{course.level}</span></div><h3>{course.title}</h3><p>{course.description}</p>
+  return <button className={`course-card field-course course-${course.theme}`} onClick={onClick}>
+    <div className="field-course-top"><span>STUDY {String(index+1).padStart(2,"0")}</span><Icon size={21} strokeWidth={1.7}/><span>{course.subject.toUpperCase()}</span></div>
+    <div className="field-course-symbol">{course.subject==="Mathematics"?"∑":course.subject==="Science"?"⌁":course.subject==="English"?"Aa":"✳"}</div>
+    <div className="course-content"><div className="course-meta"><span>{course.level}</span><i/> <span>{course.lessonIds.length} {course.lessonIds.length===1?"lesson":"lessons"}</span></div><h3>{course.title}</h3><p>{course.description}</p>
       <div className="course-progress"><div className="progress-track"><span style={{width:`${percent}%`}}/></div><span>{done}/{course.lessonIds.length}</span></div>
-      <div className="course-action"><span>{percent > 0 ? "Continue exploring" : "Start exploring"}</span><ArrowUpRightIcon/></div>
+      <div className="course-action"><span>{percent>0?"Return to this subject":"Open this subject"}</span><ArrowRight size={16}/></div>
     </div>
   </button>;
 }
