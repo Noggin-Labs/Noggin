@@ -53,3 +53,17 @@ def test_input_is_bounded():
         json={"answer": "x" * 201},
     )
     assert response.status_code == 422
+
+
+def test_session_can_be_explicitly_deleted():
+    started = client.post("/api/sessions", json={"lesson_id": "fractions_intro"})
+    session_id = started.json()["session_id"]
+
+    deleted = client.delete(f"/api/sessions/{session_id}")
+    assert deleted.status_code == 204
+    assert client.get(f"/api/sessions/{session_id}").status_code == 404
+
+
+def test_deleting_unknown_session_returns_404():
+    response = client.delete("/api/sessions/missing")
+    assert response.status_code == 404
