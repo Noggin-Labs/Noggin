@@ -209,45 +209,17 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
 function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
   completed: string[]; accuracy: number; attemptCount: number; completionRate: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
-  return <div className="dashboard-page">
-    <div className="eyebrow"><span className="eyebrow-line"/> YOUR LEARNING SPACE <span className="eyebrow-line"/></div>
-    <section className="welcome-row">
-      <div className="welcome-copy">
-        <p className="kicker">A NEW DAY TO DISCOVER</p>
-        <h1>Welcome back,<br/><span>curious mind.</span></h1>
-        <p className="welcome-text">Your curiosity sets the pace. Pick up where you left off, or follow something that catches your eye.</p>
-        <div className="profile-chip"><span className="profile-spark"><Sparkles size={14}/></span><span><small>YOUR LEARNING STYLE</small><strong>{profile}</strong></span><span className="chip-arrow">↗</span></div>
-      </div>
-      <div className="atlas-visual" aria-label="A map of connected learning topics">
-        <div className="atlas-topline"><span>FIELD MAP / 001</span><span>OPEN ENDED</span></div>
-        <div className="atlas-orbit atlas-orbit-one"/>
-        <div className="atlas-orbit atlas-orbit-two"/>
-        <div className="atlas-route"><i/><i/><i/><i/></div>
-        <div className="atlas-core"><span>NG</span><small>IDEAS<br/>IN MOTION</small></div>
-        <div className="atlas-node atlas-node-math"><span>01</span><strong>Patterns</strong><small>MATHEMATICS</small></div>
-        <div className="atlas-node atlas-node-science"><span>02</span><strong>Systems</strong><small>SCIENCE</small></div>
-        <div className="atlas-node atlas-node-language"><span>03</span><strong>Sounds</strong><small>LANGUAGE</small></div>
-        <div className="atlas-coordinate">6 SUBJECTS <b>·</b> MANY DIRECTIONS</div>
-      </div>
+  return <div className="dashboard-page studio-dashboard">
+    <div className="dashboard-edition"><span>THE NOGGIN FIELD GUIDE</span><span>VOL. 01 — YOUR WORKSPACE</span></div>
+    <section className="dashboard-opening">
+      <div className="dashboard-opening-copy"><p className="kicker">A PLACE TO THINK OUT LOUD</p><h1>Curiosity<br/><em>looks good</em><br/>on you.</h1><p>Follow a question. Pull an idea apart. Put it back together in a way that makes sense to you.</p><button className="dashboard-explore" onClick={onExplore}>Find your next thread <ArrowRight size={17}/></button></div>
+      <div className="dashboard-opening-art"><div className="opening-art-stamp">NG<br/><small>LEARN<br/>BY DOING</small></div><div className="opening-art-loop loop-a"/><div className="opening-art-loop loop-b"/><span className="opening-art-word word-a">ASK</span><span className="opening-art-word word-b">MAKE</span><span className="opening-art-word word-c">NOTICE</span><span className="opening-art-coordinate">01. / START ANYWHERE</span></div>
+      <div className="dashboard-side-note"><span>YOUR MODE</span><strong>{profile}</strong><small>Change this in learning settings.</small></div>
     </section>
-
-    <section className="resume-panel">
-      <div className="resume-icon"><BookOpen size={21}/></div>
-      <div className="resume-copy"><span className="section-overline">PICK UP WHERE YOU LEFT OFF</span><h2>{resumeLesson.title}</h2><p>{resumeLesson.subject} <span>·</span> {resumeLesson.level}</p></div>
-      <button className="primary-button" onClick={onResume}>Resume <ArrowRight size={16}/></button>
-    </section>
-
-    <section className="metrics-row">
-      <Metric icon={<BookOpen size={17}/>} label="Lessons completed" value={completed.length.toString()} note={`Of ${lessons.length} available lessons`} tone="blue"/>
-      <Metric icon={<Target size={17}/>} label="Exercise accuracy" value={`${accuracy}%`} note={`${attemptCount === 0 ? "No answers submitted yet" : `${attemptCount} submitted answers`}`} tone="coral"/>
-      <Metric icon={<Layers3 size={17}/>} label="Curriculum completion" value={`${completionRate}%`} note={`${completed.length} of ${lessons.length} lessons completed; not a mastery score`} tone="violet"/>
-    </section>
-
-    <section className="section-heading"><div><p className="kicker">A FEW PLACES TO BEGIN</p><h2>What are you curious about?</h2></div><button className="text-button" onClick={onExplore}>Explore curriculum <ArrowRight size={15}/></button></section>
-    <div className="course-grid">
-      {courses.map((course, index) => <CourseCard key={course.id} course={course} completed={completed} onClick={() => onCourse(course)} index={index}/>)}
-    </div>
-    <footer className="page-footer"><span>Learning that adapts to you.</span><span>noggin<span className="brand-period">.</span> <i>Learning, your way</i></span></footer>
+    <section className="continue-strip"><div className="continue-index">↳</div><div className="continue-main"><span>BACK TO YOUR LAST THREAD</span><h2>{resumeLesson.title}</h2><p>{resumeLesson.subject} <i/> {resumeLesson.level}</p></div><button onClick={onResume}>Pick it back up <ArrowRight size={17}/></button></section>
+    <section className="learning-log"><div className="learning-log-heading"><span>YOUR LEARNING LOG</span><small>Progress is a record, not a ranking.</small></div><div className="learning-log-stats"><div><strong>{completed.length.toString().padStart(2,"0")}</strong><span>LESSONS COMPLETED</span></div><div><strong>{accuracy}<small>%</small></strong><span>ANSWER ACCURACY</span></div><div><strong>{completionRate}<small>%</small></strong><span>CURRICULUM COVERED</span></div><div><strong>{attemptCount.toString().padStart(2,"0")}</strong><span>ANSWERS TRIED</span></div></div></section>
+    <section className="dashboard-course-section"><div className="dashboard-course-heading"><div><span>THE COURSE INDEX / 06</span><h2>Choose a subject.<br/><em>Find a question.</em></h2></div><button onClick={onExplore}>See the whole index <ArrowRight size={16}/></button></div><div className="course-grid">{courses.map((course,index)=><CourseCard key={course.id} course={course} completed={completed} onClick={()=>onCourse(course)} index={index}/>)}</div></section>
+    <footer className="page-footer"><span>Make room for wonder.</span><span>noggin<span className="brand-period">.</span> <i>Field guide to learning</i></span></footer>
   </div>;
 }
 
@@ -259,11 +231,12 @@ function CourseCard({ course, completed, onClick, index }: { course: Course; com
   const Icon = course.icon;
   const done = course.lessonIds.filter((id) => completed.includes(id)).length;
   const percent = Math.round(done / course.lessonIds.length * 100);
-  return <button className={`course-card course-${course.theme}`} onClick={onClick}>
-    <div className="course-art"><div className="course-art-shape shape-a"/><div className="course-art-shape shape-b"/><div className="course-art-icon"><Icon size={25} strokeWidth={1.7}/></div><span className="course-number">FIELD NOTE / 0{index + 1}</span><span className="course-art-axis">↗</span></div>
-    <div className="course-content"><div className="course-meta"><span>{course.subject}</span><i/> <span>{course.level}</span></div><h3>{course.title}</h3><p>{course.description}</p>
+  return <button className={`course-card field-course course-${course.theme}`} onClick={onClick}>
+    <div className="field-course-top"><span>STUDY {String(index+1).padStart(2,"0")}</span><Icon size={21} strokeWidth={1.7}/><span>{course.subject.toUpperCase()}</span></div>
+    <div className="field-course-symbol">{course.subject==="Mathematics"?"∑":course.subject==="Science"?"⌁":course.subject==="English"?"Aa":"✳"}</div>
+    <div className="course-content"><div className="course-meta"><span>{course.level}</span><i/> <span>{course.lessonIds.length} {course.lessonIds.length===1?"lesson":"lessons"}</span></div><h3>{course.title}</h3><p>{course.description}</p>
       <div className="course-progress"><div className="progress-track"><span style={{width:`${percent}%`}}/></div><span>{done}/{course.lessonIds.length}</span></div>
-      <div className="course-action"><span>{percent > 0 ? "Continue exploring" : "Start exploring"}</span><ArrowUpRightIcon/></div>
+      <div className="course-action"><span>{percent>0?"Return to this subject":"Open this subject"}</span><ArrowRight size={16}/></div>
     </div>
   </button>;
 }
@@ -319,13 +292,32 @@ function CourseOverview({ course, completed, onBack, onOpenLesson }: { course: C
 function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAnswer, retryAnswer, visuals, pacing, saved, toggleSaved, completed, hasNext, onBack, onNext }: {
   lesson: Lesson; course?: Course; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; visuals: boolean; pacing: string; saved: boolean; toggleSaved: () => void; completed: boolean; hasNext: boolean; onBack: () => void; onNext: () => void;
 }) {
-  return <div className="lesson-room"><button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Back to home</button>
-    <div className="lesson-layout"><article className={`lesson-main pace-${pacing.toLowerCase()}`}><div className="lesson-meta"><span>{lesson.subject}</span><i/>{lesson.level}<i/> LESSON</div><div className="lesson-path" aria-label="Lesson stages"><span className="is-current">01 <b>Understand</b></span><span className="is-current">02 <b>Practice</b></span><span className={feedback ? "is-current" : ""}>03 <b>Review</b></span></div><h1>{lesson.title}</h1><p className="lesson-intro">{lesson.intro}</p>
-      {visuals ? <div className={`lesson-visual visual-${course?.theme ?? "blue"}`}>{lesson.id.includes("fraction") ? <FractionVisual/> : lesson.id === "algebra-balance" ? <BalanceVisual/> : <div className="visual-concept"><Sparkles size={28}/><span>IDEA IN FOCUS</span><strong>{lesson.subject}</strong><small>Explore the concept, then try it yourself.</small></div>}</div> : <div className="visual-disabled-note"><span>VISUAL SUPPORT IS OFF</span><p>This lesson is showing its text explanation without the concept illustration.</p></div>}
-      <div className="question-block"><div className="question-label"><span>YOUR TURN</span><span>01 / 01</span></div><h2>{lesson.question}</h2><div className="answer-options">{lesson.options.map((option, index) => <button key={option} className={`answer-option ${selected === option ? "selected" : ""} ${feedback && option === lesson.answer ? "answer-correct" : ""}`} aria-pressed={selected === option} onClick={() => { setSelected(option); }} disabled={!!feedback}><span className="option-letter">{String.fromCharCode(65 + index)}</span>{option}{feedback && option === lesson.answer && <CheckCircle2 size={18}/>}</button>)}</div>
-        {!feedback ? <button className="primary-button check-button" disabled={!selected} onClick={submitAnswer}>Check my answer <ArrowRight size={16}/></button> : <div className={`feedback-box ${feedback}`} role="status" aria-live="polite"><div className="feedback-title">{feedback === "correct" ? <><CheckCircle2 size={19}/> That's it. Nicely reasoned!</> : <><Lightbulb size={19}/> Let's look at it another way.</>}</div><p>{lesson.explanation}</p>{feedback === "incorrect" ? <button className="text-button" onClick={retryAnswer}>Try again <ArrowRight size={15}/></button> : <button className="text-button" onClick={onNext}>{hasNext ? "Next lesson" : "Back to course"} <ArrowRight size={15}/></button>}</div>}
-      </div>
-    </article><aside className="lesson-aside"><button className={`save-lesson ${saved ? "is-saved" : ""}`} onClick={toggleSaved}><Bookmark size={17} fill={saved ? "currentColor" : "none"}/>{saved ? "Saved to your library" : "Save this lesson"}</button><NoggimigoPanel lessonId={lesson.id as "fractions" | "equivalent-fractions" | "algebra-balance" | "photosynthesis" | "circuits" | "phonics" | "emotion-compass"}/><div className="lesson-checkpoint"><span>YOUR PROGRESS</span><div className="checkpoint-line"><i className={completed ? "done" : ""}/></div><small>{completed ? "Lesson completed" : "One small step at a time"}</small></div></aside></div>
+  return <div className="lesson-room lesson-studio">
+    <div className="lesson-studio-top"><button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Course map</button><div className="lesson-studio-count">FIELD NOTE <b>{String(lessons.findIndex((item) => item.id === lesson.id) + 1).padStart(2,"0")}</b><span> / {String(lessons.length).padStart(2,"0")}</span></div></div>
+    <div className="lesson-studio-heading"><div className="lesson-studio-subject"><span>{lesson.subject}</span><i/>{lesson.level}<i/> {course?.title ?? "Independent lesson"}</div><h1>{lesson.title}</h1><p>{lesson.intro}</p><div className="lesson-objective"><span>THE POINT OF THIS LESSON</span><strong>{lesson.objective}</strong></div></div>
+    <div className="lesson-studio-grid">
+      <main className="lesson-studio-main">
+        <section className="lesson-workbench">
+          <div className="workbench-heading"><span>01 / WORK THROUGH THE IDEA</span><span>READ · TRACE · CONNECT</span></div>
+          {visuals ? <div className={`lesson-visual studio-visual visual-${course?.theme ?? "blue"}`}>{lesson.id.includes("fraction") ? <FractionVisual/> : lesson.id === "algebra-balance" ? <BalanceVisual/> : <div className="visual-concept"><span>CONCEPT STUDY</span><strong>{lesson.subject}</strong><small>{lesson.title}</small></div>}</div> : null}
+          <div className="worked-example"><div className="worked-example-label"><span>WORKED EXAMPLE</span><h2>{lesson.workedExample.label}</h2></div><ol>{lesson.workedExample.steps.map((step,index)=><li key={index}><span>{String(index+1).padStart(2,"0")}</span><p>{step}</p></li>)}</ol><div className="worked-takeaway"><b>KEEP IN MIND</b><p>{lesson.workedExample.takeaway}</p></div></div>
+          <div className="common-mistake"><span>WATCH FOR THIS</span><p>{lesson.commonMistake}</p></div>
+        </section>
+        <section className="question-block studio-question">
+          <div className="question-label"><span>02 / CHECK YOUR THINKING</span><span>ONE QUESTION</span></div>
+          <h2>{lesson.question}</h2>
+          <div className="answer-options">{lesson.options.map((option,index)=><button key={option} className={`answer-option ${selected===option?"selected":""} ${feedback&&option===lesson.answer?"answer-correct":""}`} aria-pressed={selected===option} onClick={()=>setSelected(option)} disabled={!!feedback}><span className="option-letter">{String.fromCharCode(65+index)}</span><span>{option}</span>{feedback&&option===lesson.answer?<CheckCircle2 size={18}/>:null}</button>)}</div>
+          {!feedback ? <button className="primary-button check-button" disabled={!selected} onClick={submitAnswer}>Check my reasoning <ArrowRight size={16}/></button> : <div className={`feedback-box ${feedback}`} role="status" aria-live="polite"><div className="feedback-title">{feedback==="correct"?<><CheckCircle2 size={19}/> Correct — your reasoning holds.</>:<><Lightbulb size={19}/> Not quite. Revisit the idea.</>}</div><p>{lesson.explanation}</p>{feedback==="incorrect"?<button className="text-button" onClick={retryAnswer}>Try another answer <ArrowRight size={15}/></button>:<button className="text-button" onClick={onNext}>{hasNext?"Continue to the next lesson":"Return to course map"} <ArrowRight size={15}/></button>}</div>}
+        </section>
+        <section className="reflection-card"><span>03 / MAKE IT YOURS</span><h2>One more thought.</h2><p>{lesson.reflection}</p><small>You can think it through before moving on. This reflection is not graded.</small></section>
+      </main>
+      <aside className="lesson-studio-rail">
+        <button className={`save-lesson studio-save ${saved?"is-saved":""}`} onClick={toggleSaved}><Bookmark size={16} fill={saved?"currentColor":"none"}/>{saved?"Saved in your fieldbook":"Save to fieldbook"}</button>
+        <div className="lesson-rail-card"><span>YOUR PROGRESS</span><div className="rail-progress"><i className={completed?"done":""}/></div><strong>{completed?"Concept checked":"In the making"}</strong><p>{completed?"You answered the practice question correctly.":"Work through the example, then test your understanding."}</p></div>
+        <NoggimigoPanel lessonId={lesson.id as "fractions"|"equivalent-fractions"|"algebra-balance"|"photosynthesis"|"circuits"|"phonics"|"emotion-compass"}/>
+        <div className="lesson-rail-note"><span>LEARNING NOTE</span><p>Understanding grows when you can explain an idea in your own words. Take your time.</p></div>
+      </aside>
+    </div>
   </div>;
 }
 
