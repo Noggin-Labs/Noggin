@@ -21,6 +21,8 @@ class TeachingPreferences:
 class NoggimigoSession:
     """Authoritative deterministic lesson state with optional untrusted model suggestions."""
     def __init__(self, lesson_id: str = "fractions_intro", *, model=None, preferences=None, history_limit: int = 30):
+        if isinstance(history_limit, bool) or not isinstance(history_limit, int) or history_limit < 1:
+            raise ValueError("history_limit must be a positive integer")
         self.model = model
         self.preferences = preferences or TeachingPreferences()
         self.history_limit = history_limit
