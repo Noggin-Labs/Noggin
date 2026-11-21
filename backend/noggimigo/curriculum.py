@@ -20,7 +20,7 @@ CURRICULUM: dict[str, dict[str, Any]] = {
                 "answer": "1/4",
                 "hint": "The denominator counts all equal parts. The numerator counts the shaded parts.",
                 "misconceptions": {"3/4": "That counts the unshaded parts. How many parts are shaded?"},
-                "next": "fraction_equivalence",
+                "next": "fraction_decimal",
             },
             {
                 "id": "fraction_decimal",
