@@ -10,7 +10,7 @@ import os
 from threading import Lock
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -31,7 +31,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=False,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Content-Type"],
 )
 
@@ -148,3 +148,13 @@ def reset_session(session_id: str, request: ResetRequest):
     except ValueError as exc:
         raise HTTPException(status_code=404, detail="Unknown Noggimigo lesson.") from exc
     return _session_payload(session_id, session)
+
+
+@app.delete("/api/sessions/{session_id}", status_code=204)
+def delete_session(session_id: str):
+    """Explicitly discard an ephemeral tutoring session."""
+    with _sessions_lock:
+        removed = _sessions.pop(session_id, None)
+    if removed is None:
+        raise HTTPException(status_code=404, detail="Noggimigo session not found.")
+    return Response(status_code=204)
