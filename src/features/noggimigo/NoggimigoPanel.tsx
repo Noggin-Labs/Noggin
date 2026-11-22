@@ -106,7 +106,7 @@ export function NoggimigoPanel({ lessonId }: { lessonId: LessonId }) {
   return (
     <section className="noggimigo-panel" aria-label="Noggimigo learning companion">
       <div className="noggimigo-panel-heading">
-        <span className="noggimigo-panel-mascot" aria-hidden="true"><i/><i/><b/></span>
+        <span className="noggimigo-panel-mascot" aria-hidden="true"><i/><i/></span>
         <div><strong>Noggimigo</strong><small>Your learning companion</small></div>
         <span className={error ? "noggimigo-status offline" : "noggimigo-status"} title={error ? "Connection unavailable" : "Connected to the tutoring runtime"}>
           {error ? <WifiOff size={13}/> : <Wifi size={13}/>}
