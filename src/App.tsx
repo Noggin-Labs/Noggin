@@ -141,27 +141,84 @@ export default function App() {
 
 
 function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore: () => void }) {
-  return <main className="public-site figma-public" id="top">
+  return <main className="public-site figma-public noggin-home" id="top">
     <header className="figma-public-nav">
       <a className="figma-brand" href="#top" aria-label="Noggin home"><span><Brain size={21}/></span><strong>Noggin</strong></a>
-      <nav aria-label="Public navigation"><a href="#features">Features</a><a href="#subjects">Subjects</a><a href="#how-it-works">How It Works</a><a href="#pricing">Pricing</a></nav>
-      <div className="figma-nav-actions"><button className="login-link" onClick={onEnter}>Log in</button><button className="get-started" onClick={onEnter}><Sparkles size={16}/> Get Started Free</button></div>
+      <nav aria-label="Public navigation"><a href="#approach">Our approach</a><a href="#learning-paths">Learning paths</a><a href="#noggimigo">Noggimigo</a><a href="#faq">Questions</a></nav>
+      <div className="figma-nav-actions"><button className="login-link" onClick={onEnter}>Open demo</button><button className="get-started" onClick={onExplore}>Explore lessons <ArrowRight size={16}/></button></div>
     </header>
-    <section className="figma-feature-hero" id="features">
-      <div className="figma-eyebrow"><Sparkles size={13}/> PLATFORM FEATURES</div>
-      <h1>Built for the way <span>your child learns</span></h1>
-      <p>Designed with different learning needs in mind — combining thoughtful teaching tools with<br className="desktop-break"/> joyful experiences.</p>
-      <article className="figma-feature-card">
-        <div className="feature-card-blue"><span>AI ENGINE</span><h2>Flexible learning — not one-size-fits-all</h2><div className="feature-orbit"><Brain size={58}/><i/><i/><i/></div></div>
-        <div className="feature-card-copy"><p>Noggin brings guided lessons, worked examples, practice, and optional Noggimigo support into one learning space. Students can adjust pacing and visual support, while feedback responds to each practice answer.</p><ul><li><CheckCircle2 size={17}/> Gives immediate feedback with a worked explanation</li><li><CheckCircle2 size={17}/> Lets learners adjust pacing and visual support</li><li><CheckCircle2 size={17}/> Separates lesson completion from answer accuracy</li></ul></div>
-      </article>
+
+    <section className="noggin-hero">
+      <div className="noggin-hero-copy">
+        <span className="noggin-kicker"><span/> A more considered way to learn</span>
+        <h1>Learning that <em>Adapts to You.</em></h1>
+        <p>Noggin brings clear explanations, guided practice and flexible learning preferences together in one calm, encouraging space.</p>
+        <div className="noggin-hero-actions"><button className="get-started" onClick={onExplore}>Explore the learning space <ArrowRight size={16}/></button><a href="#approach">See how it works <span>↓</span></a></div>
+        <div className="noggin-hero-note"><ShieldCheck size={15}/> No streak pressure. Take lessons at your own pace.</div>
+      </div>
+      <div className="noggin-hero-art" aria-label="Illustration of a Noggin lesson preview">
+        <div className="hero-orbit hero-orbit-one"/><div className="hero-orbit hero-orbit-two"/>
+        <div className="hero-note-card"><span className="hero-note-label">A LITTLE PROGRESS</span><strong>One idea<br/>at a time.</strong><div className="hero-note-dots"><i/><i/><i/><i/></div></div>
+        <div className="hero-preview-card">
+          <div className="hero-preview-top"><span className="hero-mini-mark"><Brain size={15}/></span><b>Learning space</b><span className="hero-preview-tag">LESSON 01</span></div>
+          <div className="hero-preview-subject">MATHEMATICS <i/> BEGINNER</div>
+          <h2>Fractions are numbers, not just slices</h2>
+          <p>A fraction describes a quantity made from equal parts of a whole.</p>
+          <div className="hero-fraction-row"><div className="hero-fraction-circle"><i/><i/><i/><i/></div><div><strong>3/4</strong><small>three equal parts out of four</small></div></div>
+          <div className="hero-preview-footer"><span><CheckCircle2 size={14}/> Worked example</span><span>Practice follows <ArrowRight size={13}/></span></div>
+        </div>
+        <div className="hero-floating-note"><span><Lightbulb size={16}/></span><div><b>Take your time</b><small>Learning has no timer here.</small></div></div>
+      </div>
     </section>
-    <section className="figma-subjects" id="subjects"><div><span>LEARNING PATHS</span><h2>Room to explore.<br/><em>Space to grow.</em></h2></div><div className="figma-subject-grid"><article><b>∑</b><strong>Mathematics</strong><small>Patterns, logic and problem-solving</small></article><article><b>⚛</b><strong>Science</strong><small>Questions about the world around us</small></article><article><b>Aa</b><strong>Language</strong><small>Reading, writing and communication</small></article></div></section>
-    <section className="figma-how" id="how-it-works"><span>HOW IT WORKS</span><h2>A learning space that meets students where they are.</h2><p>Explore a topic, learn in manageable steps, practise your understanding, and return whenever you're ready.</p><button className="get-started" onClick={onExplore}>Explore learning paths <ArrowRight size={16}/></button></section>
-    <footer className="figma-public-footer" id="pricing"><a className="figma-brand" href="#top"><span><Brain size={21}/></span><strong>Noggin</strong></a><p>Learning that makes room for different minds.</p><button onClick={onEnter}>Get Started Free <ArrowRight size={15}/></button></footer>
+
+    <section className="noggin-proof-strip" aria-label="What Noggin brings together">
+      <span>One learning space</span><i/><span>Clear explanations</span><i/><span>Practice with feedback</span><i/><span>Flexible preferences</span>
+    </section>
+
+    <section className="noggin-approach" id="approach">
+      <div className="noggin-section-intro"><span className="noggin-kicker">THE NOGGIN APPROACH</span><h2>Structure when you need it.<br/><em>Flexibility when you don't.</em></h2><p>Learning can feel more manageable when the next step is clear, the explanation makes sense, and there's room to pause or try again.</p></div>
+      <div className="noggin-approach-grid">
+        <article className="approach-card approach-blue"><span className="approach-number">01</span><div className="approach-icon"><BookOpen size={22}/></div><h3>Understand the idea</h3><p>Lessons begin with a clear objective and a focused explanation of the concept.</p></article>
+        <article className="approach-card approach-mint"><span className="approach-number">02</span><div className="approach-icon"><Lightbulb size={22}/></div><h3>See it worked through</h3><p>Step-by-step examples make the reasoning visible, not just the final answer.</p></article>
+        <article className="approach-card approach-cream"><span className="approach-number">03</span><div className="approach-icon"><CheckCircle2 size={22}/></div><h3>Try it for yourself</h3><p>Practice questions give feedback and an explanation you can revisit.</p></article>
+      </div>
+    </section>
+
+    <section className="noggin-paths" id="learning-paths">
+      <div className="noggin-paths-heading"><div><span className="noggin-kicker">START SOMEWHERE INTERESTING</span><h2>Follow a question.<br/><em>Find your next idea.</em></h2></div><p>Explore the starter collection of lessons currently available in Noggin. More learning paths can be added as the curriculum grows.</p></div>
+      <div className="noggin-path-grid">
+        <article className="noggin-path-card path-math"><span>01 / MATHEMATICS</span><b>∑</b><h3>Patterns &amp; problem-solving</h3><p>Fractions, equivalence and the logic behind equations.</p><small>2 courses · 3 lessons</small></article>
+        <article className="noggin-path-card path-science"><span>02 / SCIENCE</span><b>⚛</b><h3>Explore how things work</h3><p>Follow energy through plants and trace a complete circuit.</p><small>2 courses · 2 lessons</small></article>
+        <article className="noggin-path-card path-language"><span>03 / LANGUAGE</span><b>Aa</b><h3>Sounds, words &amp; meaning</h3><p>Explore how speech sounds connect to letters and spelling.</p><small>1 course · 1 lesson</small></article>
+        <article className="noggin-path-card path-life"><span>04 / LIFE SKILLS</span><b>◎</b><h3>Emotions &amp; reflection</h3><p>Build language for feelings and practise thoughtful reflection.</p><small>1 course · 1 lesson</small></article>
+      </div>
+      <div className="noggin-paths-foot"><span>Starter curriculum · 6 courses · 7 lessons</span><button className="noggin-text-link" onClick={onExplore}>Browse the learning space <ArrowRight size={15}/></button></div>
+    </section>
+
+    <section className="noggin-flexibility">
+      <div className="flexibility-visual"><div className="flexibility-sheet"><span>YOUR LEARNING PREFERENCES</span><div><b>Lesson pacing</b><strong>Balanced</strong></div><div className="flexibility-rule"><i/></div><div><b>Visual explanations</b><strong className="enabled-label">On <Check size={13}/></strong></div><div className="flexibility-toggle"><i/></div><small>Preferences can be changed whenever you like.</small></div><div className="flexibility-spark">✳</div></div>
+      <div className="flexibility-copy"><span className="noggin-kicker">A SPACE YOU CAN ADJUST</span><h2>Different ways in.<br/><em>Same respect for every learner.</em></h2><p>Choose a comfortable lesson pace and switch visual explanations on or off. These are simple presentation preferences—not labels, diagnoses, or assumptions about what a learner can do.</p><button className="noggin-text-link" onClick={onEnter}>Open the learning demo <ArrowRight size={15}/></button></div>
+    </section>
+
+    <section className="noggin-companion" id="noggimigo">
+      <div className="companion-mark"><div className="companion-orbit"/><div className="companion-face"><span>•</span><span>•</span><i/></div><div className="companion-star">✦</div></div>
+      <div className="companion-copy"><span className="noggin-kicker">MEET YOUR OPTIONAL STUDY COMPANION</span><h2>A little help, when you want it.</h2><p>Noggimigo is Noggin's AI tutoring companion, available from supported lessons. Ask a question or request another explanation while you work through an idea.</p><small>Noggimigo is an optional support tool. It can make mistakes, so lesson content and worked explanations remain available to check.</small></div>
+    </section>
+
+    <section className="noggin-faq" id="faq">
+      <div><span className="noggin-kicker">A FEW THINGS YOU MAY BE WONDERING</span><h2>Good questions<br/><em>belong here.</em></h2></div>
+      <div className="noggin-faq-list">
+        <details><summary>Is Noggin designed for one kind of learner?</summary><p>No. Noggin aims to offer clear structure and adjustable presentation preferences without assuming every learner needs the same thing.</p></details>
+        <details><summary>Does Noggin currently have a full curriculum?</summary><p>Not yet. The current experience is an early starter collection with six courses and seven lessons. The curriculum is still being developed.</p></details>
+        <details><summary>Do I need to use Noggimigo?</summary><p>No. Noggimigo is optional and appears in supported lessons. You can use the lesson explanations and practice without opening the tutor.</p></details>
+        <details><summary>Is this a finished account-based platform?</summary><p>The current learning demo stores progress and preferences in this browser. Accounts and cross-device progress are not available yet.</p></details>
+      </div>
+    </section>
+
+    <section className="noggin-final-cta"><div><span className="noggin-kicker">YOUR NEXT STEP CAN BE A SMALL ONE</span><h2>Curiosity is a good place to begin.</h2><p>Open the learning space and explore the lessons currently available.</p></div><button className="get-started" onClick={onExplore}>Explore Noggin <ArrowRight size={16}/></button></section>
+    <footer className="noggin-footer"><div className="noggin-footer-brand"><a className="figma-brand" href="#top"><span><Brain size={21}/></span><strong>Noggin</strong></a><p>Learning that makes room for different minds.</p></div><div className="noggin-footer-links"><a href="#approach">Our approach</a><a href="#learning-paths">Learning paths</a><a href="#noggimigo">Noggimigo</a><a href="#faq">Questions</a></div><small>Early learning demo · Progress is stored in this browser</small></footer>
   </main>;
 }
-
 function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
   completed: string[]; accuracy: number; attemptCount: number; completionRate: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
