@@ -13,9 +13,9 @@
 </p>
 
 <p align="center">
-  <a href="https://noggin-gbdy.onrender.com/">Live Application</a>
+  <a href="https://noggin.folarera-kassim.workers.dev/">Live Application</a>
   ·
-  <a href="https://github.com/Noggin-Labs/Noggimigo">Noggimigo on GitHub</a>
+  <a href="https://github.com/Noggin-Labs/noggimigo">Noggimigo on GitHub</a>
   ·
   <a href="https://huggingface.co/Noggin-Labs/Noggimigo">Noggimigo on Hugging Face</a>
   ·
