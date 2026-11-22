@@ -1070,3 +1070,19 @@ button{font-family:inherit}
 .path-life{border-top:3px solid #b59bdc}
 @media(max-width:900px){.noggin-path-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.noggin-path-grid{grid-template-columns:1fr}}
+
+
+/* Student dashboard: replace the overlapping-orbit mascot with a clear, ownable character mark. */
+.noggimigo-welcome .noggimigo-avatar{width:78px;height:76px;flex:none;position:relative;display:block;border:0;border-radius:26px 24px 25px 23px;background:#287cff;box-shadow:0 7px 0 #1e63d0,0 12px 22px #287cff25;transform:rotate(-4deg)}
+.noggimigo-welcome .noggimigo-avatar:before{content:"";position:absolute;left:31px;top:-8px;width:15px;height:13px;border-radius:10px 10px 3px 3px;background:#43c9a2;transform:rotate(12deg)}
+.noggimigo-welcome .noggimigo-avatar:after{content:"";position:absolute;left:32px;top:8px;width:14px;height:7px;border-radius:50%;background:#ffffff55}
+.noggimigo-welcome .mascot-eye{position:absolute;top:28px;width:7px;height:9px;border-radius:50%;background:#fff;z-index:2}
+.noggimigo-welcome .mascot-eye-left{left:24px}.noggimigo-welcome .mascot-eye-right{right:23px}
+.noggimigo-welcome .mascot-smile{position:absolute;left:29px;top:43px;width:21px;height:10px;border-bottom:3px solid #fff;border-radius:0 0 15px 15px;z-index:2}
+.noggimigo-welcome .mascot-sparkle{position:absolute;right:-10px;top:-11px;color:#f1b94f;font-size:19px;transform:rotate(10deg)}
+.noggimigo-welcome .noggimigo-bubble>div .companion-label{margin-left:3px;padding:4px 7px;border-radius:20px;background:#effcf8;color:#299878;font-size:8px;font-weight:800;letter-spacing:.55px}
+.noggimigo-welcome .noggimigo-bubble p{max-width:470px;line-height:1.6}
+.noggimigo-welcome .streak-orbit{border-color:#d9eee7;color:#287f69;background:#f6fffb}
+.noggimigo-welcome .streak-orbit strong{font-size:15px;letter-spacing:.4px}
+.noggimigo-welcome .streak-orbit small{font-size:8px;letter-spacing:.7px}
+@media(max-width:640px){.noggimigo-welcome{height:auto;min-height:76px;gap:12px}.noggimigo-welcome .noggimigo-avatar{width:62px;height:62px;border-radius:21px}.noggimigo-welcome .mascot-eye{top:23px}.noggimigo-welcome .mascot-eye-left{left:18px}.noggimigo-welcome .mascot-eye-right{right:18px}.noggimigo-welcome .mascot-smile{left:23px;top:36px;width:17px}.noggimigo-welcome .mascot-sparkle{right:-8px;top:-9px}}
