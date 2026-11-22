@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  Activity, ArrowLeft, ArrowRight, Bookmark, Brain, Check, CheckCircle2,
+  Activity, ArrowLeft, ArrowRight, Bookmark, BookOpen, Brain, Check, CheckCircle2,
   Compass, Flame, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
   ShieldCheck, Sparkles, Star, Target, X
 } from "lucide-react";
