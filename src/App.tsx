@@ -190,6 +190,7 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
         <article className="noggin-path-card path-math"><span>01 / MATHEMATICS</span><b>∑</b><h3>Patterns &amp; problem-solving</h3><p>Fractions, equivalence and the logic behind equations.</p><small>2 courses · 3 lessons</small></article>
         <article className="noggin-path-card path-science"><span>02 / SCIENCE</span><b>⚛</b><h3>Explore how things work</h3><p>Follow energy through plants and trace a complete circuit.</p><small>2 courses · 2 lessons</small></article>
         <article className="noggin-path-card path-language"><span>03 / LANGUAGE</span><b>Aa</b><h3>Sounds, words &amp; meaning</h3><p>Explore how speech sounds connect to letters and spelling.</p><small>1 course · 1 lesson</small></article>
+        <article className="noggin-path-card path-life"><span>04 / LIFE SKILLS</span><b>◎</b><h3>Emotions &amp; reflection</h3><p>Build language for feelings and practise thoughtful reflection.</p><small>1 course · 1 lesson</small></article>
       </div>
       <div className="noggin-paths-foot"><span>Starter curriculum · 6 courses · 7 lessons</span><button className="noggin-text-link" onClick={onExplore}>Browse the learning space <ArrowRight size={15}/></button></div>
     </section>
