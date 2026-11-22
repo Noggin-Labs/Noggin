@@ -151,7 +151,7 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
     <section className="noggin-hero">
       <div className="noggin-hero-copy">
         <span className="noggin-kicker"><span/> A more considered way to learn</span>
-        <h1>Learning should make room for <em>different minds.</em></h1>
+        <h1>Learning that <em>Adapts to You.</em></h1>
         <p>Noggin brings clear explanations, guided practice and flexible learning preferences together in one calm, encouraging space.</p>
         <div className="noggin-hero-actions"><button className="get-started" onClick={onExplore}>Explore the learning space <ArrowRight size={16}/></button><a href="#approach">See how it works <span>↓</span></a></div>
         <div className="noggin-hero-note"><ShieldCheck size={15}/> No streak pressure. Take lessons at your own pace.</div>
