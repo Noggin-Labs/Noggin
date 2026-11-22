@@ -153,10 +153,10 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
     <section className="figma-feature-hero" id="features">
       <div className="figma-eyebrow"><Sparkles size={13}/> PLATFORM FEATURES</div>
       <h1>Built for the way <span>your child learns</span></h1>
-      <p>Every feature is designed with neurodivergent learners in mind — combining science with<br className="desktop-break"/> joyful experiences.</p>
+      <p>Designed with different learning needs in mind — combining thoughtful teaching tools with<br className="desktop-break"/> joyful experiences.</p>
       <article className="figma-feature-card">
         <div className="feature-card-blue"><span>AI ENGINE</span><h2>Truly adaptive — not just one-size-fits-all</h2><div className="feature-orbit"><Brain size={58}/><i/><i/><i/></div></div>
-        <div className="feature-card-copy"><p>Noggin's AI engine builds a unique learning experience for every student. It adjusts difficulty, pacing, and teaching style in real time based on how each student responds — not just their age or grade.</p><ul><li><CheckCircle2 size={17}/> Detects learning friction and offers another explanation</li><li><CheckCircle2 size={17}/> Supports flexible pacing and multiple ways to explore an idea</li><li><CheckCircle2 size={17}/> Keeps progress focused on understanding, not speed</li></ul></div>
+        <div className="feature-card-copy"><p>Noggin brings guided lessons, worked examples, practice, and optional Noggimigo support into one learning space. Students can adjust pacing and visual support, while feedback responds to each practice answer.</p><ul><li><CheckCircle2 size={17}/> Gives immediate feedback with a worked explanation</li><li><CheckCircle2 size={17}/> Lets learners adjust pacing and visual support</li><li><CheckCircle2 size={17}/> Separates lesson completion from answer accuracy</li></ul></div>
       </article>
     </section>
     <section className="figma-subjects" id="subjects"><div><span>LEARNING PATHS</span><h2>Room to explore.<br/><em>Space to grow.</em></h2></div><div className="figma-subject-grid"><article><b>∑</b><strong>Mathematics</strong><small>Patterns, logic and problem-solving</small></article><article><b>⚛</b><strong>Science</strong><small>Questions about the world around us</small></article><article><b>Aa</b><strong>Language</strong><small>Reading, writing and communication</small></article></div></section>
