@@ -154,7 +154,7 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
         <h1>Learning should make room for <em>different minds.</em></h1>
         <p>Noggin brings clear explanations, guided practice and flexible learning preferences together in one calm, encouraging space.</p>
         <div className="noggin-hero-actions"><button className="get-started" onClick={onExplore}>Explore the learning space <ArrowRight size={16}/></button><a href="#approach">See how it works <span>↓</span></a></div>
-        <div className="noggin-hero-note"><ShieldCheck size={15}/> No streak pressure. No one-size-fits-all pace.</div>
+        <div className="noggin-hero-note"><ShieldCheck size={15}/> No streak pressure. Take lessons at your own pace.</div>
       </div>
       <div className="noggin-hero-art" aria-label="Illustration of a Noggin lesson preview">
         <div className="hero-orbit hero-orbit-one"/><div className="hero-orbit hero-orbit-two"/>
@@ -197,7 +197,7 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
 
     <section className="noggin-flexibility">
       <div className="flexibility-visual"><div className="flexibility-sheet"><span>YOUR LEARNING PREFERENCES</span><div><b>Lesson pacing</b><strong>Balanced</strong></div><div className="flexibility-rule"><i/></div><div><b>Visual explanations</b><strong className="enabled-label">On <Check size={13}/></strong></div><div className="flexibility-toggle"><i/></div><small>Preferences can be changed whenever you like.</small></div><div className="flexibility-spark">✳</div></div>
-      <div className="flexibility-copy"><span className="noggin-kicker">A SPACE YOU CAN ADJUST</span><h2>Different ways in.<br/><em>Same respect for every learner.</em></h2><p>Choose a comfortable lesson pace and switch visual explanations on or off. These are simple presentation preferences—not labels, diagnoses, or assumptions about what a learner can do.</p><button className="noggin-text-link" onClick={onEnter}>See the learning preferences <ArrowRight size={15}/></button></div>
+      <div className="flexibility-copy"><span className="noggin-kicker">A SPACE YOU CAN ADJUST</span><h2>Different ways in.<br/><em>Same respect for every learner.</em></h2><p>Choose a comfortable lesson pace and switch visual explanations on or off. These are simple presentation preferences—not labels, diagnoses, or assumptions about what a learner can do.</p><button className="noggin-text-link" onClick={onEnter}>Open the learning demo <ArrowRight size={15}/></button></div>
     </section>
 
     <section className="noggin-companion" id="noggimigo">
