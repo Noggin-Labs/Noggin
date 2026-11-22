@@ -1065,3 +1065,8 @@ button{font-family:inherit}
  .noggin-faq{grid-template-columns:1fr;gap:20px}.noggin-faq h2{font-size:34px}.noggin-final-cta{align-items:flex-start;flex-direction:column;padding:42px 22px}.noggin-footer{grid-template-columns:1fr;padding:28px 22px}.noggin-footer-links{flex-wrap:wrap;gap:15px}.noggin-footer>small{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){.noggin-home *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+.noggin-path-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.path-life{border-top:3px solid #b59bdc}
+@media(max-width:900px){.noggin-path-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.noggin-path-grid{grid-template-columns:1fr}}
