@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  Activity, ArrowLeft, ArrowRight, BadgeCheck, Bookmark, Brain, Check, CheckCircle2,
-  Compass, Flame, Gamepad2, Gem, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
-  ShieldCheck, Sparkles, Star, Target, X
+  Activity, ArrowLeft, ArrowRight, Bookmark, BookOpen, Brain, Check, CheckCircle2,
+  Flame, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
+  ShieldCheck, Sparkles, Star, X
 } from "lucide-react";
 import { calculateAccuracy, calculateCompletionRate, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
@@ -105,15 +105,12 @@ export default function App() {
             {label:"Home",view:"dashboard" as View,icon:Home},
             {label:"Learn",view:"curriculum" as View,icon:GraduationCap},
             {label:"Progress",view:"qa" as View,icon:Activity},
-            {label:"IEP Goals",view:"profile" as View,icon:Target},
-            {label:"Badges",view:"saved" as View,icon:BadgeCheck},
-            {label:"Games",view:"curriculum" as View,icon:Gamepad2},
-            {label:"Noggimigo",view:"dashboard" as View,icon:Brain}
-          ].map((item) => { const Icon=item.icon; return <button key={item.label} className={view===item.view&&!activeLesson?"active":""} onClick={()=>{setView(item.view);setActiveLesson(null);}}><Icon size={15}/><span>{item.label}</span></button>; })}
+            {label:"Library",view:"saved" as View,icon:Bookmark},
+            {label:"Settings",view:"profile" as View,icon:Settings2}
+          ].map((item) => { const Icon=item.icon; return <button key={item.label} aria-current={view===item.view&&!activeLesson?"page":undefined} className={view===item.view&&!activeLesson?"active":""} onClick={()=>{setView(item.view);setActiveLesson(null);}}><Icon size={15}/><span>{item.label}</span></button>; })}
         </nav>
         <div className="learner-status">
-          <span className="status-chip streak-chip"><Flame size={14}/> 0d</span>
-          <span className="status-chip gem-chip"><Gem size={14}/> {completed.length*10} gems</span>
+          <span className="status-chip">Learning space</span>
           <button className="learner-icon-button" aria-label="Learning preferences" onClick={()=>{setView("profile");setActiveLesson(null);}}><Settings2 size={17}/></button>
           <button className="learner-avatar" aria-label="Profile" onClick={()=>{setView("profile");setActiveLesson(null);}}>N</button>
         </div>
@@ -155,7 +152,7 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
       <h1>Built for the way <span>your child learns</span></h1>
       <p>Designed with different learning needs in mind — combining thoughtful teaching tools with<br className="desktop-break"/> joyful experiences.</p>
       <article className="figma-feature-card">
-        <div className="feature-card-blue"><span>AI ENGINE</span><h2>Truly adaptive — not just one-size-fits-all</h2><div className="feature-orbit"><Brain size={58}/><i/><i/><i/></div></div>
+        <div className="feature-card-blue"><span>AI ENGINE</span><h2>Flexible learning — not one-size-fits-all</h2><div className="feature-orbit"><Brain size={58}/><i/><i/><i/></div></div>
         <div className="feature-card-copy"><p>Noggin brings guided lessons, worked examples, practice, and optional Noggimigo support into one learning space. Students can adjust pacing and visual support, while feedback responds to each practice answer.</p><ul><li><CheckCircle2 size={17}/> Gives immediate feedback with a worked explanation</li><li><CheckCircle2 size={17}/> Lets learners adjust pacing and visual support</li><li><CheckCircle2 size={17}/> Separates lesson completion from answer accuracy</li></ul></div>
       </article>
     </section>
@@ -168,20 +165,19 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
 function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
   completed: string[]; accuracy: number; attemptCount: number; completionRate: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
-  const gems = completed.length * 10;
   return <div className="dashboard-page noggin-dashboard">
     <section className="noggimigo-welcome">
       <div className="noggimigo-avatar" aria-hidden="true"><span>✦</span><i/></div>
       <div className="noggimigo-bubble"><div><strong>Noggimigo</strong><span>🤖</span><button aria-label="Dismiss welcome" onClick={(event)=>event.currentTarget.closest(".noggimigo-bubble")?.classList.add("dismissed")}><X size={14}/></button></div><p>Learning is your superpower! Let's unlock it together! <b>⚡</b></p></div>
     </section>
     <section className="noggin-stat-grid" aria-label="Learning summary">
-      <article className="noggin-stat gems"><span className="stat-icon"><Gem size={19}/></span><strong>{gems}</strong><small>Total Gems</small></article>
-      <article className="noggin-stat lessons"><span className="stat-icon"><CheckCircle2 size={19}/></span><strong>{completed.length}</strong><small>Lessons</small></article>
-      <article className="noggin-stat streak"><span className="stat-icon"><Flame size={19}/></span><strong>0d</strong><small>Streak</small></article>
+      <article className="noggin-stat gems"><span className="stat-icon"><CheckCircle2 size={19}/></span><strong>{completed.length}</strong><small>Lessons completed</small></article>
+      <article className="noggin-stat lessons"><span className="stat-icon"><Activity size={19}/></span><strong>{accuracy}%</strong><small>Answer accuracy</small></article>
+      <article className="noggin-stat streak"><span className="stat-icon"><BookOpen size={19}/></span><strong>{attemptCount}</strong><small>Practice answers</small></article>
     </section>
     <section className="streak-banner">
       <div className="streak-orbit"><Flame size={31}/><strong>0</strong><small>DAYS</small></div>
-      <div className="streak-copy"><h2><Star size={17} fill="currentColor"/> Start your streak!</h2><p>Build a little learning habit, one session at a time. <b>✨</b></p><span className="streak-footnote"><i>❄ 1 freeze</i> Your progress stays yours. Come back whenever you're ready.</span></div>
+      <div className="streak-copy"><h2><Star size={17} fill="currentColor"/> Your learning rhythm</h2><p>There is no rush. Pick a topic, work through one idea, and return when it suits you. <b>✨</b></p><span className="streak-footnote"><i>Small steps count</i> Your progress is saved in this browser.</span></div>
     </section>
     <section className="today-focus">
       <div className="focus-heading"><span className="focus-icon"><Sparkles size={19}/></span><div><h2>Today's Focus</h2><p>One small step is still progress.</p></div></div>

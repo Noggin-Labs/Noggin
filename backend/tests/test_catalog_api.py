@@ -35,7 +35,7 @@ def test_catalog_reads_persisted_courses_and_lessons_without_answer_keys():
         math_course = client.get("/api/catalog/courses/mathematics-foundations")
         assert math_course.status_code == 200
         payload = math_course.json()
-        assert payload["lesson_count"] == 3
+        assert payload["lesson_count"] == 4
         assert payload["lessons"][0]["id"] == "fractions_intro"
         assert "answer" not in payload["lessons"][0]
         assert "hint" not in payload["lessons"][0]
