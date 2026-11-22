@@ -46,6 +46,7 @@ export default function App() {
   const [attempts, setAttempts] = useState<Attempt[]>(() => readStore("noggin.attempts", [], isAttemptArray));
   const [saved, setSaved] = useState<string[]>(() => readStore("noggin.saved", [], isStringArray));
   const [lastLessonId, setLastLessonId] = useState<string>(() => readStore("noggin.lastLesson", "fractions", isString));
+  const [hasOpenedLesson, setHasOpenedLesson] = useState<boolean>(() => readStore("noggin.hasOpenedLesson", false, isBoolean));
   const [selected, setSelected] = useState("");
   const [feedback, setFeedback] = useState<"correct" | "incorrect" | null>(null);
   const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer", isString));
@@ -56,6 +57,7 @@ export default function App() {
   useEffect(() => writeStore("noggin.attempts", attempts), [attempts]);
   useEffect(() => writeStore("noggin.saved", saved), [saved]);
   useEffect(() => writeStore("noggin.lastLesson", lastLessonId), [lastLessonId]);
+  useEffect(() => writeStore("noggin.hasOpenedLesson", hasOpenedLesson), [hasOpenedLesson]);
   useEffect(() => writeStore("noggin.profile", profile), [profile]);
   useEffect(() => writeStore("noggin.pacing", pacing), [pacing]);
   useEffect(() => writeStore("noggin.visuals", visuals), [visuals]);
@@ -74,6 +76,7 @@ export default function App() {
     setActiveLesson(lesson);
     setSelectedCourseId(lesson.courseId);
     setLastLessonId(lesson.id);
+    setHasOpenedLesson(true);
     setSelected("");
     setFeedback(null);
     setView("dashboard");
@@ -120,7 +123,7 @@ export default function App() {
           {activeLesson ? (
             <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} hasNext={lessons.filter((item) => item.courseId === activeLesson.courseId).findIndex((item) => item.id === activeLesson.id) < lessons.filter((item) => item.courseId === activeLesson.courseId).length - 1} onBack={() => { setActiveLesson(null); setView("course"); }} onNext={() => { const courseLessons = lessons.filter((item) => item.courseId === activeLesson.courseId); const index = courseLessons.findIndex((item) => item.id === activeLesson.id); if (index >= 0 && index < courseLessons.length - 1) openLesson(courseLessons[index + 1]); else { setActiveLesson(null); setView("course"); } }} />
           ) : view === "dashboard" ? (
-            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} />
+            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} hasStarted={hasOpenedLesson || attempts.length > 0 || completed.length > 0} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} />
           ) : view === "curriculum" ? (
             <Curriculum completed={completed} onCourse={openCourse} />
           ) : view === "course" ? (
@@ -218,10 +221,9 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
     <footer className="noggin-footer"><div className="noggin-footer-brand"><a className="figma-brand" href="#top"><span><Brain size={21}/></span><strong>Noggin</strong></a><p>Learning that makes room for different minds.</p></div><div className="noggin-footer-links"><a href="#approach">Our approach</a><a href="#learning-paths">Learning paths</a><a href="#noggimigo">Noggimigo</a><a href="#faq">Questions</a></div><small>Early learning demo · Progress is stored in this browser</small></footer>
   </main>;
 }
-function Dashboard({ completed, accuracy, attemptCount, resumeLesson, onResume, onCourse, onExplore }: {
-  completed: string[]; accuracy: number; attemptCount: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void;
+function Dashboard({ completed, accuracy, attemptCount, hasStarted, resumeLesson, onResume, onCourse, onExplore }: {
+  completed: string[]; accuracy: number; attemptCount: number; hasStarted: boolean; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void;
 }) {
-  const hasStarted = attemptCount > 0 || completed.length > 0;
   return <div className="dashboard-page noggin-dashboard">
     <section className="noggimigo-welcome">
       <div className="noggimigo-avatar" aria-hidden="true"><span className="mascot-eye mascot-eye-left"/><span className="mascot-eye mascot-eye-right"/></div>
