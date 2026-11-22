@@ -4,3 +4,7 @@
 .noggimigo-panel-mascot:before{content:"";position:absolute;left:14px;top:-7px;width:10px;height:12px;border-radius:90% 10% 80% 20%;background:#43c9a2;transform:rotate(24deg)}
 .noggimigo-panel-mascot i{position:absolute;top:13px;width:4px;height:6px;border-radius:50%;background:#fff}
 .noggimigo-panel-mascot i:first-child{left:10px}.noggimigo-panel-mascot i:nth-child(2){right:10px}
+
+
+.noggimigo-panel-mascot{border-radius:0;background:transparent;box-shadow:none}
+.noggimigo-panel-mascot:before,.noggimigo-panel-mascot i{display:none}
