@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity, ArrowLeft, ArrowRight, Bookmark, BookOpen, Brain, Check, CheckCircle2,
-  Compass, Flame, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
-  ShieldCheck, Sparkles, Star, Target, X
+  Flame, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
+  ShieldCheck, Sparkles, Star, X
 } from "lucide-react";
 import { calculateAccuracy, calculateCompletionRate, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
