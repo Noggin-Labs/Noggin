@@ -78,7 +78,6 @@ export default function App() {
     setSelected("");
     setFeedback(null);
     setView("dashboard");
-    setMobileNav(false);
   };
 
   const submitAnswer = () => {
