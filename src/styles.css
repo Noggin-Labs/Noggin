@@ -1086,3 +1086,29 @@ button{font-family:inherit}
 .noggimigo-welcome .streak-orbit strong{font-size:15px;letter-spacing:.4px}
 .noggimigo-welcome .streak-orbit small{font-size:8px;letter-spacing:.7px}
 @media(max-width:640px){.noggimigo-welcome{height:auto;min-height:76px;gap:12px}.noggimigo-welcome .noggimigo-avatar{width:62px;height:62px;border-radius:21px}.noggimigo-welcome .mascot-eye{top:23px}.noggimigo-welcome .mascot-eye-left{left:18px}.noggimigo-welcome .mascot-eye-right{right:18px}.noggimigo-welcome .mascot-smile{left:23px;top:36px;width:17px}.noggimigo-welcome .mascot-sparkle{right:-8px;top:-9px}}
+
+
+/* Dashboard refinement: clearer hierarchy, honest first-use state, and a mouthless Noggimigo. */
+.noggimigo-welcome{height:auto;min-height:82px;align-items:center;margin-bottom:22px}
+.noggimigo-welcome .noggimigo-avatar{width:78px;height:76px;flex:none;position:relative;display:block;border:0;border-radius:44% 46% 48% 42% / 34% 38% 59% 61%;background:#287cff;box-shadow:0 7px 0 #1e63d0,0 12px 22px #287cff25;transform:rotate(-4deg)}
+.noggimigo-welcome .noggimigo-avatar:before{content:"";position:absolute;left:32px;top:-8px;width:15px;height:17px;border-radius:100% 0 100% 0;background:#43c9a2;transform:rotate(24deg) skewY(-8deg)}
+.noggimigo-welcome .noggimigo-avatar:after{content:"";position:absolute;left:13px;top:11px;width:12px;height:7px;border-radius:50%;background:#ffffff45}
+.noggimigo-welcome .mascot-eye{position:absolute;top:31px;width:7px;height:10px;border-radius:50%;background:#fff;z-index:2}
+.noggimigo-welcome .mascot-eye-left{left:23px}
+.noggimigo-welcome .mascot-eye-right{right:22px}
+.noggimigo-welcome .noggimigo-bubble{max-width:510px}
+.noggin-stat-grid{margin:18px 0 22px}
+.today-focus{margin-top:0}
+.focus-heading{margin-bottom:15px}
+.focus-lesson{background:#f8fbff;border-color:#e3edfb}
+.focus-lesson:hover{background:#f2f8ff}
+.noggin-course-section{margin-top:28px}
+.noggin-dashboard .course-card{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+@media(max-width:640px){
+  .noggimigo-welcome{gap:12px;align-items:flex-start}
+  .noggimigo-welcome .noggimigo-avatar{width:62px;height:62px;border-radius:21px}
+  .noggimigo-welcome .mascot-eye{top:25px}
+  .noggimigo-welcome .mascot-eye-left{left:18px}
+  .noggimigo-welcome .mascot-eye-right{right:17px}
+  .noggimigo-welcome .noggimigo-bubble{width:calc(100% - 74px);padding:11px 12px}
+}
