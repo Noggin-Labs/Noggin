@@ -110,8 +110,7 @@ export default function App() {
           ].map((item) => { const Icon=item.icon; return <button key={item.label} aria-current={view===item.view&&!activeLesson?"page":undefined} className={view===item.view&&!activeLesson?"active":""} onClick={()=>{setView(item.view);setActiveLesson(null);}}><Icon size={15}/><span>{item.label}</span></button>; })}
         </nav>
         <div className="learner-status">
-          <span className="status-chip streak-chip"><Flame size={14}/> 0d</span>
-          <span className="status-chip gem-chip"><Gem size={14}/> {completed.length*10} gems</span>
+          <span className="status-chip">Learning space</span>
           <button className="learner-icon-button" aria-label="Learning preferences" onClick={()=>{setView("profile");setActiveLesson(null);}}><Settings2 size={17}/></button>
           <button className="learner-avatar" aria-label="Profile" onClick={()=>{setView("profile");setActiveLesson(null);}}>N</button>
         </div>
@@ -153,7 +152,7 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
       <h1>Built for the way <span>your child learns</span></h1>
       <p>Designed with different learning needs in mind — combining thoughtful teaching tools with<br className="desktop-break"/> joyful experiences.</p>
       <article className="figma-feature-card">
-        <div className="feature-card-blue"><span>AI ENGINE</span><h2>Truly adaptive — not just one-size-fits-all</h2><div className="feature-orbit"><Brain size={58}/><i/><i/><i/></div></div>
+        <div className="feature-card-blue"><span>AI ENGINE</span><h2>Flexible learning — not one-size-fits-all</h2><div className="feature-orbit"><Brain size={58}/><i/><i/><i/></div></div>
         <div className="feature-card-copy"><p>Noggin brings guided lessons, worked examples, practice, and optional Noggimigo support into one learning space. Students can adjust pacing and visual support, while feedback responds to each practice answer.</p><ul><li><CheckCircle2 size={17}/> Gives immediate feedback with a worked explanation</li><li><CheckCircle2 size={17}/> Lets learners adjust pacing and visual support</li><li><CheckCircle2 size={17}/> Separates lesson completion from answer accuracy</li></ul></div>
       </article>
     </section>
