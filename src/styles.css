@@ -1086,3 +1086,57 @@ button{font-family:inherit}
 .noggimigo-welcome .streak-orbit strong{font-size:15px;letter-spacing:.4px}
 .noggimigo-welcome .streak-orbit small{font-size:8px;letter-spacing:.7px}
 @media(max-width:640px){.noggimigo-welcome{height:auto;min-height:76px;gap:12px}.noggimigo-welcome .noggimigo-avatar{width:62px;height:62px;border-radius:21px}.noggimigo-welcome .mascot-eye{top:23px}.noggimigo-welcome .mascot-eye-left{left:18px}.noggimigo-welcome .mascot-eye-right{right:18px}.noggimigo-welcome .mascot-smile{left:23px;top:36px;width:17px}.noggimigo-welcome .mascot-sparkle{right:-8px;top:-9px}}
+
+
+/* Dashboard refinement: clearer hierarchy, honest first-use state, and a mouthless Noggimigo. */
+.noggimigo-welcome{height:auto;min-height:82px;align-items:center;margin-bottom:22px}
+.noggimigo-welcome .noggimigo-avatar{width:78px;height:76px;flex:none;position:relative;display:block;border:0;border-radius:44% 46% 48% 42% / 34% 38% 59% 61%;background:#287cff;box-shadow:0 7px 0 #1e63d0,0 12px 22px #287cff25;transform:rotate(-4deg)}
+.noggimigo-welcome .noggimigo-avatar:before{content:"";position:absolute;left:32px;top:-8px;width:15px;height:17px;border-radius:100% 0 100% 0;background:#43c9a2;transform:rotate(24deg) skewY(-8deg)}
+.noggimigo-welcome .noggimigo-avatar:after{content:"";position:absolute;left:13px;top:11px;width:12px;height:7px;border-radius:50%;background:#ffffff45}
+.noggimigo-welcome .mascot-eye{position:absolute;top:31px;width:7px;height:10px;border-radius:50%;background:#fff;z-index:2}
+.noggimigo-welcome .mascot-eye-left{left:23px}
+.noggimigo-welcome .mascot-eye-right{right:22px}
+.noggimigo-welcome .noggimigo-bubble{max-width:510px}
+.noggin-stat-grid{margin:18px 0 22px}
+.today-focus{margin-top:0}
+.focus-heading{margin-bottom:15px}
+.focus-lesson{background:#f8fbff;border-color:#e3edfb}
+.focus-lesson:hover{background:#f2f8ff}
+.noggin-course-section{margin-top:28px}
+.noggin-dashboard .course-card{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+@media(max-width:640px){
+  .noggimigo-welcome{gap:12px;align-items:flex-start}
+  .noggimigo-welcome .noggimigo-avatar{width:62px;height:62px;border-radius:21px}
+  .noggimigo-welcome .mascot-eye{top:25px}
+  .noggimigo-welcome .mascot-eye-left{left:18px}
+  .noggimigo-welcome .mascot-eye-right{right:17px}
+  .noggimigo-welcome .noggimigo-bubble{width:calc(100% - 74px);padding:11px 12px}
+}
+
+
+/* Noggimigo: hand-drawn creature mark, consistent across dashboard and lesson room. */
+.noggimigo-welcome .noggimigo-avatar{width:82px;height:82px;display:block;overflow:visible;background:none;box-shadow:none;transform:rotate(-2deg)}
+.noggimigo-welcome .noggimigo-avatar .noggimigo-ink{fill:#287cff;stroke:#20283b;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.noggimigo-welcome .noggimigo-avatar .noggimigo-crest{fill:#43c9a2;stroke:#20283b;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.noggimigo-welcome .noggimigo-avatar .noggimigo-eye{fill:#fff;stroke:#20283b;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.noggimigo-welcome .noggimigo-avatar .noggimigo-cheek{fill:none;stroke:#20283b;stroke-width:1.5;stroke-linecap:round;opacity:.55}
+.noggimigo-panel-mascot{width:40px;height:40px;display:block;overflow:visible;background:none;box-shadow:none;transform:rotate(-2deg)}
+.noggimigo-panel-mascot .noggimigo-ink{fill:#287cff;stroke:#20283b;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.noggimigo-panel-mascot .noggimigo-crest{fill:#43c9a2;stroke:#20283b;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.noggimigo-panel-mascot .noggimigo-eye{fill:#fff;stroke:#20283b;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.noggimigo-welcome .noggimigo-avatar:before,.noggimigo-welcome .noggimigo-avatar:after{content:none}
+@media(max-width:640px){.noggimigo-welcome .noggimigo-avatar{width:66px;height:66px}}
+
+
+/* Keep learner course cards inside the Noggin blue, mint and soft-pastel palette. */
+.noggin-dashboard .field-course,.curriculum-grid .field-course{background:#fff;border:1px solid #dce8e8;border-radius:16px;box-shadow:0 4px 16px #23395b08}
+.noggin-dashboard .field-course:hover,.curriculum-grid .field-course:hover{border-color:#b9d9ed;box-shadow:0 10px 24px #23395b12}
+.noggin-dashboard .field-course-top,.curriculum-grid .field-course-top{background:#f8fbff;border-bottom:1px solid #e8eff5;color:#71839a}
+.noggin-dashboard .field-course-top svg,.curriculum-grid .field-course-top svg{color:#287cff}
+.noggin-dashboard .field-course-symbol,.curriculum-grid .field-course-symbol{color:#287cff;background:linear-gradient(135deg,#eaf3ff,#effcf9)}
+.noggin-dashboard .field-course .course-content h3,.curriculum-grid .field-course .course-content h3{color:#20283b}
+.noggin-dashboard .field-course .course-content p,.curriculum-grid .field-course .course-content p{color:#738198}
+.noggin-dashboard .field-course .progress-track,.curriculum-grid .field-course .progress-track{background:#eaf0f5;border-radius:20px}
+.noggin-dashboard .field-course .progress-track span,.curriculum-grid .field-course .progress-track span{background:#287cff;border-radius:20px}
+.noggin-dashboard .field-course .course-action,.curriculum-grid .field-course .course-action{color:#287cff;border-color:#edf1f5;font-family:inherit;letter-spacing:0}
+.noggin-dashboard .field-course:after,.curriculum-grid .field-course:after{border-color:#43b995;opacity:.12}
