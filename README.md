@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://noggin.folarera-kassim.workers.dev/">Live Application</a>
+  <a href="https://noggin.folarera-kassim.workers.dev">Live Application</a>
   ·
   <a href="https://github.com/Noggin-Labs/noggimigo">Noggimigo on GitHub</a>
   ·
