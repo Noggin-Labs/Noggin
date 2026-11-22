@@ -4,7 +4,7 @@ import {
   Flame, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
   ShieldCheck, Sparkles, Star, X
 } from "lucide-react";
-import { calculateAccuracy, calculateCompletionRate, type Attempt } from "./lib/progress";
+import { calculateAccuracy, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
 import { courses, lessons, type Course, type Lesson } from "./features/curriculum/model";
 import { NoggimigoPanel } from "./features/noggimigo/NoggimigoPanel";
@@ -61,7 +61,6 @@ export default function App() {
   useEffect(() => writeStore("noggin.visuals", visuals), [visuals]);
 
   const accuracy = calculateAccuracy(attempts);
-  const completionRate = calculateCompletionRate(completed, lessons.length);
   const resumeLesson = lessons.find((lesson) => lesson.id === lastLessonId) ?? lessons[0];
   const savedLessons = lessons.filter((lesson) => saved.includes(lesson.id));
 
@@ -121,7 +120,7 @@ export default function App() {
           {activeLesson ? (
             <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} hasNext={lessons.filter((item) => item.courseId === activeLesson.courseId).findIndex((item) => item.id === activeLesson.id) < lessons.filter((item) => item.courseId === activeLesson.courseId).length - 1} onBack={() => { setActiveLesson(null); setView("course"); }} onNext={() => { const courseLessons = lessons.filter((item) => item.courseId === activeLesson.courseId); const index = courseLessons.findIndex((item) => item.id === activeLesson.id); if (index >= 0 && index < courseLessons.length - 1) openLesson(courseLessons[index + 1]); else { setActiveLesson(null); setView("course"); } }} />
           ) : view === "dashboard" ? (
-            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} completionRate={completionRate} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} profile={profile} />
+            <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onCourse={openCourse} onExplore={() => setView("curriculum")} />
           ) : view === "curriculum" ? (
             <Curriculum completed={completed} onCourse={openCourse} />
           ) : view === "course" ? (
@@ -219,12 +218,13 @@ function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore:
     <footer className="noggin-footer"><div className="noggin-footer-brand"><a className="figma-brand" href="#top"><span><Brain size={21}/></span><strong>Noggin</strong></a><p>Learning that makes room for different minds.</p></div><div className="noggin-footer-links"><a href="#approach">Our approach</a><a href="#learning-paths">Learning paths</a><a href="#noggimigo">Noggimigo</a><a href="#faq">Questions</a></div><small>Early learning demo · Progress is stored in this browser</small></footer>
   </main>;
 }
-function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
-  completed: string[]; accuracy: number; attemptCount: number; completionRate: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
+function Dashboard({ completed, accuracy, attemptCount, resumeLesson, onResume, onCourse, onExplore }: {
+  completed: string[]; accuracy: number; attemptCount: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void;
 }) {
+  const hasStarted = attemptCount > 0 || completed.length > 0;
   return <div className="dashboard-page noggin-dashboard">
     <section className="noggimigo-welcome">
-      <div className="noggimigo-avatar" aria-hidden="true"><span className="mascot-eye mascot-eye-left"/><span className="mascot-eye mascot-eye-right"/><i className="mascot-smile"/><b className="mascot-sparkle">✦</b></div>
+      <div className="noggimigo-avatar" aria-hidden="true"><span className="mascot-eye mascot-eye-left"/><span className="mascot-eye mascot-eye-right"/></div>
       <div className="noggimigo-bubble"><div><strong>Noggimigo</strong><span className="companion-label">YOUR STUDY COMPANION</span><button aria-label="Dismiss welcome" onClick={(event)=>event.currentTarget.closest(".noggimigo-bubble")?.classList.add("dismissed")}><X size={14}/></button></div><p>Hi! Ready to explore something new? I can offer hints and another way to think about a lesson.</p></div>
     </section>
     <section className="noggin-stat-grid" aria-label="Learning summary">
@@ -232,16 +232,11 @@ function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLe
       <article className="noggin-stat lessons"><span className="stat-icon"><Activity size={19}/></span><strong>{attemptCount ? `${accuracy}%` : "—"}</strong><small>Answer accuracy</small></article>
       <article className="noggin-stat streak"><span className="stat-icon"><BookOpen size={19}/></span><strong>{attemptCount}</strong><small>Practice answers</small></article>
     </section>
-    <section className="streak-banner">
-      <div className="streak-orbit"><Sparkles size={27}/><strong>YOUR</strong><small>OWN PACE</small></div>
-      <div className="streak-copy"><h2><Star size={17} fill="currentColor"/> Your learning rhythm</h2><p>There is no rush. Pick a topic, work through one idea, and return when it suits you. <b>✨</b></p><span className="streak-footnote"><i>Small steps count</i> Your progress is saved in this browser.</span></div>
-    </section>
     <section className="today-focus">
-      <div className="focus-heading"><span className="focus-icon"><Sparkles size={19}/></span><div><h2>Today's Focus</h2><p>One small step is still progress.</p></div></div>
-      <button className="focus-lesson" onClick={onResume}><span><small>CONTINUE LEARNING</small><strong>{resumeLesson.title}</strong><em>{resumeLesson.subject} · {resumeLesson.level}</em></span><span className="focus-action"><Play size={17} fill="currentColor"/></span></button>
+      <div className="focus-heading"><span className="focus-icon"><Sparkles size={19}/></span><div><h2>{hasStarted ? "Pick up where you left off" : "Start with one small step"}</h2><p>{hasStarted ? "Your last lesson is ready when you are." : "Choose a first lesson. You can move at your own pace."}</p></div></div>
+      <button className="focus-lesson" onClick={onResume}><span><small>{hasStarted ? "PICK UP WHERE YOU LEFT OFF" : "A GOOD PLACE TO START"}</small><strong>{resumeLesson.title}</strong><em>{resumeLesson.subject} · {resumeLesson.level}</em></span><span className="focus-action"><Play size={17} fill="currentColor"/></span></button>
     </section>
     <section className="noggin-course-section"><div className="noggin-section-heading"><div><span>KEEP EXPLORING</span><h2>Choose what to learn next</h2></div><button onClick={onExplore}>See all subjects <ArrowRight size={16}/></button></div><div className="course-grid">{courses.map((course,index)=><CourseCard key={course.id} course={course} completed={completed} onClick={()=>onCourse(course)} index={index}/>)}</div></section>
-    <section className="noggin-progress-note"><div><strong>Your learning snapshot</strong><span>{profile} · {accuracy}% answer accuracy · {completionRate}% of available lessons completed · {attemptCount} answers tried</span></div><button onClick={()=>onExplore()}>Explore lessons <ArrowRight size={15}/></button></section>
   </div>;
 }
 
