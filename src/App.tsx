@@ -51,7 +51,6 @@ export default function App() {
   const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer", isString));
   const [pacing, setPacing] = useState<string>(() => readStore("noggin.pacing", "Balanced", isString));
   const [visuals, setVisuals] = useState<boolean>(() => readStore("noggin.visuals", true, isBoolean));
-  const [, setMobileNav] = useState(false);
 
   useEffect(() => writeStore("noggin.completed", completed), [completed]);
   useEffect(() => writeStore("noggin.attempts", attempts), [attempts]);
@@ -70,7 +69,6 @@ export default function App() {
     setSelectedCourseId(course.id);
     setActiveLesson(null);
     setView("course");
-    setMobileNav(false);
   };
 
   const openLesson = (lesson: Lesson) => {
@@ -93,14 +91,6 @@ export default function App() {
 
   const toggleSaved = (id: string) => setSaved((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
   const activeCourse = activeLesson ? courses.find((course) => course.id === activeLesson.courseId) : undefined;
-
-  const navItems = [
-    { id:"dashboard" as View, label:"Home base", icon:Home },
-    { id:"curriculum" as View, label:"Explore", icon:Compass },
-    { id:"saved" as View, label:"My library", icon:Bookmark },
-    { id:"profile" as View, label:"My learning", icon:Settings2 },
-    { id:"qa" as View, label:"QA & Tests", icon:ShieldCheck }
-  ];
 
   if (!hasEntered) return <PublicLanding onEnter={() => setHasEntered(true)} onExplore={() => { setHasEntered(true); setView("curriculum"); }} />;
 
