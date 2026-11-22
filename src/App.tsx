@@ -224,16 +224,16 @@ function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLe
 }) {
   return <div className="dashboard-page noggin-dashboard">
     <section className="noggimigo-welcome">
-      <div className="noggimigo-avatar" aria-hidden="true"><span>✦</span><i/></div>
-      <div className="noggimigo-bubble"><div><strong>Noggimigo</strong><span>🤖</span><button aria-label="Dismiss welcome" onClick={(event)=>event.currentTarget.closest(".noggimigo-bubble")?.classList.add("dismissed")}><X size={14}/></button></div><p>Learning is your superpower! Let's unlock it together! <b>⚡</b></p></div>
+      <div className="noggimigo-avatar" aria-hidden="true"><span className="mascot-eye mascot-eye-left"/><span className="mascot-eye mascot-eye-right"/><i className="mascot-smile"/><b className="mascot-sparkle">✦</b></div>
+      <div className="noggimigo-bubble"><div><strong>Noggimigo</strong><span className="companion-label">YOUR STUDY COMPANION</span><button aria-label="Dismiss welcome" onClick={(event)=>event.currentTarget.closest(".noggimigo-bubble")?.classList.add("dismissed")}><X size={14}/></button></div><p>Hi! Ready to explore something new? I can offer hints and another way to think about a lesson.</p></div>
     </section>
     <section className="noggin-stat-grid" aria-label="Learning summary">
       <article className="noggin-stat gems"><span className="stat-icon"><CheckCircle2 size={19}/></span><strong>{completed.length}</strong><small>Lessons completed</small></article>
-      <article className="noggin-stat lessons"><span className="stat-icon"><Activity size={19}/></span><strong>{accuracy}%</strong><small>Answer accuracy</small></article>
+      <article className="noggin-stat lessons"><span className="stat-icon"><Activity size={19}/></span><strong>{attemptCount ? `${accuracy}%` : "—"}</strong><small>Answer accuracy</small></article>
       <article className="noggin-stat streak"><span className="stat-icon"><BookOpen size={19}/></span><strong>{attemptCount}</strong><small>Practice answers</small></article>
     </section>
     <section className="streak-banner">
-      <div className="streak-orbit"><Flame size={31}/><strong>0</strong><small>DAYS</small></div>
+      <div className="streak-orbit"><Sparkles size={27}/><strong>YOUR</strong><small>OWN PACE</small></div>
       <div className="streak-copy"><h2><Star size={17} fill="currentColor"/> Your learning rhythm</h2><p>There is no rush. Pick a topic, work through one idea, and return when it suits you. <b>✨</b></p><span className="streak-footnote"><i>Small steps count</i> Your progress is saved in this browser.</span></div>
     </section>
     <section className="today-focus">
