@@ -1,9 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  Activity, ArrowLeft, ArrowRight, BadgeCheck, Bookmark, BookOpen, Brain, Check, CheckCircle2,
-  ChevronRight, CircleHelp, Compass, Flame, FlaskConical, Gamepad2, Gem, GraduationCap, Home,
-  Layers3, Lightbulb, LogIn, Menu, Microscope, Moon, Play, Search, Settings2,
-  ShieldCheck, Sparkles, Star, Target, Users, X, Zap
+  Activity, ArrowLeft, ArrowRight, BadgeCheck, Bookmark, Brain, Check, CheckCircle2,
+  Compass, Flame, Gamepad2, Gem, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
+  ShieldCheck, Sparkles, Star, Target, X
 } from "lucide-react";
 import { calculateAccuracy, calculateCompletionRate, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
@@ -52,7 +51,7 @@ export default function App() {
   const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer", isString));
   const [pacing, setPacing] = useState<string>(() => readStore("noggin.pacing", "Balanced", isString));
   const [visuals, setVisuals] = useState<boolean>(() => readStore("noggin.visuals", true, isBoolean));
-  const [mobileNav, setMobileNav] = useState(false);
+  const [, setMobileNav] = useState(false);
 
   useEffect(() => writeStore("noggin.completed", completed), [completed]);
   useEffect(() => writeStore("noggin.attempts", attempts), [attempts]);
