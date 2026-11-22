@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity, ArrowLeft, ArrowRight, Bookmark, BookOpen, Brain, Check, CheckCircle2,
-  Flame, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
+  GraduationCap, Home, Lightbulb, Play, Search, Settings2,
   ShieldCheck, Sparkles, Star, X
 } from "lucide-react";
 import { calculateAccuracy, type Attempt } from "./lib/progress";
