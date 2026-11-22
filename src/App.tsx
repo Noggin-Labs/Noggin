@@ -1,9 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  Activity, ArrowLeft, ArrowRight, Bookmark, BookOpen, Check, CheckCircle2,
-  ChevronRight, CircleHelp, Compass, FlaskConical, GraduationCap, Home,
-  Layers3, Lightbulb, Menu, Microscope, Moon, Play, Search, Settings2,
-  ShieldCheck, Sparkles, Star, Target, Users, X, Zap
+  Activity, ArrowLeft, ArrowRight, BadgeCheck, Bookmark, Brain, Check, CheckCircle2,
+  Compass, Flame, Gamepad2, Gem, GraduationCap, Home, Lightbulb, Play, Search, Settings2,
+  ShieldCheck, Sparkles, Star, Target, X
 } from "lucide-react";
 import { calculateAccuracy, calculateCompletionRate, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
@@ -52,7 +51,6 @@ export default function App() {
   const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer", isString));
   const [pacing, setPacing] = useState<string>(() => readStore("noggin.pacing", "Balanced", isString));
   const [visuals, setVisuals] = useState<boolean>(() => readStore("noggin.visuals", true, isBoolean));
-  const [mobileNav, setMobileNav] = useState(false);
 
   useEffect(() => writeStore("noggin.completed", completed), [completed]);
   useEffect(() => writeStore("noggin.attempts", attempts), [attempts]);
@@ -71,7 +69,6 @@ export default function App() {
     setSelectedCourseId(course.id);
     setActiveLesson(null);
     setView("course");
-    setMobileNav(false);
   };
 
   const openLesson = (lesson: Lesson) => {
@@ -81,7 +78,6 @@ export default function App() {
     setSelected("");
     setFeedback(null);
     setView("dashboard");
-    setMobileNav(false);
   };
 
   const submitAnswer = () => {
@@ -95,48 +91,34 @@ export default function App() {
   const toggleSaved = (id: string) => setSaved((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
   const activeCourse = activeLesson ? courses.find((course) => course.id === activeLesson.courseId) : undefined;
 
-  const navItems = [
-    { id:"dashboard" as View, label:"Home base", icon:Home },
-    { id:"curriculum" as View, label:"Explore", icon:Compass },
-    { id:"saved" as View, label:"My library", icon:Bookmark },
-    { id:"profile" as View, label:"My learning", icon:Settings2 },
-    { id:"qa" as View, label:"QA & Tests", icon:ShieldCheck }
-  ];
-
   if (!hasEntered) return <PublicLanding onEnter={() => setHasEntered(true)} onExplore={() => { setHasEntered(true); setView("curriculum"); }} />;
 
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <aside className={`sidebar ${mobileNav ? "sidebar-open" : ""}`} aria-label="Primary navigation">
-        <button className="brand-lockup" onClick={() => { setView("dashboard"); setActiveLesson(null); }} aria-label="Noggin home">
-          <span className="brand-mark"><span /><span /><span /></span>
-          <span className="brand-word">noggin<span className="brand-period">.</span><small>LEARNING STUDIO</small></span>
+      <header className="learner-topnav">
+        <button className="learner-brand" onClick={() => { setView("dashboard"); setActiveLesson(null); }} aria-label="Noggin home">
+          <span className="learner-brand-mark"><Brain size={21}/></span><strong>Noggin</strong>
         </button>
-        <div className="sidebar-label">YOUR SPACE</div>
-        <nav className="nav-list" id="primary-navigation" aria-label="Main navigation">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            return <button key={item.id} aria-current={view === item.id && !activeLesson ? "page" : undefined} className={`nav-item ${view === item.id && !activeLesson ? "active" : ""}`} onClick={() => { setView(item.id); setActiveLesson(null); setMobileNav(false); }}><Icon size={18} strokeWidth={1.9}/><span>{item.label}</span>{item.id === "saved" && saved.length > 0 && <em>{saved.length}</em>}</button>;
-          })}
+        <nav className="learner-links" aria-label="Learning navigation">
+          {[
+            {label:"Home",view:"dashboard" as View,icon:Home},
+            {label:"Learn",view:"curriculum" as View,icon:GraduationCap},
+            {label:"Progress",view:"qa" as View,icon:Activity},
+            {label:"IEP Goals",view:"profile" as View,icon:Target},
+            {label:"Badges",view:"saved" as View,icon:BadgeCheck},
+            {label:"Games",view:"curriculum" as View,icon:Gamepad2},
+            {label:"Noggimigo",view:"dashboard" as View,icon:Brain}
+          ].map((item) => { const Icon=item.icon; return <button key={item.label} className={view===item.view&&!activeLesson?"active":""} onClick={()=>{setView(item.view);setActiveLesson(null);}}><Icon size={15}/><span>{item.label}</span></button>; })}
         </nav>
-        <div className="sidebar-bottom">
-          <div className="nudge-card">
-            <div className="nudge-orbit"><Sparkles size={18}/></div>
-            <strong>A little curiosity goes a long way.</strong>
-            <span>Small steps count. Keep exploring.</span>
-          </div>
-          <div className="org-note"><span className="org-dot" /> A space for curious minds</div>
+        <div className="learner-status">
+          <span className="status-chip streak-chip"><Flame size={14}/> 0d</span>
+          <span className="status-chip gem-chip"><Gem size={14}/> {completed.length*10} gems</span>
+          <button className="learner-icon-button" aria-label="Learning preferences" onClick={()=>{setView("profile");setActiveLesson(null);}}><Settings2 size={17}/></button>
+          <button className="learner-avatar" aria-label="Profile" onClick={()=>{setView("profile");setActiveLesson(null);}}>N</button>
         </div>
-      </aside>
-      {mobileNav && <button className="nav-scrim" aria-label="Close navigation" onClick={() => setMobileNav(false)} />}
-
+      </header>
       <main className="main-area" id="main-content" tabIndex={-1}>
-        <header className="topbar">
-          <button className="mobile-menu icon-button" onClick={() => setMobileNav(!mobileNav)} aria-label={mobileNav ? "Close navigation" : "Open navigation"} aria-expanded={mobileNav} aria-controls="primary-navigation"><Menu size={20}/></button>
-          <div className="breadcrumb"><span>noggin</span><ChevronRight size={14}/><strong>{activeLesson ? "Lesson room" : view === "course" ? courses.find((course) => course.id === selectedCourseId)?.title ?? "Course overview" : navItems.find((item) => item.id === view)?.label}</strong></div>
-          <div className="topbar-right"><span className="role-pill"><GraduationCap size={15}/> Student space</span><button className="avatar" aria-label="Open learning preferences" onClick={() => { setView("profile"); setActiveLesson(null); }}><Sparkles size={15}/></button></div>
-        </header>
 
         <div className="page-wrap">
           {activeLesson ? (
@@ -162,64 +144,51 @@ export default function App() {
 
 
 function PublicLanding({ onEnter, onExplore }: { onEnter: () => void; onExplore: () => void }) {
-  return <main className="public-site">
-    <header className="public-nav">
-      <a className="public-brand" href="#top" aria-label="Noggin home"><span className="public-brand-mark">n.</span><span>noggin<small>LEARNING STUDIO</small></span></a>
-      <nav aria-label="Public navigation"><a href="#how-it-works">How it works</a><a href="#learning-paths">Learning paths</a><a href="#principles">Our approach</a></nav>
-      <button className="public-nav-cta" onClick={onEnter}>Open learning space <ArrowRight size={16}/></button>
+  return <main className="public-site figma-public" id="top">
+    <header className="figma-public-nav">
+      <a className="figma-brand" href="#top" aria-label="Noggin home"><span><Brain size={21}/></span><strong>Noggin</strong></a>
+      <nav aria-label="Public navigation"><a href="#features">Features</a><a href="#subjects">Subjects</a><a href="#how-it-works">How It Works</a><a href="#pricing">Pricing</a></nav>
+      <div className="figma-nav-actions"><button className="login-link" onClick={onEnter}>Log in</button><button className="get-started" onClick={onEnter}><Sparkles size={16}/> Get Started Free</button></div>
     </header>
-    <section className="public-hero" id="top">
-      <div className="public-hero-copy">
-        <div className="public-eyebrow"><span/> AN OPEN SPACE FOR CURIOUS MINDS <span className="public-edition">EDITION 01 / 2026</span></div>
-        <h1>Learning should<br/>feel like <em>discovery.</em></h1>
-        <p className="public-lede">A thoughtful learning studio for asking better questions, building real understanding, and finding your own way through big ideas.</p>
-        <div className="public-actions"><button className="public-primary" onClick={onEnter}>Enter the learning space <ArrowRight size={17}/></button><button className="public-secondary" onClick={onExplore}>Browse learning paths <span>↗</span></button></div>
-        <div className="public-proof"><span className="proof-mark">✳</span><span><strong>Curiosity first.</strong><small>Progress at your pace, one idea at a time.</small></span></div>
-      </div>
-      <div className="public-hero-art" aria-label="Abstract illustration of ideas connecting">
-        <div className="hero-art-index">FIELD STUDY <b>001—A</b></div>
-        <div className="hero-art-grid"/>
-        <div className="hero-art-ring ring-one"/><div className="hero-art-ring ring-two"/>
-        <div className="hero-art-line line-one"/><div className="hero-art-line line-two"/>
-        <div className="hero-art-sun"><span>N</span><small>IDEAS<br/>CONNECT</small></div>
-        <div className="hero-art-label label-one"><i>01</i><b>Question</b><small>START SOMEWHERE</small></div>
-        <div className="hero-art-label label-two"><i>02</i><b>Explore</b><small>FOLLOW A THREAD</small></div>
-        <div className="hero-art-label label-three"><i>03</i><b>Understand</b><small>MAKE IT YOURS</small></div>
-        <div className="hero-art-caption">A MAP WITHOUT A SINGLE DESTINATION</div>
-      </div>
-      <div className="public-scroll-note">SCROLL TO EXPLORE <span>↓</span></div>
+    <section className="figma-feature-hero" id="features">
+      <div className="figma-eyebrow"><Sparkles size={13}/> PLATFORM FEATURES</div>
+      <h1>Built for the way <span>your child learns</span></h1>
+      <p>Designed with different learning needs in mind — combining thoughtful teaching tools with<br className="desktop-break"/> joyful experiences.</p>
+      <article className="figma-feature-card">
+        <div className="feature-card-blue"><span>AI ENGINE</span><h2>Truly adaptive — not just one-size-fits-all</h2><div className="feature-orbit"><Brain size={58}/><i/><i/><i/></div></div>
+        <div className="feature-card-copy"><p>Noggin brings guided lessons, worked examples, practice, and optional Noggimigo support into one learning space. Students can adjust pacing and visual support, while feedback responds to each practice answer.</p><ul><li><CheckCircle2 size={17}/> Gives immediate feedback with a worked explanation</li><li><CheckCircle2 size={17}/> Lets learners adjust pacing and visual support</li><li><CheckCircle2 size={17}/> Separates lesson completion from answer accuracy</li></ul></div>
+      </article>
     </section>
-    <section className="public-manifesto" id="how-it-works">
-      <p className="public-section-tag">01 / THE IDEA</p><div><h2>Not another place<br/>to just <em>get through</em><br/>your lessons.</h2><p>We think learning works better when you can see how ideas fit together. Noggin brings lessons, practice, and reflection into one calm space—so the point is understanding, not racing through a checklist.</p></div>
-    </section>
-    <section className="public-paths" id="learning-paths">
-      <div className="public-section-head"><div><p className="public-section-tag">02 / START EXPLORING</p><h2>Pick a thread.<br/><em>See where it leads.</em></h2></div><button className="public-text-link" onClick={onExplore}>View all learning paths <ArrowRight size={16}/></button></div>
-      <div className="public-path-grid">
-        <article className="public-path path-math"><span>PATH 01 / MATHEMATICS</span><div className="path-symbol">∑</div><h3>Patterns<br/>everywhere.</h3><p>Find the structures hiding inside numbers, shapes, and everyday problems.</p><b>Logic · Algebra · Geometry</b></article>
-        <article className="public-path path-science"><span>PATH 02 / SCIENCE</span><div className="path-symbol">⌁</div><h3>Understand<br/>the systems.</h3><p>Explore the forces, processes, and connections that shape our world.</p><b>Biology · Physics · Chemistry</b></article>
-        <article className="public-path path-language"><span>PATH 03 / LANGUAGE</span><div className="path-symbol">Aa</div><h3>Ideas need<br/>expression.</h3><p>Build confidence with language, communication, and clear thinking.</p><b>Reading · Writing · Reasoning</b></article>
-      </div>
-      <p className="public-disclaimer">A preview of the learning areas. Available courses and lessons depend on the curriculum currently published in the platform.</p>
-    </section>
-    <section className="public-principles" id="principles"><p className="public-section-tag">03 / OUR APPROACH</p><h2>Good learning is<br/><em>built, not rushed.</em></h2><div className="principle-list"><article><span>01</span><div><h3>Understand before advancing</h3><p>Practice is a chance to think, not just a score to collect.</p></div></article><article><span>02</span><div><h3>Make room for different minds</h3><p>Clear explanations, flexible pacing, and more than one way into an idea.</p></div></article><article><span>03</span><div><h3>Keep progress honest</h3><p>Completion, practice results, and mastery are different things. We keep them distinct.</p></div></article></div></section>
-    <footer className="public-footer"><a className="public-brand" href="#top"><span className="public-brand-mark">n.</span><span>noggin<small>LEARNING STUDIO</small></span></a><span>Curiosity is a good place to begin.</span><button onClick={onEnter}>Enter Noggin <ArrowRight size={15}/></button></footer>
+    <section className="figma-subjects" id="subjects"><div><span>LEARNING PATHS</span><h2>Room to explore.<br/><em>Space to grow.</em></h2></div><div className="figma-subject-grid"><article><b>∑</b><strong>Mathematics</strong><small>Patterns, logic and problem-solving</small></article><article><b>⚛</b><strong>Science</strong><small>Questions about the world around us</small></article><article><b>Aa</b><strong>Language</strong><small>Reading, writing and communication</small></article></div></section>
+    <section className="figma-how" id="how-it-works"><span>HOW IT WORKS</span><h2>A learning space that meets students where they are.</h2><p>Explore a topic, learn in manageable steps, practise your understanding, and return whenever you're ready.</p><button className="get-started" onClick={onExplore}>Explore learning paths <ArrowRight size={16}/></button></section>
+    <footer className="figma-public-footer" id="pricing"><a className="figma-brand" href="#top"><span><Brain size={21}/></span><strong>Noggin</strong></a><p>Learning that makes room for different minds.</p><button onClick={onEnter}>Get Started Free <ArrowRight size={15}/></button></footer>
   </main>;
 }
 
 function Dashboard({ completed, accuracy, attemptCount, completionRate, resumeLesson, onResume, onCourse, onExplore, profile }: {
   completed: string[]; accuracy: number; attemptCount: number; completionRate: number; resumeLesson: Lesson; onResume: () => void; onCourse: (course: Course) => void; onExplore: () => void; profile: string;
 }) {
-  return <div className="dashboard-page studio-dashboard">
-    <div className="dashboard-edition"><span>THE NOGGIN FIELD GUIDE</span><span>VOL. 01 — YOUR WORKSPACE</span></div>
-    <section className="dashboard-opening">
-      <div className="dashboard-opening-copy"><p className="kicker">A PLACE TO THINK OUT LOUD</p><h1>Curiosity<br/><em>looks good</em><br/>on you.</h1><p>Follow a question. Pull an idea apart. Put it back together in a way that makes sense to you.</p><button className="dashboard-explore" onClick={onExplore}>Find your next thread <ArrowRight size={17}/></button></div>
-      <div className="dashboard-opening-art"><div className="opening-art-stamp">NG<br/><small>LEARN<br/>BY DOING</small></div><div className="opening-art-loop loop-a"/><div className="opening-art-loop loop-b"/><span className="opening-art-word word-a">ASK</span><span className="opening-art-word word-b">MAKE</span><span className="opening-art-word word-c">NOTICE</span><span className="opening-art-coordinate">01. / START ANYWHERE</span></div>
-      <div className="dashboard-side-note"><span>YOUR MODE</span><strong>{profile}</strong><small>Change this in learning settings.</small></div>
+  const gems = completed.length * 10;
+  return <div className="dashboard-page noggin-dashboard">
+    <section className="noggimigo-welcome">
+      <div className="noggimigo-avatar" aria-hidden="true"><span>✦</span><i/></div>
+      <div className="noggimigo-bubble"><div><strong>Noggimigo</strong><span>🤖</span><button aria-label="Dismiss welcome" onClick={(event)=>event.currentTarget.closest(".noggimigo-bubble")?.classList.add("dismissed")}><X size={14}/></button></div><p>Learning is your superpower! Let's unlock it together! <b>⚡</b></p></div>
     </section>
-    <section className="continue-strip"><div className="continue-index">↳</div><div className="continue-main"><span>BACK TO YOUR LAST THREAD</span><h2>{resumeLesson.title}</h2><p>{resumeLesson.subject} <i/> {resumeLesson.level}</p></div><button onClick={onResume}>Pick it back up <ArrowRight size={17}/></button></section>
-    <section className="learning-log"><div className="learning-log-heading"><span>YOUR LEARNING LOG</span><small>Progress is a record, not a ranking.</small></div><div className="learning-log-stats"><div><strong>{completed.length.toString().padStart(2,"0")}</strong><span>LESSONS COMPLETED</span></div><div><strong>{accuracy}<small>%</small></strong><span>ANSWER ACCURACY</span></div><div><strong>{completionRate}<small>%</small></strong><span>CURRICULUM COVERED</span></div><div><strong>{attemptCount.toString().padStart(2,"0")}</strong><span>ANSWERS TRIED</span></div></div></section>
-    <section className="dashboard-course-section"><div className="dashboard-course-heading"><div><span>THE COURSE INDEX / 06</span><h2>Choose a subject.<br/><em>Find a question.</em></h2></div><button onClick={onExplore}>See the whole index <ArrowRight size={16}/></button></div><div className="course-grid">{courses.map((course,index)=><CourseCard key={course.id} course={course} completed={completed} onClick={()=>onCourse(course)} index={index}/>)}</div></section>
-    <footer className="page-footer"><span>Make room for wonder.</span><span>noggin<span className="brand-period">.</span> <i>Field guide to learning</i></span></footer>
+    <section className="noggin-stat-grid" aria-label="Learning summary">
+      <article className="noggin-stat gems"><span className="stat-icon"><Gem size={19}/></span><strong>{gems}</strong><small>Total Gems</small></article>
+      <article className="noggin-stat lessons"><span className="stat-icon"><CheckCircle2 size={19}/></span><strong>{completed.length}</strong><small>Lessons</small></article>
+      <article className="noggin-stat streak"><span className="stat-icon"><Flame size={19}/></span><strong>0d</strong><small>Streak</small></article>
+    </section>
+    <section className="streak-banner">
+      <div className="streak-orbit"><Flame size={31}/><strong>0</strong><small>DAYS</small></div>
+      <div className="streak-copy"><h2><Star size={17} fill="currentColor"/> Start your streak!</h2><p>Build a little learning habit, one session at a time. <b>✨</b></p><span className="streak-footnote"><i>❄ 1 freeze</i> Your progress stays yours. Come back whenever you're ready.</span></div>
+    </section>
+    <section className="today-focus">
+      <div className="focus-heading"><span className="focus-icon"><Sparkles size={19}/></span><div><h2>Today's Focus</h2><p>One small step is still progress.</p></div></div>
+      <button className="focus-lesson" onClick={onResume}><span><small>CONTINUE LEARNING</small><strong>{resumeLesson.title}</strong><em>{resumeLesson.subject} · {resumeLesson.level}</em></span><span className="focus-action"><Play size={17} fill="currentColor"/></span></button>
+    </section>
+    <section className="noggin-course-section"><div className="noggin-section-heading"><div><span>KEEP EXPLORING</span><h2>Choose what to learn next</h2></div><button onClick={onExplore}>See all subjects <ArrowRight size={16}/></button></div><div className="course-grid">{courses.map((course,index)=><CourseCard key={course.id} course={course} completed={completed} onClick={()=>onCourse(course)} index={index}/>)}</div></section>
+    <section className="noggin-progress-note"><div><strong>Your learning snapshot</strong><span>{profile} · {accuracy}% answer accuracy · {completionRate}% of available lessons completed · {attemptCount} answers tried</span></div><button onClick={()=>onExplore()}>Explore lessons <ArrowRight size={15}/></button></section>
   </div>;
 }
 
