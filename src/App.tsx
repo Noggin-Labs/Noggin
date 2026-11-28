@@ -8,6 +8,7 @@ import { calculateAccuracy, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
 import { courses, lessons, type Course, type Lesson } from "./features/curriculum/model";
 import { NoggimigoPanel } from "./features/noggimigo/NoggimigoPanel";
+import { getLearningSupportSuggestion } from "./learning/adaptation/model";
 
 type View = "dashboard" | "curriculum" | "course" | "saved" | "profile" | "qa";
 
@@ -121,7 +122,7 @@ export default function App() {
 
         <div className="page-wrap">
           {activeLesson ? (
-            <LessonRoom lesson={activeLesson} course={activeCourse} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} hasNext={lessons.filter((item) => item.courseId === activeLesson.courseId).findIndex((item) => item.id === activeLesson.id) < lessons.filter((item) => item.courseId === activeLesson.courseId).length - 1} onBack={() => { setActiveLesson(null); setView("course"); }} onNext={() => { const courseLessons = lessons.filter((item) => item.courseId === activeLesson.courseId); const index = courseLessons.findIndex((item) => item.id === activeLesson.id); if (index >= 0 && index < courseLessons.length - 1) openLesson(courseLessons[index + 1]); else { setActiveLesson(null); setView("course"); } }} />
+            <LessonRoom lesson={activeLesson} course={activeCourse} attempts={attempts} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} hasNext={lessons.filter((item) => item.courseId === activeLesson.courseId).findIndex((item) => item.id === activeLesson.id) < lessons.filter((item) => item.courseId === activeLesson.courseId).length - 1} onBack={() => { setActiveLesson(null); setView("course"); }} onNext={() => { const courseLessons = lessons.filter((item) => item.courseId === activeLesson.courseId); const index = courseLessons.findIndex((item) => item.id === activeLesson.id); if (index >= 0 && index < courseLessons.length - 1) openLesson(courseLessons[index + 1]); else { setActiveLesson(null); setView("course"); } }} />
           ) : view === "dashboard" ? (
             <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} attempts={attempts} hasStarted={hasOpenedLesson || attempts.length > 0 || completed.length > 0} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onOpenLesson={openLesson} onCourse={openCourse} onExplore={() => setView("curriculum")} />
           ) : view === "curriculum" ? (
@@ -311,9 +312,11 @@ function CourseOverview({ course, completed, onBack, onOpenLesson }: { course: C
   </div>;
 }
 
-function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAnswer, retryAnswer, visuals, pacing, saved, toggleSaved, completed, hasNext, onBack, onNext }: {
-  lesson: Lesson; course?: Course; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; visuals: boolean; pacing: string; saved: boolean; toggleSaved: () => void; completed: boolean; hasNext: boolean; onBack: () => void; onNext: () => void;
+function LessonRoom({ lesson, course, attempts, selected, setSelected, feedback, submitAnswer, retryAnswer, visuals, pacing, saved, toggleSaved, completed, hasNext, onBack, onNext }: {
+  lesson: Lesson; course?: Course; attempts: Attempt[]; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; visuals: boolean; pacing: string; saved: boolean; toggleSaved: () => void; completed: boolean; hasNext: boolean; onBack: () => void; onNext: () => void;
 }) {
+  const supportSuggestion = getLearningSupportSuggestion(attempts, lesson.id);
+
   return <div className="lesson-room lesson-studio">
     <div className="lesson-studio-top"><button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Course map</button><div className="lesson-studio-count">FIELD NOTE <b>{String(lessons.findIndex((item) => item.id === lesson.id) + 1).padStart(2,"0")}</b><span> / {String(lessons.length).padStart(2,"0")}</span></div></div>
     <div className="lesson-studio-heading"><div className="lesson-studio-subject"><span>{lesson.subject}</span><i/>{lesson.level}<i/> {course?.title ?? "Independent lesson"}</div><h1>{lesson.title}</h1><p>{lesson.intro}</p><div className="lesson-objective"><span>THE POINT OF THIS LESSON</span><strong>{lesson.objective}</strong></div></div>
@@ -325,6 +328,7 @@ function LessonRoom({ lesson, course, selected, setSelected, feedback, submitAns
           <div className="worked-example"><div className="worked-example-label"><span>WORKED EXAMPLE</span><h2>{lesson.workedExample.label}</h2></div><ol>{lesson.workedExample.steps.map((step,index)=><li key={index}><span>{String(index+1).padStart(2,"0")}</span><p>{step}</p></li>)}</ol><div className="worked-takeaway"><b>KEEP IN MIND</b><p>{lesson.workedExample.takeaway}</p></div></div>
           <div className="common-mistake"><span>WATCH FOR THIS</span><p>{lesson.commonMistake}</p></div>
         </section>
+        {supportSuggestion && <aside className="feedback-box" role="status" aria-live="polite"><div className="feedback-title"><Lightbulb size={19}/>{supportSuggestion.title}</div><p>{supportSuggestion.message}</p></aside>}
         <section className="question-block studio-question">
           <div className="question-label"><span>02 / CHECK YOUR THINKING</span><span>ONE QUESTION</span></div>
           <h2>{lesson.question}</h2>
