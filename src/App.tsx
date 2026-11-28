@@ -8,7 +8,7 @@ import { calculateAccuracy, type Attempt } from "./lib/progress";
 import { readStoredValue, writeStoredValue } from "./lib/browserStorage";
 import { courses, lessons, type Course, type Lesson } from "./features/curriculum/model";
 import { NoggimigoPanel } from "./features/noggimigo/NoggimigoPanel";
-import { getLearningSupportSuggestion } from "./learning/adaptation/model";
+import { getLearningSupportSuggestion, isLearningSupportFormat, type LearningSupportFormat } from "./learning/adaptation/model";
 
 type View = "dashboard" | "curriculum" | "course" | "saved" | "profile" | "qa";
 
@@ -50,7 +50,8 @@ export default function App() {
   const [hasOpenedLesson, setHasOpenedLesson] = useState<boolean>(() => readStore("noggin.hasOpenedLesson", false, isBoolean));
   const [selected, setSelected] = useState("");
   const [feedback, setFeedback] = useState<"correct" | "incorrect" | null>(null);
-  const [profile, setProfile] = useState<string>(() => readStore("noggin.profile", "Balanced Explorer", isString));
+  const [supportEnabled, setSupportEnabled] = useState<boolean>(() => readStore("noggin.support.enabled", true, isBoolean));
+  const [supportFormat, setSupportFormat] = useState<LearningSupportFormat>(() => readStore("noggin.support.format", "worked-example", isLearningSupportFormat));
   const [pacing, setPacing] = useState<string>(() => readStore("noggin.pacing", "Balanced", isString));
   const [visuals, setVisuals] = useState<boolean>(() => readStore("noggin.visuals", true, isBoolean));
 
@@ -59,7 +60,8 @@ export default function App() {
   useEffect(() => writeStore("noggin.saved", saved), [saved]);
   useEffect(() => writeStore("noggin.lastLesson", lastLessonId), [lastLessonId]);
   useEffect(() => writeStore("noggin.hasOpenedLesson", hasOpenedLesson), [hasOpenedLesson]);
-  useEffect(() => writeStore("noggin.profile", profile), [profile]);
+  useEffect(() => writeStore("noggin.support.enabled", supportEnabled), [supportEnabled]);
+  useEffect(() => writeStore("noggin.support.format", supportFormat), [supportFormat]);
   useEffect(() => writeStore("noggin.pacing", pacing), [pacing]);
   useEffect(() => writeStore("noggin.visuals", visuals), [visuals]);
 
@@ -122,7 +124,7 @@ export default function App() {
 
         <div className="page-wrap">
           {activeLesson ? (
-            <LessonRoom lesson={activeLesson} course={activeCourse} attempts={attempts} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} hasNext={lessons.filter((item) => item.courseId === activeLesson.courseId).findIndex((item) => item.id === activeLesson.id) < lessons.filter((item) => item.courseId === activeLesson.courseId).length - 1} onBack={() => { setActiveLesson(null); setView("course"); }} onNext={() => { const courseLessons = lessons.filter((item) => item.courseId === activeLesson.courseId); const index = courseLessons.findIndex((item) => item.id === activeLesson.id); if (index >= 0 && index < courseLessons.length - 1) openLesson(courseLessons[index + 1]); else { setActiveLesson(null); setView("course"); } }} />
+            <LessonRoom lesson={activeLesson} course={activeCourse} attempts={attempts} selected={selected} setSelected={setSelected} feedback={feedback} submitAnswer={submitAnswer} retryAnswer={() => { setSelected(""); setFeedback(null); }} supportEnabled={supportEnabled} supportFormat={supportFormat} visuals={visuals} pacing={pacing} saved={saved.includes(activeLesson.id)} toggleSaved={() => toggleSaved(activeLesson.id)} completed={completed.includes(activeLesson.id)} hasNext={lessons.filter((item) => item.courseId === activeLesson.courseId).findIndex((item) => item.id === activeLesson.id) < lessons.filter((item) => item.courseId === activeLesson.courseId).length - 1} onBack={() => { setActiveLesson(null); setView("course"); }} onNext={() => { const courseLessons = lessons.filter((item) => item.courseId === activeLesson.courseId); const index = courseLessons.findIndex((item) => item.id === activeLesson.id); if (index >= 0 && index < courseLessons.length - 1) openLesson(courseLessons[index + 1]); else { setActiveLesson(null); setView("course"); } }} />
           ) : view === "dashboard" ? (
             <Dashboard completed={completed} accuracy={accuracy} attemptCount={attempts.length} attempts={attempts} hasStarted={hasOpenedLesson || attempts.length > 0 || completed.length > 0} resumeLesson={resumeLesson} onResume={() => openLesson(resumeLesson)} onOpenLesson={openLesson} onCourse={openCourse} onExplore={() => setView("curriculum")} />
           ) : view === "curriculum" ? (
@@ -132,7 +134,7 @@ export default function App() {
           ) : view === "saved" ? (
             <SavedLibrary savedLessons={savedLessons} onOpen={openLesson} onRemove={toggleSaved}/>
           ) : view === "profile" ? (
-            <Profile profile={profile} setProfile={setProfile} pacing={pacing} setPacing={setPacing} visuals={visuals} setVisuals={setVisuals}/>
+            <Profile supportEnabled={supportEnabled} setSupportEnabled={setSupportEnabled} supportFormat={supportFormat} setSupportFormat={setSupportFormat} pacing={pacing} setPacing={setPacing} visuals={visuals} setVisuals={setVisuals}/>
           ) : (
             <QaPage attempts={attempts} completed={completed} saved={saved} />
           )}
@@ -312,10 +314,10 @@ function CourseOverview({ course, completed, onBack, onOpenLesson }: { course: C
   </div>;
 }
 
-function LessonRoom({ lesson, course, attempts, selected, setSelected, feedback, submitAnswer, retryAnswer, visuals, pacing, saved, toggleSaved, completed, hasNext, onBack, onNext }: {
-  lesson: Lesson; course?: Course; attempts: Attempt[]; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; visuals: boolean; pacing: string; saved: boolean; toggleSaved: () => void; completed: boolean; hasNext: boolean; onBack: () => void; onNext: () => void;
+function LessonRoom({ lesson, course, attempts, selected, setSelected, feedback, submitAnswer, retryAnswer, supportEnabled, supportFormat, visuals, pacing, saved, toggleSaved, completed, hasNext, onBack, onNext }: {
+  lesson: Lesson; course?: Course; attempts: Attempt[]; selected: string; setSelected: (value: string) => void; feedback: "correct" | "incorrect" | null; submitAnswer: () => void; retryAnswer: () => void; supportEnabled: boolean; supportFormat: LearningSupportFormat; visuals: boolean; pacing: string; saved: boolean; toggleSaved: () => void; completed: boolean; hasNext: boolean; onBack: () => void; onNext: () => void;
 }) {
-  const supportSuggestion = getLearningSupportSuggestion(attempts, lesson.id);
+  const supportSuggestion = supportEnabled ? getLearningSupportSuggestion(attempts, lesson.id, supportFormat) : null;
 
   return <div className="lesson-room lesson-studio">
     <div className="lesson-studio-top"><button className="back-link" onClick={onBack}><ArrowLeft size={16}/> Course map</button><div className="lesson-studio-count">FIELD NOTE <b>{String(lessons.findIndex((item) => item.id === lesson.id) + 1).padStart(2,"0")}</b><span> / {String(lessons.length).padStart(2,"0")}</span></div></div>
@@ -328,7 +330,7 @@ function LessonRoom({ lesson, course, attempts, selected, setSelected, feedback,
           <div className="worked-example"><div className="worked-example-label"><span>WORKED EXAMPLE</span><h2>{lesson.workedExample.label}</h2></div><ol>{lesson.workedExample.steps.map((step,index)=><li key={index}><span>{String(index+1).padStart(2,"0")}</span><p>{step}</p></li>)}</ol><div className="worked-takeaway"><b>KEEP IN MIND</b><p>{lesson.workedExample.takeaway}</p></div></div>
           <div className="common-mistake"><span>WATCH FOR THIS</span><p>{lesson.commonMistake}</p></div>
         </section>
-        {supportSuggestion && <aside className="feedback-box" role="status" aria-live="polite"><div className="feedback-title"><Lightbulb size={19}/>{supportSuggestion.title}</div><p>{supportSuggestion.message}</p></aside>}
+        {supportSuggestion && <aside className="feedback-box support-suggestion" role="status" aria-live="polite"><div className="feedback-title"><Lightbulb size={19}/>{supportSuggestion.title}</div><p>{supportSuggestion.message}</p>{supportSuggestion.kind === "step-by-step" && <ol className="support-steps">{lesson.workedExample.steps.map((step, index) => <li key={index}>{step}</li>)}</ol>}</aside>}
         <section className="question-block studio-question">
           <div className="question-label"><span>02 / CHECK YOUR THINKING</span><span>ONE QUESTION</span></div>
           <h2>{lesson.question}</h2>
@@ -358,8 +360,8 @@ function SavedLibrary({ savedLessons, onOpen, onRemove }: { savedLessons: Lesson
   return <div className="subpage"><div className="subpage-heading"><p className="kicker">YOUR PERSONAL COLLECTION</p><h1>Your <span>learning library.</span></h1><p>Keep the ideas you want to revisit close at hand.</p></div>{savedLessons.length ? <div className="saved-list">{savedLessons.map((lesson) => <div className="saved-row" key={lesson.id}><div className="saved-icon"><Bookmark size={18}/></div><div><strong>{lesson.title}</strong><small>{lesson.subject} · {lesson.level}</small></div><button className="text-button" onClick={() => onOpen(lesson)}>Open <ArrowRight size={15}/></button><button className="icon-button" aria-label="Remove saved lesson" onClick={() => onRemove(lesson.id)}><X size={17}/></button></div>)}</div> : <div className="empty-state"><div className="empty-icon"><Bookmark size={25}/></div><h2>Your library is waiting.</h2><p>Save a lesson while exploring and it will appear here for easy revision.</p></div>}</div>;
 }
 
-function Profile({ profile, setProfile, pacing, setPacing, visuals, setVisuals }: { profile: string; setProfile: (v: string) => void; pacing: string; setPacing: (v: string) => void; visuals: boolean; setVisuals: (v: boolean) => void }) {
-  return <div className="subpage"><div className="subpage-heading"><p className="kicker">MAKE THIS SPACE YOURS</p><h1>Your learning <span>settings.</span></h1><p>These preferences shape how lessons are presented. They are learning preferences, not diagnoses.</p></div><div className="settings-panel"><div className="setting-row"><div><strong>Learning profile</strong><p>A starting point for how Noggin presents learning activities.</p></div><select value={profile} onChange={(e) => setProfile(e.target.value)}><option>Balanced Explorer</option><option>Visual Explorer</option><option>Step-by-step Thinker</option><option>Flexible Explorer</option></select></div><div className="setting-row"><div><strong>Lesson pacing</strong><p>Choose the rhythm that feels comfortable.</p></div><select value={pacing} onChange={(e) => setPacing(e.target.value)}><option>Gentle</option><option>Balanced</option><option>Focused</option></select></div><div className="setting-row"><div><strong>Visual explanations</strong><p>Show diagrams and visual concept models when available.</p></div><button className={`toggle ${visuals ? "on" : ""}`} onClick={() => setVisuals(!visuals)} aria-pressed={visuals}><i/></button></div><p className="settings-footnote"><ShieldCheck size={15}/> Preferences are stored in this browser for this prototype.</p></div></div>;
+function Profile({ supportEnabled, setSupportEnabled, supportFormat, setSupportFormat, pacing, setPacing, visuals, setVisuals }: { supportEnabled: boolean; setSupportEnabled: (v: boolean) => void; supportFormat: LearningSupportFormat; setSupportFormat: (v: LearningSupportFormat) => void; pacing: string; setPacing: (v: string) => void; visuals: boolean; setVisuals: (v: boolean) => void }) {
+  return <div className="subpage"><div className="subpage-heading"><p className="kicker">MAKE THIS SPACE YOURS</p><h1>Your learning <span>settings.</span></h1><p>Choose whether Noggin offers optional support after repeated incorrect answers, and what that support looks like. These choices do not label or classify you.</p></div><div className="settings-panel"><div className="setting-row"><div><strong>Optional learning support</strong><p>Allow Noggin to offer a support prompt when the same lesson has two recent incorrect answers.</p></div><button className={`toggle ${supportEnabled ? "on" : ""}`} onClick={() => setSupportEnabled(!supportEnabled)} aria-pressed={supportEnabled} aria-label="Toggle optional learning support"><i/></button></div>{supportEnabled && <div className="setting-row"><div><strong>What kind of support?</strong><p>Choose the prompt that is most useful to you. You can change it at any time.</p></div><select value={supportFormat} onChange={(e) => setSupportFormat(e.target.value as LearningSupportFormat)}><option value="worked-example">Revisit the worked example</option><option value="hint">Get a hint</option><option value="step-by-step">See the steps</option></select></div>}<div className="setting-row"><div><strong>Lesson pacing</strong><p>Choose the rhythm that feels comfortable.</p></div><select value={pacing} onChange={(e) => setPacing(e.target.value)}><option>Gentle</option><option>Balanced</option><option>Focused</option></select></div><div className="setting-row"><div><strong>Visual explanations</strong><p>Show diagrams and visual concept models when available.</p></div><button className={`toggle ${visuals ? "on" : ""}`} onClick={() => setVisuals(!visuals)} aria-pressed={visuals}><i/></button></div><p className="settings-footnote"><ShieldCheck size={15}/> Preferences are stored in this browser for this prototype.</p></div></div>;
 }
 
 function QaPage({ attempts, completed, saved }: { attempts: Attempt[]; completed: string[]; saved: string[] }) {
