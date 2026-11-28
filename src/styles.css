@@ -1167,3 +1167,6 @@ button{font-family:inherit}
   .recent-practice-item{gap:9px;padding:11px}
   .recent-practice-result{font-size:9px;padding:5px 7px}
 }
+
+/* ALE-002 learner-controlled support preferences */
+.support-suggestion{margin:0 0 18px}.support-steps{margin:12px 0 0;padding-left:24px;color:#65748a;font-size:12px;line-height:1.7}.support-steps li{padding:4px 0}.setting-row select{max-width:260px}

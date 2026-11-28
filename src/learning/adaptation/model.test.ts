@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getLearningSupportSuggestion } from "./model";
+import { getLearningSupportSuggestion, isLearningSupportFormat } from "./model";
 import type { Attempt } from "../../lib/progress";
 
 const attempt = (correct: boolean, lessonId = "fractions"): Attempt => ({
@@ -8,11 +8,27 @@ const attempt = (correct: boolean, lessonId = "fractions"): Attempt => ({
   at: "2026-11-28T10:00:00.000Z"
 });
 
+const twoIncorrect = [attempt(false), attempt(false)];
+
 describe("getLearningSupportSuggestion", () => {
-  it("offers an optional worked-example revisit after two incorrect answers on the same lesson", () => {
-    expect(getLearningSupportSuggestion([attempt(false), attempt(false)], "fractions")).toMatchObject({
-      kind: "revisit-worked-example",
-      title: "A different way to approach this"
+  it("offers the default worked-example prompt after two incorrect answers", () => {
+    expect(getLearningSupportSuggestion(twoIncorrect, "fractions")).toMatchObject({
+      kind: "worked-example",
+      title: "Revisit the worked example"
+    });
+  });
+
+  it("returns the learner-selected hint format", () => {
+    expect(getLearningSupportSuggestion(twoIncorrect, "fractions", "hint")).toMatchObject({
+      kind: "hint",
+      title: "A small hint"
+    });
+  });
+
+  it("returns the learner-selected step-by-step format", () => {
+    expect(getLearningSupportSuggestion(twoIncorrect, "fractions", "step-by-step")).toMatchObject({
+      kind: "step-by-step",
+      title: "Break it into steps"
     });
   });
 
@@ -25,14 +41,16 @@ describe("getLearningSupportSuggestion", () => {
   });
 
   it("considers only attempts for the active lesson", () => {
-    expect(getLearningSupportSuggestion([attempt(false, "fractions"), attempt(false, "algebra")], "fractions")).toBeNull();
+    expect(getLearningSupportSuggestion([attempt(false), attempt(false, "algebra")], "fractions")).toBeNull();
   });
 
   it("uses the two most recent attempts for the active lesson", () => {
-    expect(getLearningSupportSuggestion([attempt(false), attempt(false), attempt(true)], "fractions")).toBeNull();
+    expect(getLearningSupportSuggestion([...twoIncorrect, attempt(true)], "fractions")).toBeNull();
   });
 
-  it("does not infer anything from attempts in another lesson", () => {
-    expect(getLearningSupportSuggestion([attempt(false, "algebra"), attempt(false, "algebra")], "fractions")).toBeNull();
+  it("rejects unknown stored support formats", () => {
+    expect(isLearningSupportFormat("hint")).toBe(true);
+    expect(isLearningSupportFormat("visual-learner")).toBe(false);
+    expect(isLearningSupportFormat(null)).toBe(false);
   });
 });
